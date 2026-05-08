@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { DevalokMark } from "@/components/devalok-mark";
+import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { navTools } from "@/lib/tools";
 
@@ -12,7 +12,7 @@ export function TopNav() {
           aria-label="BharatTools home"
           className="flex items-center gap-2 shrink-0"
         >
-          <DevalokMark size={28} />
+          <Image src="/logo.avif" alt="logo" width={28} height={28} />
           <span className="text-heading-sm font-bold tracking-tight bg-linear-to-r from-accent-11 to-accent-9 bg-clip-text text-transparent">
             BharatTools
           </span>
