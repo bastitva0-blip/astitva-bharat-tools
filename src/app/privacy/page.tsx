@@ -88,8 +88,8 @@ export default function PrivacyPage() {
         <Section title="Contact">
           <p>
             Privacy questions:{" "}
-            <a href="mailto:hi@bharattools.app" className="text-accent-11 hover:text-accent-12">
-              hi@bharattools.app
+            <a href="mailto:hi@bharattools.devalok.dev" className="text-accent-11 hover:text-accent-12">
+              hi@bharattools.devalok.dev
             </a>
             .
           </p>

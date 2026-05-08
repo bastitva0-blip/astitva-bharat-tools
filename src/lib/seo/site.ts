@@ -1,5 +1,5 @@
 export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://bharattools.app"
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://bharattools.devalok.dev"
 ).replace(/\/$/, "");
 
 export const SITE_NAME = "BharatTools";

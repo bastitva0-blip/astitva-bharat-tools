@@ -3,7 +3,7 @@
 > **BharatTools — Har Sarkari form ka saathi.**
 > Browser-only utilities for Indian government forms. Photo to spec, signature merge, KB compression, print sheet — every step of submitting a Sarkari form, in one place. Files never leave your device.
 
-The Next.js app behind [bharattools.app](https://bharattools.app). Companion repo: [`bharattools-backend`](https://github.com/devalok-design/bharattools-backend).
+The Next.js app behind [bharattools.devalok.dev](https://bharattools.devalok.dev). Companion repo: [`bharattools-backend`](https://github.com/devalok-design/bharattools-backend).
 
 ## Why "browser-only"
 
