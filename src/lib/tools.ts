@@ -58,7 +58,7 @@ export const tools: Tool[] = [
     tagline: "Combine for SSC and IBPS uploads",
     description:
       "Merge a photo and signature into a single image at portal-standard dimensions. Side-by-side or stacked.",
-    status: "soon",
+    status: "live",
     iconKind: "photo-signature-joiner",
     iconColor: "warning",
   },
@@ -77,10 +77,10 @@ export const tools: Tool[] = [
     slug: "jpg-to-pdf",
     href: "/jpg-to-pdf",
     name: "JPG / Image to PDF",
-    tagline: "Combine images with KB compression",
+    tagline: "Combine images into one PDF",
     description:
-      "Stitch one or many images into a PDF, reorder pages, and hit the KB limit your portal demands.",
-    status: "soon",
+      "Stitch one or many images into a PDF, reorder pages, rotate as needed. A4 or Letter, portrait or landscape.",
+    status: "live",
     iconKind: "jpg-to-pdf",
     iconColor: "error",
   },

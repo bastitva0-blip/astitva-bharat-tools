@@ -1,9 +1,10 @@
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
-import { ComingSoon } from "@/components/coming-soon";
+import { JpgToPdfForm } from "./jpg-to-pdf-form";
 
 export const metadata = {
   title: "JPG / Image to PDF · BharatTools",
-  description: "Combine images into a PDF with optional KB compression.",
+  description:
+    "Combine one or many images into a single PDF. Reorder, rotate, choose A4 or Letter. Runs in your browser.",
 };
 
 export default function JpgToPdfPage() {
@@ -11,17 +12,12 @@ export default function JpgToPdfPage() {
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <PageHeader
         title="JPG / Image to PDF"
-        subtitle="Combine one or many images into a single PDF, with optional KB compression to fit portal upload limits."
+        subtitle="Combine images into one PDF, in the order you want. Files never leave your browser."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "JPG / Image to PDF" }]}
       />
-      <ComingSoon
-        description="Drop images, reorder by drag-and-drop, pick page size and orientation, and target a specific KB if you need to."
-        highlights={[
-          "Drag-and-drop reordering",
-          "A4 or Letter, portrait or landscape",
-          "KB targets: 200 KB · 500 KB · 1 MB · 2 MB",
-        ]}
-      />
+      <div className="mt-8">
+        <JpgToPdfForm />
+      </div>
     </main>
   );
 }
