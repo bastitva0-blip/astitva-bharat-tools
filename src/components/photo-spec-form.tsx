@@ -8,13 +8,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/u
 import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { compressWithDownscale, formatKb, type CropRegionPx } from "@/lib/processing/image";
-import type { ExamPreset } from "@/lib/presets/exams";
+import type { PhotoSpecPreset } from "@/lib/presets/photo-spec";
 
 interface Props {
-  preset: ExamPreset;
+  preset: PhotoSpecPreset;
+  /** Prefix for the downloaded filename (e.g. "upsc" or "aadhaar"). */
+  downloadSlug: string;
+  /** Display name used in the CTA button text. */
+  ctaLabel?: string;
 }
 
-export function PhotoResizeForm({ preset }: Props) {
+export function PhotoSpecForm({ preset, downloadSlug, ctaLabel }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>();
@@ -26,6 +30,7 @@ export function PhotoResizeForm({ preset }: Props) {
   const [hitTarget, setHitTarget] = useState<boolean | null>(null);
 
   const aspect = preset.dimensions.widthPx / preset.dimensions.heightPx;
+  const ctaText = ctaLabel ?? `Generate ${preset.name} photo`;
 
   useEffect(() => {
     if (!file) {
@@ -110,7 +115,7 @@ export function PhotoResizeForm({ preset }: Props) {
     }
   };
 
-  const downloadName = `bharattools-${preset.slug}.jpg`;
+  const downloadName = `bharattools-${downloadSlug}.jpg`;
 
   return (
     <div className="space-y-6">
@@ -159,7 +164,7 @@ export function PhotoResizeForm({ preset }: Props) {
             disabled={!fileUrl || !completedCrop || submitting}
             onClick={generate}
           >
-            Generate {preset.name} photo
+            {ctaText}
           </Button>
         </CardContent>
       </Card>
@@ -191,8 +196,11 @@ export function PhotoResizeForm({ preset }: Props) {
                 } else if (overLimit) {
                   label = `Over upper limit (${preset.kbRange.max} KB)`;
                   cls = "text-error-11";
+                } else if (min === 0) {
+                  label = "Saved · safe to upload";
+                  cls = "text-success-11";
                 } else {
-                  label = `Under upper limit · safe to upload`;
+                  label = "Under upper limit · safe to upload";
                   cls = "text-success-11";
                 }
                 return (

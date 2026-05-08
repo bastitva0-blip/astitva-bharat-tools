@@ -47,7 +47,7 @@ export const tools: Tool[] = [
     tagline: "Aadhaar, PAN, Passport, OCI, Voter ID",
     description:
       "Identity-document photos at exact spec — dimensions, KB and white background. Ready for the portal.",
-    status: "soon",
+    status: "live",
     iconKind: "document-photo",
     iconColor: "success",
   },

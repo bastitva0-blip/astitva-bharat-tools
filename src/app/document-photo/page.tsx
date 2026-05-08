@@ -1,27 +1,53 @@
+import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
-import { ComingSoon } from "@/components/coming-soon";
+import { documentPresets } from "@/lib/presets/documents";
 
 export const metadata = {
   title: "Document Photo Maker · BharatTools",
-  description: "Identity-document photos at exact spec for Aadhaar, PAN, Passport, Voter ID, OCI.",
+  description:
+    "Identity-document photos at exact spec — Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
 };
 
-export default function DocumentPhotoPage() {
+export default function DocumentPhotoHubPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <PageHeader
         title="Document Photo Maker"
-        subtitle="Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI — exact dimensions, KB and white background."
+        subtitle="Pick the document. We apply the exact pixel size, KB target and white background it needs."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Document Photo Maker" }]}
       />
-      <ComingSoon
-        description="Pick the document type, drop a photo, and get a portal-ready image with the right pixel size, KB target and white background."
-        highlights={[
-          "Auto face-centring with on-device detection",
-          "One-click white-background replacement (client-side ML)",
-          "Optional print sheet output",
-        ]}
-      />
+
+      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {documentPresets.map((p) => (
+          <Link key={p.slug} href={`/document-photo/${p.slug}`} className="block">
+            <Card variant="outline" interactive className="h-full">
+              <CardHeader>
+                <CardTitle>{p.name}</CardTitle>
+                <CardDescription>{p.fullName}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <dl className="grid grid-cols-2 gap-2 text-body-sm">
+                  <div>
+                    <dt className="text-surface-fg-muted">Dimensions</dt>
+                    <dd className="font-medium">
+                      {p.dimensions.widthPx}×{p.dimensions.heightPx} px
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-surface-fg-muted">File size</dt>
+                    <dd className="font-medium">
+                      {p.kbRange.min === 0
+                        ? `≤ ${p.kbRange.max} KB`
+                        : `${p.kbRange.min}–${p.kbRange.max} KB`}
+                    </dd>
+                  </div>
+                </dl>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </section>
     </main>
   );
 }
