@@ -1,0 +1,50 @@
+import Link from "next/link";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
+import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
+import { examPresets } from "@/lib/presets/exams";
+
+export const metadata = {
+  title: "Exam Photo Resizer · BharatTools",
+  description: "Pick your exam and get a portal-ready photo with the exact pixel and KB spec.",
+};
+
+export default function PhotoResizeHubPage() {
+  return (
+    <main className="mx-auto w-full max-w-6xl px-page-x py-10">
+      <PageHeader
+        title="Exam Photo Resizer"
+        subtitle="Pick the exam your form is for. We apply the exact pixel size, KB range and white background it needs."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Exam Photo Resizer" }]}
+      />
+
+      <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {examPresets.map((p) => (
+          <Link key={p.slug} href={`/photo-resize/${p.slug}`} className="block">
+            <Card variant="outline" interactive className="h-full">
+              <CardHeader>
+                <CardTitle>{p.name}</CardTitle>
+                <CardDescription>{p.fullName}</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <dl className="grid grid-cols-2 gap-2 text-body-sm">
+                  <div>
+                    <dt className="text-surface-fg-muted">Dimensions</dt>
+                    <dd className="font-medium">
+                      {p.dimensions.widthPx}×{p.dimensions.heightPx} px
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-surface-fg-muted">File size</dt>
+                    <dd className="font-medium">
+                      {p.kbRange.min}–{p.kbRange.max} KB
+                    </dd>
+                  </div>
+                </dl>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </section>
+    </main>
+  );
+}
