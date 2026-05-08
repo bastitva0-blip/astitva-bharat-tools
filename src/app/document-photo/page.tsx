@@ -1,17 +1,35 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
+import { JsonLd } from "@/components/json-ld";
 import { documentPresets } from "@/lib/presets/documents";
+import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 
 export const metadata = {
-  title: "Document Photo Maker · BharatTools",
+  title: "Document Photo Maker",
   description:
     "Identity-document photos at exact spec — Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
+  alternates: { canonical: "/document-photo" },
 };
 
 export default function DocumentPhotoHubPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
+      <JsonLd
+        data={[
+          breadcrumbSchema([{ label: "Home", href: "/" }, { label: "Document Photo Maker" }]),
+          collectionPageSchema({
+            name: "Document Photo Maker",
+            description:
+              "Identity-document photos at exact spec — Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
+            path: "/document-photo",
+            items: documentPresets.map((p) => ({
+              name: `${p.name} Photo`,
+              path: `/document-photo/${p.slug}`,
+            })),
+          }),
+        ]}
+      />
       <PageHeader
         title="Document Photo Maker"
         subtitle="Pick the document. We apply the exact pixel size, KB target and white background it needs."

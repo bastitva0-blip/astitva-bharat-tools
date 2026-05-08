@@ -1,31 +1,39 @@
+import Link from "next/link";
 import { DevalokMark } from "@/components/devalok-mark";
 
 export function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="mt-20 border-t border-surface-border-subtle">
-      <div className="mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-4 px-page-x py-8 text-body-sm text-surface-fg-muted sm:flex-row">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-page-x py-10 text-body-sm text-surface-fg-muted lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center gap-2">
           <DevalokMark size={20} />
           <span className="font-semibold text-surface-fg">BharatTools</span>
           <span aria-hidden>·</span>
           <span>Har Sarkari form ka saathi.</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span>© {year} BharatTools</span>
-          <span aria-hidden>·</span>
-          <span>
-            Built with{" "}
-            <a
-              href="https://shilp-sutra.devalok.in"
-              target="_blank"
-              rel="noreferrer"
-              className="text-accent-11 hover:text-accent-12"
-            >
-              Shilp Sutra
-            </a>
-          </span>
-        </div>
+
+        <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <Link href="/about" className="hover:text-surface-fg">
+            About
+          </Link>
+          <Link href="/privacy" className="hover:text-surface-fg">
+            Privacy
+          </Link>
+          <Link href="/terms" className="hover:text-surface-fg">
+            Terms
+          </Link>
+          <a
+            href="https://shilp-sutra.devalok.in"
+            target="_blank"
+            rel="noreferrer"
+            className="hover:text-surface-fg"
+          >
+            Shilp Sutra
+          </a>
+        </nav>
+
+        <div>© {year} BharatTools</div>
       </div>
     </footer>
   );

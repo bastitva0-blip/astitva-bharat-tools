@@ -1,16 +1,34 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
+import { JsonLd } from "@/components/json-ld";
 import { examPresets } from "@/lib/presets/exams";
+import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 
 export const metadata = {
-  title: "Exam Photo Resizer · BharatTools",
+  title: "Exam Photo Resizer",
   description: "Pick your exam and get a portal-ready photo with the exact pixel and KB spec.",
+  alternates: { canonical: "/photo-resize" },
 };
 
 export default function PhotoResizeHubPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
+      <JsonLd
+        data={[
+          breadcrumbSchema([{ label: "Home", href: "/" }, { label: "Exam Photo Resizer" }]),
+          collectionPageSchema({
+            name: "Exam Photo Resizer",
+            description:
+              "Per-exam photo resizers — pixel and KB spec for UPSC, SSC, NEET, IBPS, RRB, JEE, State PSC, Police, SBI.",
+            path: "/photo-resize",
+            items: examPresets.map((p) => ({
+              name: `${p.name} Photo Resizer`,
+              path: `/photo-resize/${p.slug}`,
+            })),
+          }),
+        ]}
+      />
       <PageHeader
         title="Exam Photo Resizer"
         subtitle="Pick the exam your form is for. We apply the exact pixel size, KB range and white background it needs."
