@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DevalokMark } from "@/components/devalok-mark";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { navTools } from "@/lib/tools";
 
 export function TopNav() {
@@ -36,7 +37,9 @@ export function TopNav() {
           })}
         </nav>
 
-        <div className="ml-auto" />
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
