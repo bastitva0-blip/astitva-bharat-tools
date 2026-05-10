@@ -149,7 +149,7 @@ export function PhotoSignatureJoinerForm() {
           <div className="space-y-2">
             <Label className="block">Output size</Label>
             <SegmentedControl
-              size="md"
+              size="sm"
               variant="default"
               options={[
                 ...joinerPresets.map((p) => ({ id: p.id, text: p.label })),
