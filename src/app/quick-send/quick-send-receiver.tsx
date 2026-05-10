@@ -8,6 +8,7 @@ import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { Progress } from "@devalok/shilp-sutra/ui/progress";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { QrScanButton } from "@/components/qr-scan-button";
 import { SITE_URL } from "@/lib/seo/site";
 import { Peer } from "@/lib/p2p/peer";
 import {
@@ -196,6 +197,12 @@ export function QuickSendReceiver() {
                   <code className="block break-all rounded bg-surface-2 px-2 py-1 text-body-xs">
                     {senderUrl}
                   </code>
+                  <div className="border-t border-surface-border-subtle pt-3">
+                    <p className="mb-2 text-body-xs text-surface-fg-muted">
+                      Got a QR from another device? Scan it with this device&apos;s camera to send files instead.
+                    </p>
+                    <QrScanButton label="Scan a QR" />
+                  </div>
                 </>
               )}
 
