@@ -50,19 +50,29 @@ export function QuickSendSender({ roomId }: { roomId: string }) {
         await joinRoom(signaling, roomId);
         if (cancelled) return;
 
+        let channelOpen = false;
+
         peer = new Peer(signaling.socket, "sender");
         peerRef.current = peer;
-        peer.on("open", () => setPhase("ready"));
+        peer.on("open", () => {
+          channelOpen = true;
+          setPhase("ready");
+        });
         peer.on("close", () => {
           setPhase((p) => (p === "ended" ? p : "ended"));
         });
         peer.on("error", (e) => toast.error(e.message));
 
+        // Once the WebRTC channel is open, signaling is no longer required —
+        // ignore peer-left / disconnect that fire because the OS file picker
+        // briefly stalled this tab. The actual peer state lives in peer.close.
         signaling.socket.on("peer-left", () => {
+          if (channelOpen) return;
           setPhase("ended");
           peer?.close();
         });
         signaling.socket.on("disconnect", () => {
+          if (channelOpen) return;
           setPhase((p) => (p === "ended" ? p : "ended"));
         });
 

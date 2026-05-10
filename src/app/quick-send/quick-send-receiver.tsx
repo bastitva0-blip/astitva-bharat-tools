@@ -98,22 +98,35 @@ export function QuickSendReceiver() {
         setRoomId(id);
         setPhase("waiting");
 
+        let channelOpen = false;
+
         signaling.socket.on("peer-joined", () => {
           if (!signaling) return;
           peer = new Peer(signaling.socket, "receiver");
-          peer.on("open", () => setPhase("paired"));
+          peer.on("open", () => {
+            channelOpen = true;
+            setPhase("paired");
+          });
           peer.on("close", () => setPhase((p) => (p === "ended" ? p : "ended")));
           peer.on("error", (e) => toast.error(e.message));
           peer.on("control", handleControl);
           peer.on("binary", handleBinary);
         });
 
+        // Once the data channel is open the signaling socket is no longer
+        // load-bearing — WebRTC keeps the peer connection alive on its own.
+        // A signaling-level "peer-left" or socket disconnect after that point
+        // usually means the customer's tab briefly went inactive while picking
+        // a file, not that the actual transfer was lost. Trust peer.close()
+        // (driven by RTCPeerConnection state) instead.
         signaling.socket.on("peer-left", () => {
+          if (channelOpen) return;
           setPhase("ended");
           if (peer) peer.close();
         });
 
         signaling.socket.on("disconnect", () => {
+          if (channelOpen) return;
           setPhase((p) => (p === "ended" ? p : "ended"));
         });
       } catch (err) {
