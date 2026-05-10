@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/photo-signature-joiner",
     "/print-sheet",
     "/jpg-to-pdf",
+    "/quick-send",
   ].map((p) => ({
     url: url(p),
     lastModified: now,

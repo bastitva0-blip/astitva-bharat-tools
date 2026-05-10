@@ -1,4 +1,4 @@
-import { Crop, FileText, Gauge, IdCard, PenLine, Printer, type LucideIcon } from "lucide-react";
+import { Crop, FileText, Gauge, IdCard, PenLine, Printer, Send, type LucideIcon } from "lucide-react";
 import type { ToolIconKind } from "@/lib/tools";
 
 const COLOR_CLASSES: Record<string, string> = {
@@ -25,6 +25,7 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "photo-signature-joiner": PenLine,
   "print-sheet": Printer,
   "jpg-to-pdf": FileText,
+  "quick-send": Send,
 };
 
 export function ToolIcon({
