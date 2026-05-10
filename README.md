@@ -1,20 +1,20 @@
 # bharattools-frontend
 
-> **BharatTools — Har Sarkari form ka saathi.**
-> Browser-only utilities for Indian government forms. Photo to spec, signature merge, KB compression, print sheet — every step of submitting a Sarkari form, in one place. Files never leave your device.
+> **BharatTools - Har Sarkari form ka saathi.**
+> Browser-only utilities for Indian government forms. Photo to spec, signature merge, KB compression, print sheet - every step of submitting a Sarkari form, in one place. Files never leave your device.
 
 The Next.js app behind [bharattools.devalok.dev](https://bharattools.devalok.dev). Companion repo: [`bharattools-backend`](https://github.com/devalok-design/bharattools-backend).
 
 ## Why "browser-only"
 
-Every Phase 1 tool processes images and PDFs on your device — no upload, no server round-trip, no copy of your file on our infrastructure. Privacy isn't a marketing claim here; it's an architectural fact, enforced by the fact that the endpoints simply don't exist.
+Every Phase 1 tool processes images and PDFs on your device - no upload, no server round-trip, no copy of your file on our infrastructure. Privacy isn't a marketing claim here; it's an architectural fact, enforced by the fact that the endpoints simply don't exist.
 
 ## Tech
 
 | | |
 |---|---|
 | Framework | Next.js 16 (App Router) + React 19 + TypeScript |
-| Styling | Tailwind 4 (CSS-first) via [Shilp Sutra](https://shilp-sutra.devalok.in) — `@devalok/shilp-sutra` + `@devalok/shilp-sutra-brand` |
+| Styling | Tailwind 4 (CSS-first) via [Shilp Sutra](https://shilp-sutra.devalok.in) - `@devalok/shilp-sutra` + `@devalok/shilp-sutra-brand` |
 | Package manager | **bun** |
 | Image processing | HTML Canvas + [`react-image-crop`](https://github.com/sekoyo/react-image-crop) + binary-search JPEG compression |
 | PDF generation | [`pdf-lib`](https://pdf-lib.js.org/) |
@@ -25,12 +25,12 @@ Every Phase 1 tool processes images and PDFs on your device — no upload, no se
 
 | Status | Route | Tool |
 |---|---|---|
-| ✅ Live | `/photo-resize/[exam]` | **Exam Photo Resizer** — UPSC, SSC, NEET, IBPS, RRB, JEE, State PSC, Police, SBI. Locked-aspect crop, exact pixel size, KB-target JPEG, white background. |
-| ✅ Live | `/image-compress/[size]` + `/image-compress/custom` | **Image Compressor** — 20 KB / 50 / 100 / 200 / 500 / 1 MB / 2 MB / custom. Binary-search JPEG with auto-downscale fallback. |
-| ✅ Live | `/print-sheet` | **Print Sheet Generator** — A4 or 4×6 inch, passport / Aadhaar / 2×2 inch / custom photo size, optional client-side bg removal. PDF output with cut-line borders. |
-| 🟡 Planned | `/document-photo/[doc]` | **Document Photo Maker** — Aadhaar, PAN, Passport (ICAO), Voter ID, OCI. |
-| 🟡 Planned | `/photo-signature-joiner` | **Photo + Signature Joiner** — SSC- / IBPS-style merged uploads. |
-| 🟡 Planned | `/jpg-to-pdf` | **JPG / Image to PDF** — multi-image PDF with KB target. |
+| ✅ Live | `/photo-resize/[exam]` | **Exam Photo Resizer** - UPSC, SSC, NEET, IBPS, RRB, JEE, State PSC, Police, SBI. Locked-aspect crop, exact pixel size, KB-target JPEG, white background. |
+| ✅ Live | `/image-compress/[size]` + `/image-compress/custom` | **Image Compressor** - 20 KB / 50 / 100 / 200 / 500 / 1 MB / 2 MB / custom. Binary-search JPEG with auto-downscale fallback. |
+| ✅ Live | `/print-sheet` | **Print Sheet Generator** - A4 or 4×6 inch, passport / Aadhaar / 2×2 inch / custom photo size, optional client-side bg removal. PDF output with cut-line borders. |
+| 🟡 Planned | `/document-photo/[doc]` | **Document Photo Maker** - Aadhaar, PAN, Passport (ICAO), Voter ID, OCI. |
+| 🟡 Planned | `/photo-signature-joiner` | **Photo + Signature Joiner** - SSC- / IBPS-style merged uploads. |
+| 🟡 Planned | `/jpg-to-pdf` | **JPG / Image to PDF** - multi-image PDF with KB target. |
 
 See `bharattools-phase-1-plan.md` (working-tree document, not committed here) for the full Phase 1 plan, presets, and roadmap.
 
@@ -77,7 +77,7 @@ src/
 └── ...
 ```
 
-Adding a new exam, KB target, or print-sheet preset is usually a one-file change inside `src/lib/presets/` — the route, hub card and SSG generation pick it up automatically.
+Adding a new exam, KB target, or print-sheet preset is usually a one-file change inside `src/lib/presets/` - the route, hub card and SSG generation pick it up automatically.
 
 ## Notes for contributors
 

@@ -5,7 +5,7 @@ import { breadcrumbSchema } from "@/lib/seo/schema";
 
 export const metadata = {
   title: "Terms of Service",
-  description: "BharatTools terms of service — free, browser-only, no warranty, Indian jurisdiction.",
+  description: "BharatTools terms of service - free, browser-only, no warranty, Indian jurisdiction.",
   alternates: { canonical: "/terms" },
 };
 
@@ -28,7 +28,7 @@ export default function TermsPage() {
           <p>
             BharatTools is provided free of charge and without warranty of any kind. The
             tools aim to match the published specifications of common Indian government
-            portals, but those specifications change without notice — the operating
+            portals, but those specifications change without notice - the operating
             portal, not BharatTools, is the source of truth on what an upload must look
             like.
           </p>

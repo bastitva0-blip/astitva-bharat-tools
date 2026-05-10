@@ -18,7 +18,7 @@ export default function HomePage() {
             .
           </h1>
           <p className="mx-auto max-w-2xl text-body-lg font-medium text-surface-fg">
-            Photo to spec, signature merge, KB compression, print sheet — every step of submitting
+            Photo to spec, signature merge, KB compression, print sheet - every step of submitting
             an Indian government form, in one place.{" "}
             <span className="text-surface-fg-muted">
               All on-device. Your files never leave your browser.

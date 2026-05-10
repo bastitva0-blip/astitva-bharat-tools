@@ -33,7 +33,7 @@ export default function ImageCompressCustomPage() {
       />
       <PageHeader
         title="Compress Image to Custom KB"
-        subtitle="Enter any kilobyte target — we'll get within ±5% of it. JPG output, runs in your browser."
+        subtitle="Enter any kilobyte target - we'll get within ±5% of it. JPG output, runs in your browser."
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Image Compressor", href: "/image-compress" },

@@ -23,7 +23,7 @@ export async function buildPrintSheetPdf({
   const photoBoxed: PhotoSizePreset = { id: "_", label: "_", widthMm: photo.widthMm, heightMm: photo.heightMm };
   const grid = fitGrid(sheet, photoBoxed);
   if (grid.total === 0) {
-    throw new Error("Photo too large for the chosen sheet — pick a smaller photo size.");
+    throw new Error("Photo too large for the chosen sheet - pick a smaller photo size.");
   }
 
   const tilePxW = mmToPx(photo.widthMm, 300);

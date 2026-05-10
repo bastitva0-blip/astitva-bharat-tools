@@ -106,7 +106,7 @@ export function PhotoSpecForm({ preset, downloadSlug, ctaLabel }: Props) {
       } else if (result.bytes <= preset.kbRange.max * 1024) {
         toast.success(`Saved at ${formatKb(result.bytes)} (under upper limit).`);
       } else {
-        toast.error(`Could not hit the KB target — closest was ${formatKb(result.bytes)}.`);
+        toast.error(`Could not hit the KB target - closest was ${formatKb(result.bytes)}.`);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not process the image.");
@@ -210,7 +210,7 @@ export function PhotoSpecForm({ preset, downloadSlug, ctaLabel }: Props) {
                         {preset.dimensions.widthPx}×{preset.dimensions.heightPx} px
                       </span>
                       {" · "}
-                      <span>{resultBytes !== null ? formatKb(resultBytes) : "—"}</span>
+                      <span>{resultBytes !== null ? formatKb(resultBytes) : "-"}</span>
                     </span>
                     <span className={cls}>{label}</span>
                   </div>

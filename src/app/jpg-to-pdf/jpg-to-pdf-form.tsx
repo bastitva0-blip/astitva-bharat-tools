@@ -93,7 +93,7 @@ export function JpgToPdfForm() {
       });
       const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
       setResultUrl(URL.createObjectURL(blob));
-      toast.success(`PDF ready — ${items.length} page${items.length === 1 ? "" : "s"}.`);
+      toast.success(`PDF ready - ${items.length} page${items.length === 1 ? "" : "s"}.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to build PDF.");
     } finally {

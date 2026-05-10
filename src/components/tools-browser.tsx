@@ -36,7 +36,7 @@ export function ToolsBrowser() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onClear={() => setQuery("")}
-          placeholder="Search tools — try 'UPSC', '50 KB', 'passport'…"
+          placeholder="Search tools - try 'UPSC', '50 KB', 'passport'…"
           aria-label="Search tools"
           className="w-full max-w-md"
         />

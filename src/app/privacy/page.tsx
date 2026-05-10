@@ -29,7 +29,7 @@ export default function PrivacyPage() {
           <p>
             We don&rsquo;t see your files. Every Phase 1 tool runs entirely in your
             browser using JavaScript and WebAssembly. Photos, PDFs and signatures are
-            read, processed and downloaded right where you opened them — they are not
+            read, processed and downloaded right where you opened them - they are not
             uploaded to our servers, and we have no way to retrieve them.
           </p>
           <p>
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
           <ul className="list-disc space-y-1 pl-5">
             <li>Names, phone numbers, email addresses, government IDs</li>
             <li>File contents, filenames, EXIF metadata, signatures</li>
-            <li>Account information — there are no accounts</li>
+            <li>Account information - there are no accounts</li>
             <li>Behavioural analytics (no PostHog, GA, Mixpanel etc. in Phase 1)</li>
             <li>Advertising cookies (no AdSense or equivalent in Phase 1)</li>
           </ul>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
             (where applicable), you have the right to access, correct, port, and delete
             personal data we hold about you. Because we don&rsquo;t hold personal data
             beyond minimal access logs, most of these requests will return an empty
-            answer — but if you believe we have data on you and want it removed, email
+            answer - but if you believe we have data on you and want it removed, email
             us at the address below and we will respond within 30 days.
           </p>
         </Section>

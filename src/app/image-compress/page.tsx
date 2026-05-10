@@ -8,7 +8,7 @@ import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 export const metadata = {
   title: "Image Compressor",
   description:
-    "Compress any image to an exact KB target — 20 KB, 50 KB, 200 KB, custom. Hits within ±5 KB of your goal.",
+    "Compress any image to an exact KB target - 20 KB, 50 KB, 200 KB, custom. Hits within ±5 KB of your goal.",
   alternates: { canonical: "/image-compress" },
 };
 
@@ -21,7 +21,7 @@ export default function ImageCompressHubPage() {
           collectionPageSchema({
             name: "Image Compressor",
             description:
-              "Compress images to exact KB targets — 20, 50, 100, 200, 500 KB, 1 MB, 2 MB, or any custom value.",
+              "Compress images to exact KB targets - 20, 50, 100, 200, 500 KB, 1 MB, 2 MB, or any custom value.",
             path: "/image-compress",
             items: [
               ...compressPresets.map((p) => ({

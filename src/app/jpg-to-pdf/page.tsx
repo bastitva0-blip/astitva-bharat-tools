@@ -17,7 +17,7 @@ export default function JpgToPdfPage() {
         data={toolPageSchema({
           name: "JPG / Image to PDF",
           description:
-            "Combine one or many images into a single PDF — reorder, rotate, choose A4 or Letter, portrait or landscape. Runs in your browser.",
+            "Combine one or many images into a single PDF - reorder, rotate, choose A4 or Letter, portrait or landscape. Runs in your browser.",
           path: "/jpg-to-pdf",
           breadcrumbs: [{ label: "Home", href: "/" }, { label: "JPG / Image to PDF" }],
           steps: [

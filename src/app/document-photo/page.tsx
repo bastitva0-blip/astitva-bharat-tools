@@ -8,7 +8,7 @@ import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 export const metadata = {
   title: "Document Photo Maker",
   description:
-    "Identity-document photos at exact spec — Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
+    "Identity-document photos at exact spec - Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
   alternates: { canonical: "/document-photo" },
 };
 
@@ -21,7 +21,7 @@ export default function DocumentPhotoHubPage() {
           collectionPageSchema({
             name: "Document Photo Maker",
             description:
-              "Identity-document photos at exact spec — Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
+              "Identity-document photos at exact spec - Aadhaar, PAN, Indian Passport (ICAO), Voter ID, OCI.",
             path: "/document-photo",
             items: documentPresets.map((p) => ({
               name: `${p.name} Photo`,

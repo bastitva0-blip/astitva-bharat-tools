@@ -29,7 +29,7 @@ export const documentPresets: DocumentPreset[] = [
     background: "white",
     notes: [
       "NSDL / UTIITSL online uploads accept 213×213 px JPG.",
-      "Square crop — match the aspect on the crop tool.",
+      "Square crop - match the aspect on the crop tool.",
     ],
     portalUrl: "https://www.protean-tinpan.com/",
     lastVerified: "2026-04-15",

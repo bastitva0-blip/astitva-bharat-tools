@@ -31,7 +31,7 @@ export default function AboutPage() {
           <CardContent className="space-y-3 text-body-md">
             <p>
               BharatTools is a small toolkit for the chores that come with submitting an
-              Indian government form — exam photos at exact pixel and KB specs, KB-target
+              Indian government form - exam photos at exact pixel and KB specs, KB-target
               image compression, photo-and-signature uploads, document-photo creation,
               print sheets and image-to-PDF.
             </p>

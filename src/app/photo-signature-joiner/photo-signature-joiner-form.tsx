@@ -83,7 +83,7 @@ export function PhotoSignatureJoinerForm() {
         autoTrimSignature: autoTrim,
       });
       setResult({ url: URL.createObjectURL(r.blob), bytes: r.bytes });
-      toast.success(`Joined image ready — ${formatKb(r.bytes)}.`);
+      toast.success(`Joined image ready - ${formatKb(r.bytes)}.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to combine images.");
     } finally {

@@ -63,7 +63,7 @@ export async function buildPdfFromImages(opts: BuildPdfOptions): Promise<Uint8Ar
   const quality = opts.jpegQuality ?? 0.85;
 
   const pdfDoc = await PDFDocument.create();
-  pdfDoc.setTitle("BharatTools — Images to PDF");
+  pdfDoc.setTitle("BharatTools - Images to PDF");
   pdfDoc.setProducer("BharatTools");
 
   for (const item of opts.items) {

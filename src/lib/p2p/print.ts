@@ -28,7 +28,7 @@ export function printBlob(blob: Blob, mime: string, name: string): boolean {
   };
 
   if (mime.startsWith("image/")) {
-    // Image MIME types — wrap in a minimal HTML doc so print fits the page.
+    // Image MIME types - wrap in a minimal HTML doc so print fits the page.
     const html = `<!doctype html><html><head><title>${escapeHtml(name)}</title>
 <style>html,body{margin:0;padding:0}img{max-width:100%;display:block;margin:auto}
 @media print{@page{margin:8mm}}</style></head>

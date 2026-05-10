@@ -14,7 +14,7 @@ interface Props {
   targetKb?: number;
   /** Tolerance in KB. Defaults to 5% of the chosen target with a 1 KB floor. */
   toleranceKb?: number;
-  /** Display label for the active target — e.g. "50 KB". */
+  /** Display label for the active target - e.g. "50 KB". */
   targetLabel?: string;
   /** Slug for filename and tracking. */
   slug: string;
@@ -82,9 +82,9 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
       if (r.hitTarget) {
         toast.success(`Compressed to ${formatKb(r.bytes)}.`);
       } else if (r.bytes <= activeKb * 1024) {
-        toast.success(`Saved at ${formatKb(r.bytes)} — under target.`);
+        toast.success(`Saved at ${formatKb(r.bytes)} - under target.`);
       } else {
-        toast.error(`Could not hit ${activeLabel} — closest was ${formatKb(r.bytes)}.`);
+        toast.error(`Could not hit ${activeLabel} - closest was ${formatKb(r.bytes)}.`);
       }
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to compress image.");
@@ -248,7 +248,7 @@ function ResultStats({
       {originalBytes > 0 && (
         <p className="text-surface-fg-muted">
           From {formatKb(originalBytes)}
-          {reduction && Number(reduction) > 0 ? ` — ${reduction}% smaller` : ""}.
+          {reduction && Number(reduction) > 0 ? ` - ${reduction}% smaller` : ""}.
         </p>
       )}
     </div>

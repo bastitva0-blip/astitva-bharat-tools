@@ -62,7 +62,7 @@ export function PrintSheetForm() {
       return;
     }
     if (grid.total === 0) {
-      toast.error("Photo doesn't fit on this sheet — pick a smaller size.");
+      toast.error("Photo doesn't fit on this sheet - pick a smaller size.");
       return;
     }
     setSubmitting(true);
@@ -79,7 +79,7 @@ export function PrintSheetForm() {
       const bytes = await buildPrintSheetPdf({ image, sheet, photo });
       const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
       setResultUrl(URL.createObjectURL(blob));
-      toast.success(`Sheet ready — ${grid.total} photos.`);
+      toast.success(`Sheet ready - ${grid.total} photos.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to generate PDF.");
     } finally {
@@ -172,7 +172,7 @@ export function PrintSheetForm() {
                 Remove background
               </Label>
               <p className="mt-1 text-body-xs text-surface-fg-muted">
-                Cuts the subject out and places it on a clean white tile. Runs on-device — first
+                Cuts the subject out and places it on a clean white tile. Runs on-device - first
                 run downloads a ~50 MB model.
               </p>
             </div>
@@ -237,7 +237,7 @@ export function PrintSheetForm() {
                 </a>
               </Button>
               <p className="text-body-sm text-surface-fg-muted">
-                Print at <span className="font-semibold">100% / Actual size</span> — do not "fit to page" — so dimensions stay accurate.
+                Print at <span className="font-semibold">100% / Actual size</span> - do not "fit to page" - so dimensions stay accurate.
               </p>
             </div>
           ) : (

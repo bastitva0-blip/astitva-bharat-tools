@@ -20,7 +20,7 @@ export default function PhotoResizeHubPage() {
           collectionPageSchema({
             name: "Exam Photo Resizer",
             description:
-              "Per-exam photo resizers — pixel and KB spec for UPSC, SSC, NEET, IBPS, RRB, JEE, State PSC, Police, SBI.",
+              "Per-exam photo resizers - pixel and KB spec for UPSC, SSC, NEET, IBPS, RRB, JEE, State PSC, Police, SBI.",
             path: "/photo-resize",
             items: examPresets.map((p) => ({
               name: `${p.name} Photo Resizer`,

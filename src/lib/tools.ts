@@ -37,7 +37,7 @@ export const tools: Tool[] = [
     slug: "photo-resize",
     href: "/photo-resize",
     name: "Exam Photo Resizer",
-    tagline: "UPSC, SSC, NEET, JEE — exact pixel + KB specs",
+    tagline: "UPSC, SSC, NEET, JEE - exact pixel + KB specs",
     description:
       "Upload a photo, pick the exam, and get a portal-ready JPG with the right pixel size, KB target and white background.",
     status: "live",
@@ -51,7 +51,7 @@ export const tools: Tool[] = [
     name: "Image Compressor",
     tagline: "Hit an exact KB target",
     description:
-      "Compress any image to a precise KB size — 20 KB, 50 KB, 200 KB or any custom target. Within ±5 KB of your goal.",
+      "Compress any image to a precise KB size - 20 KB, 50 KB, 200 KB or any custom target. Within ±5 KB of your goal.",
     status: "live",
     category: "forms",
     iconKind: "image-compress",
@@ -63,7 +63,7 @@ export const tools: Tool[] = [
     name: "Document Photo Maker",
     tagline: "Aadhaar, PAN, Passport, OCI, Voter ID",
     description:
-      "Identity-document photos at exact spec — dimensions, KB and white background. Ready for the portal.",
+      "Identity-document photos at exact spec - dimensions, KB and white background. Ready for the portal.",
     status: "live",
     category: "forms",
     iconKind: "document-photo",
@@ -109,9 +109,9 @@ export const tools: Tool[] = [
     slug: "quick-send",
     href: "/quick-send",
     name: "Quick Send",
-    tagline: "Send files to a print shop — scan a QR, no app, no number",
+    tagline: "Send files to a print shop - scan a QR, no app, no number",
     description:
-      "Browser-to-browser file transfer. Print-shop opens Quick Send, customer scans the QR with their phone and sends files directly. P2P — files never stored on a server.",
+      "Browser-to-browser file transfer. Print-shop opens Quick Send, customer scans the QR with their phone and sends files directly. P2P - files never stored on a server.",
     status: "live",
     category: "sharing",
     iconKind: "quick-send",

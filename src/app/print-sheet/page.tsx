@@ -35,14 +35,14 @@ export default function PrintSheetPage() {
             },
             {
               name: "Generate the PDF",
-              text: "Download the PDF and print at 100% (Actual size) — do not 'fit to page'.",
+              text: "Download the PDF and print at 100% (Actual size) - do not 'fit to page'.",
             },
           ],
         })}
       />
       <PageHeader
         title="Print Sheet Generator"
-        subtitle="Drop a portrait, pick the sheet and photo size — download a PDF with cut lines, ready to print at 100% scale."
+        subtitle="Drop a portrait, pick the sheet and photo size - download a PDF with cut lines, ready to print at 100% scale."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Print Sheet Generator" }]}
       />
       <div className="mt-8">
