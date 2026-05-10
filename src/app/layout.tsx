@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import "./globals.css";
 import { JsonLd } from "@/components/json-ld";
 import { Providers } from "@/components/providers";
@@ -62,6 +63,11 @@ export default function RootLayout({
           <TopNav />
           {children}
         </Providers>
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id="e00b56de-8cd9-4d71-a3aa-62de53f713de"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
