@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import { NavMenu } from "@/components/nav-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { navTools } from "@/lib/tools";
 
 export function TopNav() {
   return (
@@ -18,24 +18,7 @@ export function TopNav() {
           </span>
         </Link>
 
-        <nav className="ml-2 hidden items-center gap-1 md:flex">
-          {navTools.map((t) => {
-            const live = t.status === "live";
-            return (
-              <Link
-                key={t.slug}
-                href={t.href}
-                className={`rounded-md px-3 py-2 text-body-sm font-semibold uppercase tracking-wide transition-colors ${
-                  live
-                    ? "text-surface-fg hover:bg-accent-3 hover:text-accent-11"
-                    : "text-surface-fg-subtle hover:bg-surface-raised-hover hover:text-surface-fg"
-                }`}
-              >
-                {t.name}
-              </Link>
-            );
-          })}
-        </nav>
+        <NavMenu />
 
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />

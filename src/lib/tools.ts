@@ -119,4 +119,3 @@ export const tools: Tool[] = [
   },
 ];
 
-export const navTools = tools.filter((t) => t.category === "forms").slice(0, 4);
