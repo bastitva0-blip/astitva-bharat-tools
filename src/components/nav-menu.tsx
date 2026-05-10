@@ -27,7 +27,10 @@ export function NavMenu() {
             <DropdownMenuContent align="start" sideOffset={6} className="min-w-[280px]">
               {items.map((t) => (
                 <DropdownMenuItem key={t.slug} asChild>
-                  <Link href={t.href} className="block">
+                  <Link
+                    href={t.href}
+                    className="block cursor-pointer rounded-md px-2 py-2 transition-colors hover:bg-accent-3 focus:bg-accent-3 focus:outline-none data-[highlighted]:bg-accent-3"
+                  >
                     <div className="text-body-sm font-medium text-surface-fg">{t.name}</div>
                     <div className="text-body-xs text-surface-fg-muted">{t.tagline}</div>
                   </Link>
