@@ -4,6 +4,6 @@ export const alt = "JPG / Image to PDF — BharatTools";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-export default function Image() {
+export default async function Image() {
   return ogImageForTool("jpg-to-pdf");
 }

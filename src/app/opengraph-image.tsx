@@ -4,7 +4,7 @@ export const alt = "BharatTools — Har Sarkari form ka saathi";
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
-export default function Image() {
+export default async function Image() {
   return ogImage({
     title: "Har Sarkari form ka saathi",
     tagline:
