@@ -136,7 +136,7 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
 
           {isCustom && (
             <div>
-              <Label htmlFor="target" className="block">
+              <Label htmlFor="target" className="block mb-2">
                 Target size (KB)
               </Label>
               <NumberInput
