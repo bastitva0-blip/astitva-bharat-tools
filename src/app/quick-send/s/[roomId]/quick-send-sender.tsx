@@ -185,7 +185,6 @@ export function QuickSendSender({ roomId }: { roomId: string }) {
           {phase === "ready" && (
             <FileUpload
               multiple
-              accept="*/*"
               maxSize={MAX_FILE_BYTES}
               onFiles={accept}
               label="Tap to pick files"
