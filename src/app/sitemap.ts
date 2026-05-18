@@ -23,6 +23,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/photo-signature-joiner",
     "/print-sheet",
     "/jpg-to-pdf",
+    "/pdf-compress",
+    "/pdf-merge-split",
+    "/print-job-slip",
     "/quick-send",
   ].map((p) => ({
     url: url(p),

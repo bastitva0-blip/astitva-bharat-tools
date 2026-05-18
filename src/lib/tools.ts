@@ -5,6 +5,9 @@ export type ToolIconKind =
   | "photo-signature-joiner"
   | "print-sheet"
   | "jpg-to-pdf"
+  | "pdf-compress"
+  | "pdf-merge-split"
+  | "print-job-slip"
   | "quick-send";
 
 export type ToolCategory = "forms" | "sharing";
@@ -104,6 +107,42 @@ export const tools: Tool[] = [
     category: "forms",
     iconKind: "jpg-to-pdf",
     iconColor: "error",
+  },
+  {
+    slug: "pdf-compress",
+    href: "/pdf-compress",
+    name: "PDF Compressor",
+    tagline: "Shrink PDFs to fit the upload limit",
+    description:
+      "Re-encodes embedded photos and strips metadata to hit form-portal upload limits. Light, recommended or stronger - your call.",
+    status: "live",
+    category: "forms",
+    iconKind: "pdf-compress",
+    iconColor: "info",
+  },
+  {
+    slug: "pdf-merge-split",
+    href: "/pdf-merge-split",
+    name: "PDF Merge & Split",
+    tagline: "Combine PDFs or split by page ranges",
+    description:
+      "Merge several PDFs into one, or split a PDF into separate files using page ranges like '1-3, 5, 7-9'. All in-browser.",
+    status: "live",
+    category: "forms",
+    iconKind: "pdf-merge-split",
+    iconColor: "accent",
+  },
+  {
+    slug: "print-job-slip",
+    href: "/print-job-slip",
+    name: "Print Job Slip",
+    tagline: "Bundle files with shop-ready instructions",
+    description:
+      "Pick files, set copies, color or B&W, sides and page ranges. Outputs one PDF starting with a cover sheet the print shop can read at a glance.",
+    status: "live",
+    category: "sharing",
+    iconKind: "print-job-slip",
+    iconColor: "warning",
   },
   {
     slug: "quick-send",

@@ -1,0 +1,47 @@
+{
+  "nav": {
+    "homeAria": "BharatTools home",
+    "languageAria": "Change language"
+  },
+  "home": {
+    "badge": "Browser-only · Files never uploaded",
+    "titleLead": "Har Sarkari form ka",
+    "titleAccent": "saathi",
+    "subtitleMain": "Photo to spec, signature merge, KB compression, print sheet - every step of submitting an Indian government form, in one place.",
+    "subtitleMuted": "All on-device. Your files never leave your browser."
+  },
+  "tools": {
+    "searchPlaceholder": "Search tools - try 'UPSC', '50 KB', 'passport'…",
+    "searchAria": "Search tools",
+    "noResultsLead": "No tools match",
+    "noResultsTrailing": ". Try",
+    "noResultsHints": ["photo", "compress", "PDF"],
+    "soon": "soon"
+  },
+  "categories": {
+    "forms": "Sarkari forms",
+    "sharing": "Sharing & print shop"
+  },
+  "footer": {
+    "tagline": "Har Sarkari form ka saathi.",
+    "about": "About",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "shilpSutra": "Shilp Sutra"
+  },
+  "pdfCompress": {
+    "title": "PDF Compressor",
+    "subtitle": "Shrink a PDF to fit the upload limit. Files never leave your browser.",
+    "breadcrumb": "PDF Compressor"
+  },
+  "pdfMergeSplit": {
+    "title": "PDF Merge & Split",
+    "subtitle": "Combine PDFs into one, or split a PDF by page ranges. Files never leave your browser.",
+    "breadcrumb": "PDF Merge & Split"
+  },
+  "printJobSlip": {
+    "title": "Print Job Slip",
+    "subtitle": "Bundle files with shop-ready instructions. One PDF, cover sheet first - send straight to the print shop.",
+    "breadcrumb": "Print Job Slip"
+  }
+}

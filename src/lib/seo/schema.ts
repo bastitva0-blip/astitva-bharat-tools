@@ -1,4 +1,4 @@
-import { ORG_NAME, SITE_NAME, SITE_URL, absoluteUrl } from "./site";
+import { ORG_ALTERNATE_NAMES, ORG_NAME, SITE_NAME, SITE_URL, absoluteUrl } from "./site";
 
 export interface BreadcrumbCrumb {
   label: string;
@@ -29,13 +29,28 @@ export interface SoftwareAppInput {
   priceCurrency?: string;
 }
 
+export interface SoftwareAppInputExt extends SoftwareAppInput {
+  /** Extra capability bullets surfaced as featureList in schema. */
+  featureList?: string[];
+  /** Finer category, e.g. "PhotoEditingApplication". */
+  applicationSubCategory?: string;
+  /** Browser requirements string for SoftwareApp schema. */
+  browserRequirements?: string;
+  /** Keywords array surfaced into schema.org keywords field. */
+  keywords?: string[];
+}
+
 export function softwareAppSchema({
   name,
   description,
   path,
   price = "0",
   priceCurrency = "INR",
-}: SoftwareAppInput) {
+  featureList,
+  applicationSubCategory,
+  browserRequirements = "Requires JavaScript. Works on any modern browser - Chrome, Safari, Firefox, Edge.",
+  keywords,
+}: SoftwareAppInputExt) {
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -43,8 +58,14 @@ export function softwareAppSchema({
     description,
     url: absoluteUrl(path),
     applicationCategory: "WebApplication",
+    ...(applicationSubCategory ? { applicationSubCategory } : {}),
     operatingSystem: "Any",
+    browserRequirements,
+    inLanguage: ["en", "hi"],
+    isAccessibleForFree: true,
     offers: { "@type": "Offer", price, priceCurrency },
+    ...(featureList && featureList.length ? { featureList } : {}),
+    ...(keywords && keywords.length ? { keywords: keywords.join(", ") } : {}),
     publisher: { "@type": "Organization", name: ORG_NAME, url: SITE_URL },
   };
 }
@@ -102,7 +123,30 @@ export function organizationSchema() {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: ORG_NAME,
+    alternateName: ORG_ALTERNATE_NAMES,
     url: SITE_URL,
+    logo: `${SITE_URL}/android-chrome-512x512.png`,
+    areaServed: { "@type": "Country", name: "India" },
+  };
+}
+
+export interface FaqEntry {
+  question: string;
+  answer: string;
+}
+
+export function faqPageSchema(entries: FaqEntry[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: entries.map((e) => ({
+      "@type": "Question",
+      name: e.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: e.answer,
+      },
+    })),
   };
 }
 

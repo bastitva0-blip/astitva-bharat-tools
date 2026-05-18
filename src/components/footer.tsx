@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { DevalokMark } from "@/components/devalok-mark";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 
-export function Footer() {
+export async function Footer() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   const year = new Date().getFullYear();
   return (
     <footer className="mt-20 border-t border-surface-border-subtle">
@@ -10,18 +13,18 @@ export function Footer() {
           <DevalokMark size={20} />
           <span className="font-semibold text-surface-fg">BharatTools</span>
           <span aria-hidden>·</span>
-          <span>Har Sarkari form ka saathi.</span>
+          <span>{dict.footer.tagline}</span>
         </div>
 
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
           <Link href="/about" className="hover:text-surface-fg">
-            About
+            {dict.footer.about}
           </Link>
           <Link href="/privacy" className="hover:text-surface-fg">
-            Privacy
+            {dict.footer.privacy}
           </Link>
           <Link href="/terms" className="hover:text-surface-fg">
-            Terms
+            {dict.footer.terms}
           </Link>
           <a
             href="https://shilp-sutra.devalok.in"
@@ -29,7 +32,7 @@ export function Footer() {
             rel="noreferrer"
             className="hover:text-surface-fg"
           >
-            Shilp Sutra
+            {dict.footer.shilpSutra}
           </a>
         </nav>
 

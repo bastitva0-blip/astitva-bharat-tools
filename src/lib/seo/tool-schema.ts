@@ -1,8 +1,10 @@
 import {
   breadcrumbSchema,
+  faqPageSchema,
   howToSchema,
   softwareAppSchema,
   type BreadcrumbCrumb,
+  type FaqEntry,
   type HowToStepInput,
 } from "./schema";
 
@@ -18,15 +20,26 @@ export interface ToolPageSchemaInput {
   steps: HowToStepInput[];
   /** ISO 8601 duration estimate; defaults to 1 minute. */
   totalTimeIso?: string;
+  /** Bullet-style feature list surfaced to SoftwareApplication.featureList. */
+  featureList?: string[];
+  /** Finer SoftwareApplication subcategory (e.g. "PhotoEditingApplication"). */
+  applicationSubCategory?: string;
+  /** Keywords specific to this tool, merged with site-wide keywords elsewhere. */
+  keywords?: string[];
+  /** Optional FAQ entries surfaced as FAQPage rich result. */
+  faqs?: FaqEntry[];
 }
 
 export function toolPageSchema(input: ToolPageSchemaInput): object[] {
-  return [
+  const out: object[] = [
     breadcrumbSchema(input.breadcrumbs),
     softwareAppSchema({
       name: input.name,
       description: input.description,
       path: input.path,
+      featureList: input.featureList,
+      applicationSubCategory: input.applicationSubCategory,
+      keywords: input.keywords,
     }),
     howToSchema({
       name: `How to use ${input.name}`,
@@ -35,4 +48,8 @@ export function toolPageSchema(input: ToolPageSchemaInput): object[] {
       totalTimeIso: input.totalTimeIso,
     }),
   ];
+  if (input.faqs && input.faqs.length) {
+    out.push(faqPageSchema(input.faqs));
+  }
+  return out;
 }

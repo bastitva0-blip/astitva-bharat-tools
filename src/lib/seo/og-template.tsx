@@ -168,7 +168,7 @@ export async function ogImage({
             color: SURFACE_FG_SUBTLE,
           }}
         >
-          bharattools.devalok.dev
+          bharattools.app
         </div>
       </div>
     ),
