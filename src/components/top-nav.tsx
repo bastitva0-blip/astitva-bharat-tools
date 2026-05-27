@@ -9,7 +9,7 @@ export async function TopNav() {
   const locale = await getCurrentLocale();
   const dict = getDictionary(locale);
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-surface-border-subtle bg-surface-base/85 backdrop-blur">
+    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-surface-base/30 backdrop-blur-xl supports-[backdrop-filter]:bg-surface-base/30">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-page-x">
         <Link
           href="/"

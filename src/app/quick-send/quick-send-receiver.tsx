@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, FileIcon, Printer, RefreshCw } from "lucide-react";
-import { QRCodeSVG } from "qrcode.react";
+import { QRCodeCanvas } from "qrcode.react";
 import { Badge } from "@devalok/shilp-sutra/ui/badge";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
@@ -188,8 +188,8 @@ export function QuickSendReceiver() {
 
               {phase === "waiting" && (
                 <>
-                  <div className="flex justify-center rounded-md border border-surface-border-subtle bg-white p-6">
-                    <QRCodeSVG value={senderUrl} size={224} level="M" includeMargin={false} />
+                  <div className="relative isolate flex justify-center rounded-md border border-surface-border-subtle bg-white p-6">
+                    <QRCodeCanvas value={senderUrl} size={224} level="M" includeMargin={false} />
                   </div>
                   <p className="text-body-sm text-surface-fg-muted">
                     Ask the customer to open their phone camera and point it at this QR. Or share this link:

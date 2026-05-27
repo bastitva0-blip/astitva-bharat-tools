@@ -1,5 +1,5 @@
-import { Badge } from "@devalok/shilp-sutra/ui/badge";
 import { Footer } from "@/components/footer";
+import { HeroAurora } from "@/components/hero-aurora";
 import { JsonLd } from "@/components/json-ld";
 import { ToolsBrowser } from "@/components/tools-browser";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
@@ -90,24 +90,25 @@ export default async function HomePage() {
           faqPageSchema(HOME_FAQS),
         ]}
       />
-      <main className="mx-auto w-full max-w-6xl px-page-x py-20">
-        <header className="mb-16 text-center">
-          <Badge color="accent" className="mb-5">
-            {dict.home.badge}
-          </Badge>
-          <h1 className="mb-5 text-5xl font-bold tracking-tight">
+      <HeroAurora
+        eyebrow={dict.home.badge}
+        title={
+          <>
             {dict.home.titleLead}{" "}
             <span className="bg-linear-to-r from-accent-11 to-accent-9 bg-clip-text text-transparent">
               {dict.home.titleAccent}
             </span>
             .
-          </h1>
-          <p className="mx-auto max-w-2xl text-body-lg font-medium text-surface-fg">
+          </>
+        }
+        subtitle={
+          <>
             {dict.home.subtitleMain}{" "}
-            <span className="text-surface-fg-muted">{dict.home.subtitleMuted}</span>
-          </p>
-        </header>
-
+            <span className="text-surface-fg-subtle">{dict.home.subtitleMuted}</span>
+          </>
+        }
+      />
+      <main className="mx-auto w-full max-w-6xl px-page-x pb-20">
         <ToolsBrowser />
       </main>
       <Footer />

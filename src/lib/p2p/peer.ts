@@ -11,12 +11,15 @@ export interface PeerEvents {
   error: (err: Error) => void;
 }
 
+const ICE_DISCONNECT_GRACE_MS = 30000;
+
 export class Peer {
   private readonly pc: RTCPeerConnection;
   private channel: RTCDataChannel | null = null;
   private readonly listeners: { [K in keyof PeerEvents]?: PeerEvents[K] } = {};
   private opened = false;
   private closed = false;
+  private disconnectTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private readonly socket: Socket,
@@ -31,10 +34,28 @@ export class Peer {
         socket.emit("signal", { data: { type: "ice", candidate: e.candidate } });
       }
     };
+    // ICE state semantics:
+    // - "failed" / "closed": terminal, tear down immediately.
+    // - "disconnected": transient. Mobile browsers freeze the JS loop while
+    //   the OS file picker is open, which stops ICE consent pings and flips
+    //   the state to disconnected within ~15-30 s. It usually recovers on
+    //   its own when the tab resumes. Give it a grace window before declaring
+    //   the peer dead.
     this.pc.oniceconnectionstatechange = () => {
       const s = this.pc.iceConnectionState;
-      if (s === "failed" || s === "disconnected" || s === "closed") {
+      if (s === "failed" || s === "closed") {
+        this.clearDisconnectTimer();
         this.fireClose();
+      } else if (s === "disconnected") {
+        if (this.disconnectTimer) return;
+        this.disconnectTimer = setTimeout(() => {
+          this.disconnectTimer = null;
+          if (this.pc.iceConnectionState === "disconnected") {
+            this.fireClose();
+          }
+        }, ICE_DISCONNECT_GRACE_MS);
+      } else {
+        this.clearDisconnectTimer();
       }
     };
 
@@ -91,6 +112,7 @@ export class Peer {
   close() {
     if (this.closed) return;
     this.closed = true;
+    this.clearDisconnectTimer();
     try {
       this.channel?.close();
     } catch {
@@ -102,6 +124,13 @@ export class Peer {
       // ignore
     }
     this.fireClose();
+  }
+
+  private clearDisconnectTimer() {
+    if (this.disconnectTimer) {
+      clearTimeout(this.disconnectTimer);
+      this.disconnectTimer = null;
+    }
   }
 
   private attachChannel(channel: RTCDataChannel) {
