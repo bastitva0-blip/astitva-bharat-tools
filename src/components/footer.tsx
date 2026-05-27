@@ -36,7 +36,21 @@ export async function Footer() {
           </a>
         </nav>
 
-        <div>© {year} BharatTools</div>
+        <div className="flex items-center gap-1.5">
+          <span>© {year} BharatTools</span>
+          <span aria-hidden>·</span>
+          <span>
+            {dict.footer.builtBy}{" "}
+            <a
+              href="https://devalok.in"
+              target="_blank"
+              rel="noreferrer"
+              className="font-semibold text-surface-fg hover:underline"
+            >
+              Devalok
+            </a>
+          </span>
+        </div>
       </div>
     </footer>
   );

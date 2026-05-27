@@ -27,7 +27,8 @@
     "about": "About",
     "privacy": "Privacy",
     "terms": "Terms",
-    "shilpSutra": "Shilp Sutra"
+    "shilpSutra": "Shilp Sutra",
+    "builtBy": "Built by"
   },
   "pdfCompress": {
     "title": "PDF Compressor",

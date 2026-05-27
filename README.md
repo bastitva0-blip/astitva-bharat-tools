@@ -5,6 +5,8 @@
 
 The Next.js app behind [bharattools.app](https://bharattools.app). Companion repo: [`bharattools-backend`](https://github.com/devalok-design/bharattools-backend).
 
+Built by [Devalok](https://devalok.in).
+
 ## Why "browser-only"
 
 Every Phase 1 tool processes images and PDFs on your device - no upload, no server round-trip, no copy of your file on our infrastructure. Privacy isn't a marketing claim here; it's an architectural fact, enforced by the fact that the endpoints simply don't exist.
