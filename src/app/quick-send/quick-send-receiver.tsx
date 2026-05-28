@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Download, FileIcon, Printer, RefreshCw } from "lucide-react";
+import { Check, Copy, Download, FileIcon, Printer, RefreshCw } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react";
 import { Badge } from "@devalok/shilp-sutra/ui/badge";
 import { Button } from "@devalok/shilp-sutra/ui/button";
@@ -33,8 +33,10 @@ export function QuickSendReceiver() {
   const [roomId, setRoomId] = useState<string | null>(null);
   const [files, setFiles] = useState<Record<string, ReceivedFile>>({});
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const cleanupRef = useRef<(() => void) | null>(null);
+  const copyResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     let signaling: SignalingClient | null = null;
@@ -153,6 +155,22 @@ export function QuickSendReceiver() {
     [roomId],
   );
 
+  useEffect(() => () => {
+    if (copyResetRef.current) clearTimeout(copyResetRef.current);
+  }, []);
+
+  const copySenderUrl = async () => {
+    if (!senderUrl) return;
+    try {
+      await navigator.clipboard.writeText(senderUrl);
+      setCopied(true);
+      if (copyResetRef.current) clearTimeout(copyResetRef.current);
+      copyResetRef.current = setTimeout(() => setCopied(false), 1800);
+    } catch {
+      toast.error("Could not copy. Long-press the link to copy manually.");
+    }
+  };
+
   const fileList = Object.values(files);
 
   return (
@@ -194,9 +212,22 @@ export function QuickSendReceiver() {
                   <p className="text-body-sm text-surface-fg-muted">
                     Ask the customer to open their phone camera and point it at this QR. Or share this link:
                   </p>
-                  <code className="block break-all rounded bg-surface-2 px-2 py-1 text-body-xs">
-                    {senderUrl}
-                  </code>
+                  <div className="flex items-stretch gap-2">
+                    <code className="flex-1 break-all rounded bg-surface-2 px-2 py-1 text-body-xs">
+                      {senderUrl}
+                    </code>
+                    <Button
+                      type="button"
+                      variant="soft"
+                      size="sm"
+                      onClick={copySenderUrl}
+                      aria-label={copied ? "Link copied" : "Copy link"}
+                      className="shrink-0"
+                    >
+                      {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+                      <span className="ml-1">{copied ? "Copied" : "Copy"}</span>
+                    </Button>
+                  </div>
                   <div className="border-t border-surface-border-subtle pt-3">
                     <p className="mb-2 text-body-xs text-surface-fg-muted">
                       Got a QR from another device? Scan it with this device&apos;s camera to send files instead.
