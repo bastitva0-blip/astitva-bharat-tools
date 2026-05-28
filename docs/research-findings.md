@@ -72,10 +72,20 @@ B2B pivot is a **real market but not the easy 10x I floated.** The realistic wed
 
 ## STREAM 4 — Auth / payments / legal
 
-### ⚠️ Razorpay-OTP-as-auth is CONFIRMED dead
-- The phone in the payment payload is **user-entered, not Razorpay-attested.** Magic SSO (real OTP auth) is **Shopify-only**, not available for custom web apps.
-- → **MSG91 SMS OTP is the real first-auth.** (Batch 2 recommendation confirmed correct.) Use the payment phone only to *pre-fill* the OTP form.
-- `handler` callback works on UPI, but issue JWT only after **server-side signature verification** + webhook (`payment.captured`) as fallback. Dedupe via `x-razorpay-event-id`.
+### ⚠️ Razorpay-OTP-as-auth — agent claim CORRECTED (verified against Razorpay docs)
+The research agent's claim that this is "dead, Magic SSO is Shopify-only" was **wrong.** Verified directly from Razorpay docs (May 2026):
+- ✅ Magic Checkout **DOES OTP-verify the phone** during checkout (for address-save flow).
+- ✅ Magic Checkout is **NOT Shopify-only** — supports Web/Android/iOS/React Native/Flutter/Capacitor/WooCommerce/Shopify.
+- ✅ "Login with Razorpay" (SSO) explicitly authorises sharing the verified phone with **any participating merchant** per their buyer terms — not platform-restricted.
+
+**Still unconfirmed (Rudra to verify, see engineering-decisions doc #3):**
+- Whether the Magic Checkout payment response actually exposes the verified phone to the merchant (vs only the SSO product doing this).
+- Whether "Login with Razorpay" SSO is usable as a **standalone auth widget** (re-auth without re-payment).
+
+**Working assumption:** piggyback IS viable. MSG91 = fallback for cleared storage / new device re-auth (~₹0.15/auth, negligible). Start MSG91 DLT registration regardless (3–7 days, needed either way).
+`handler` callback works on UPI; issue JWT only after server-side signature verify + webhook (`payment.captured`) fallback. Dedupe via `x-razorpay-event-id`.
+
+**Lesson for the future:** trust verified primary sources (the vendor's own docs) over research-agent summaries when the call is architectural.
 
 ### ⚠️ "No refund policy" as written is ILLEGAL
 - Blanket "no refunds" violates Consumer Protection Act 2019 + E-Commerce Rules 2020. Must refund defective/failed service.

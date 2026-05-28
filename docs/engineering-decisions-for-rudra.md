@@ -60,26 +60,35 @@ export const pipelineStore = {
 
 ---
 
-## 3. Razorpay Payment → JWT → localStorage loop
+## 3. Razorpay Payment → JWT → localStorage loop (UPDATED after reading actual docs)
 
-**Problem:** Spec said "webhook fires → token written to localStorage." A server-side webhook cannot reach a browser's localStorage. Loop is broken as written.
+**Earlier claim "Razorpay-OTP-as-auth is dead" was incorrect** — based on a research-agent summary. Re-verified directly against Razorpay docs (May 2026):
 
-**Proposed flow:**
+- ✅ Magic Checkout DOES OTP-verify the phone during checkout (for address-save flow).
+- ✅ Magic Checkout is NOT Shopify-only — supports Web/Android/iOS/React Native/Flutter/Capacitor/WooCommerce/Shopify.
+- ✅ "Login with Razorpay" (SSO) explicitly authorises sharing the verified phone with ANY participating merchant per their buyer terms.
+
+**What's still unconfirmed (need you to verify):**
+
+1. **Magic Checkout payment payload** — does the merchant response include the OTP-verified phone, or only the prefill value? Check Payments Fetch API entity structure.
+2. **"Login with Razorpay" SSO** — is it usable as a **standalone auth widget independent of a payment**? (i.e., a logged-in user re-authing on a new device without re-paying.) Critical for our re-auth flow.
+3. **ToS scope** — confirm what we can/can't do with the shared phone (JWT lifetime, scope of "auth" we can claim).
+4. **`handler` callback on UPI** — reliable fire on UPI specifically (not just cards)? Razorpay's own docs note "payment window closure does not always trigger immediate events" — so handler is for UX, server signature verify + webhook is authoritative.
+5. **Idempotency** — verify-payment endpoint must dedupe via `x-razorpay-event-id` (webhooks are at-least-once delivery).
+6. **JWT signing key** — stored where (Railway env)? Rotation strategy?
+
+**Proposed flow (pending the above):**
 ```
-Razorpay Checkout (their OTP + payment)
-  → handler(response) callback fires IN BROWSER with razorpay_payment_id
+Magic Checkout opens → user verifies phone via OTP (Razorpay's flow)
+  → payment completes
+  → handler(response) fires in browser with razorpay_payment_id + verified phone
   → frontend POSTs to backend /api/verify-payment
-  → backend verifies signature, issues our own JWT (tied to phone from payment)
+  → backend verifies HMAC signature + issues our JWT (tied to verified phone)
   → frontend writes JWT to localStorage
-Backend webhook = backup record only, not the auth trigger
+Webhook (payment.captured) = backup confirmation if handler doesn't fire (tab closed, etc)
 ```
 
-**Rudra to verify (confirm with Razorpay docs/contract):**
-- [ ] Does Razorpay Checkout `handler` callback reliably fire on UPI payments (not just cards)?
-- [ ] Does the payment payload/webhook actually give us the verified phone number we can tie a JWT to?
-- [ ] Razorpay ToS: are we allowed to treat their Magic Checkout OTP as evidence of phone control for our auth? (Legal-adjacent — flag if unclear, may need MSG91 OTP as the real first-auth instead.)
-- [ ] JWT lifetime + signing approach. Where's the secret? (Railway env)
-- [ ] What's the verify-payment endpoint's idempotency story (double-fire, retry)?
+**Fallback if piggyback verification fails:** MSG91 SMS OTP as primary first-auth (~₹0.15/auth, negligible at launch). Either way, MSG91 needed for re-auth on storage clear / new device — start DLT registration regardless (3–5 day TRAI process).
 
 ---
 
