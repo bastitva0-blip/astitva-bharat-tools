@@ -174,6 +174,18 @@ Backend webhook = backup record only, not the auth trigger
 
 ---
 
+## 11. Tool search — `minisearch` dependency + command palette
+
+**Context:** Search becomes primary navigation at ~42 tools. Full spec in `search-spec.md`. Recommended engine = **MiniSearch** (5.8 KB gzipped, BM25 field boosting, fuzzy, prefix — browser-only, fits privacy architecture).
+
+**Rudra to decide:**
+- [ ] Approve adding `minisearch` as a dependency? (vs Fuse.js 8.3KB / hand-rolled). Recommendation is MiniSearch — see search-spec §3.1.
+- [ ] Command palette (Cmd/Ctrl+K): build on Shilp Sutra `Dialog` (already used in qr-scan-button), or does the design system have a Command component? Check `node_modules/@devalok/shilp-sutra/llms.txt`.
+- [ ] Deep-link pre-fill: confirm `/image-compress/[size]` accepts arbitrary KB values and `/photo-resize/[exam]` accepts the exam slugs search will map to.
+- [ ] Build MiniSearch index at module scope (NOT useMemo), normalizer on both index + query, `useTransition` not debounce (search-spec §3.6).
+
+---
+
 ## Build-Order Gate
 
 Resolve before the dependent feature is built:

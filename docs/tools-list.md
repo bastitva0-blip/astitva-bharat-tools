@@ -8,6 +8,26 @@
 
 ---
 
+## ⚠️ Research-validated re-tiering (supersedes earlier phase ordering) — May 2026
+
+Per `research-findings.md` Stream 6 (evidence-based). Builds first on validated demand; cuts vanity.
+
+### MUST-HAVE — build before launch (validated by competitive density + documented sarkari pain)
+Photo Resize-to-KB · Photo+Signature Joiner · Aadhaar Photo Crop+Compress (50KB) · Document Photo Maker · Print Sheet · JPG/PNG/HEIC→PDF · PDF Compress · PDF Merge · PDF→JPG · QR Generator · Aadhaar Masking · HEIC→JPG · **Background Remover/White Bg (NEW — added)** · **PDF Split/Extract (NEW — added)** · **E-Aadhaar PDF Password Remover (NEW — added; needs qpdf-wasm decrypt, see Rudra doc #5)**
+
+### NICE-TO-HAVE — after Tier 1
+WebP→JPG · Format Converter · PDF Reorder · Signature Maker · Crop · OCR English (Hindi later) · PDF Text Extract · PDF Add Password · Affidavit/NOC Generator · QR Scanner · Image Watermark · Remove EXIF · Greyscale · Age Calc (bundled w/ eligibility only)
+
+### SKIP early (Google/global owns; no India angle)
+Unit Converter · Date Diff (standalone) · Image Sharpener · Rotate/Flip standalone · Brightness Fix · Document Collage · File Inspector · PDF Watermark · PDF Crop · PDF Page Numbers · Photo Spec Calc (embed in resize tool)
+
+### Three NEW must-have tools to add to category tables below
+1. **Background Remover / White Background Maker** — sarkari portals reject non-white bg; multiple competitor clones exist; we have nothing. Add to Image Tools.
+2. **PDF Split / Extract Pages** — pairs with PDF Merge; portals need per-cert uploads. Add to PDF Tools.
+3. **E-Aadhaar PDF Password Remover** — huge specific pain: e-Aadhaar downloads password-locked; user enters password, decrypt client-side, never uploaded. Add to PDF Tools. **Blocked on qpdf-wasm or equivalent** (pdf-lib can't decrypt — Rudra doc #5).
+
+---
+
 ## IMAGE TOOLS
 
 | Tool | What it does | Status | Complexity | Traffic | Notes |
