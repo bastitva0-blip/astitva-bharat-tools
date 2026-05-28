@@ -13,64 +13,154 @@
 
 ---
 
-## 1. Homepage
+## 1. Homepage — [LOCKED 2026-05-28]
 
 ### Hero
-**Headline**
-> India's tools for India's documents. Privately. For free where it matters.
 
-**Sub-hero (one line)**
-> Photo to spec, PDF to size, document to portal — your files never leave your device.
+**Eyebrow badge**
+- EN: `Browser-only · Made in India`
+- HI: `केवल ब्राउज़र में · भारत में निर्मित`
 
-**Primary CTA**
-> [ Browse all tools → ]
+**Title (3 statements, period-separated; accent on "Privately")**
+- EN lead: `India's tools for India's documents.`
+- EN accent: `Privately.`
+- EN trail: `For free where it matters.`
+- HI lead: `भारत के दस्तावेज़ों के लिए, भारतीय टूल्स।`
+- HI accent: `निजी रूप से।`
+- HI trail: `ज़रूरी काम के लिए मुफ़्त।`
 
-(Secondary: a tools-search input visible right under the hero — search is primary navigation at 40+ tools. See `search-spec.md`.)
+**Rendering note:** `HeroAurora` currently splits into `titleLead + titleAccent` joined by a space + trailing period. Needs extension to support `titleAccent` mid-sentence + `titleTrail` to match the 3-statement structure. Engineering: add `titleTrail` prop OR rewrite the `<>{lead} <span>{accent}</span>{trail}</>` pattern in `page.tsx`.
+
+**Sub-hero (split: main + muted)**
+- EN main: `Photo to spec. PDF to size. Document to portal.`
+- EN muted: `Your files never leave your device.`
+- HI main: `फोटो सही माप में। PDF सही साइज़ में। दस्तावेज़ पोर्टल के लिए तैयार।`
+- HI muted: `आपकी फाइलें आपके डिवाइस से बाहर नहीं जातीं।`
+
+**Search input (under sub-hero, full width on mobile, max-w-md on desktop)**
+Placeholder rotates real query examples — see `search-spec.md` for the search engine itself. Existing `tools.searchPlaceholder` dict key works.
 
 ---
 
-### USP strip (five cards, scannable)
+### USP strip (five cards) — NEW SECTION (between Hero and ToolsBrowser)
 
-1. **Files never leave your device** — Browser-only by architecture. Verify it in your network tab.
-2. **Made for Indian portals** — Exact specs for UPSC, SSC, NEET, IBPS, Aadhaar, every form that matters.
-3. **Free for aspirants. Always.** — Seva. A commitment we hardcode into the product.
-4. **Built for slow internet** — Works on budget Android. Works on 4G. Works in your language.
-5. **No signups, no ads, no tracking** — Only the tool. Then you're gone.
+Engineering: add a new `<UspStrip />` component rendering five cards in a `grid-cols-1 sm:grid-cols-2 lg:grid-cols-5` layout. Each card = icon + title + one-line description.
+
+**Card 1**
+- EN title: `Files stay on your device`
+- EN desc: `Browser-only by architecture. Verify it in your network tab.`
+- HI title: `फाइलें आपके डिवाइस पर ही रहती हैं`
+- HI desc: `आर्किटेक्चर से ही ब्राउज़र-ओनली। नेटवर्क टैब में देख लीजिए।`
+
+**Card 2**
+- EN title: `Made for Indian portals`
+- EN desc: `Exact specs for UPSC, SSC, NEET, IBPS, Aadhaar — every form that matters.`
+- HI title: `भारतीय पोर्टल्स के लिए`
+- HI desc: `UPSC, SSC, NEET, IBPS, आधार — हर ज़रूरी फॉर्म की सटीक स्पेक्स।`
+
+**Card 3**
+- EN title: `Free for aspirants. Always.`
+- EN desc: `Seva. A commitment we hardcode into the product.`
+- HI title: `अभ्यर्थियों के लिए मुफ़्त। हमेशा।`
+- HI desc: `सेवा। एक प्रतिबद्धता, प्रोडक्ट में ही रखी हुई।`
+
+**Card 4**
+- EN title: `Built for slow internet`
+- EN desc: `Works on budget Android. Works on 4G. Works in your language.`
+- HI title: `धीमे इंटरनेट के लिए बना`
+- HI desc: `बजट एंड्रॉइड पर। 4G पर। आपकी भाषा में।`
+
+**Card 5**
+- EN title: `No signups, no ads, no tracking`
+- EN desc: `Only the tool. Then you're gone.`
+- HI title: `साइनअप नहीं, विज्ञापन नहीं, ट्रैकिंग नहीं`
+- HI desc: `बस टूल। फिर आप गए।`
 
 ---
 
 ### Tool grid
 
-Existing `ToolsBrowser` keeps its current structure. Categories stay: Sarkari forms, Sharing & print shop. Grid order should put the validated must-haves first.
+Existing `ToolsBrowser` keeps its current structure. Categories stay (Sarkari forms, Sharing & print shop). Grid order: validated must-haves first (per `tools-list.md` re-tiering).
 
-**Section heading above grid:**
-> Pick a tool. Or search above.
-
----
-
-### How it works (small section below grid)
-
-> Open a tool. Drop your file. Done — locally, in your browser. We don't see it. We don't store it. We don't need to.
-
-(Three icons across: Open · Drop · Done. Each with one-line caption. No spinner-as-server-upload visual fakery.)
+**Section heading above grid** (NEW — add to `ToolsBrowser`)
+- EN: `Pick a tool. Or search above.`
+- HI: `टूल चुनें। या ऊपर खोजें।`
 
 ---
 
-### Trust strip (above footer)
+### How it works — NEW SECTION (below tool grid)
 
-- **Hosted in Mumbai** — Railway India.
-- **Open about what we build** — `bharattools.app/about`
-- **Made by [Devalok](https://devalok.in)** — Already in footer.
+Three icons across. Each = icon + one-word step + caption.
+
+**Step 1**
+- EN: `Open` — `Open a tool.`
+- HI: `खोलें` — `कोई टूल खोलें।`
+
+**Step 2**
+- EN: `Drop` — `Drop your file.`
+- HI: `डालें` — `अपनी फाइल डालें।`
+
+**Step 3**
+- EN: `Done` — `Done. In your browser. On your device.`
+- HI: `हो गया` — `हो गया। आपके ब्राउज़र में। आपके डिवाइस पर।`
+
+**Caption below the three steps**
+- EN: `We don't see it. We don't store it. We don't need to.`
+- HI: `हम देखते नहीं। हम स्टोर नहीं करते। हमें ज़रूरत नहीं।`
+
+---
+
+### Trust strip — NEW SECTION (above footer)
+
+Three small items, horizontal, muted:
+
+- EN: `Hosted in Mumbai · Made in India · Built by [Devalok](https://devalok.in)`
+- HI: `मुंबई से होस्टेड · भारत में निर्मित · [देवालोक](https://devalok.in) द्वारा`
 
 ---
 
 ### Footer
 
-Existing footer structure stays. Add a quiet **For** section:
-- For operators
-- For professionals
+Existing structure stays (already updated with "Built by Devalok" attribution). Add a quiet **For** column:
+- EN: `For operators` → `/for-operators`, `For professionals` → `/for-professionals`
+- HI: `ऑपरेटर्स के लिए`, `प्रोफेशनल्स के लिए`
 
-(De-prioritized placement. Reached via ads/outreach/SEO primarily, footer for organic discovery.)
+De-prioritized placement. Reached via ads/outreach/SEO primarily; footer is fallback for organic discovery.
+
+---
+
+### Dictionary mapping (what changes in `en.json` / `hi.json`)
+
+| Existing key | Action |
+|---|---|
+| `home.badge` | UPDATE — new badge text |
+| `home.titleLead` | UPDATE — new lead |
+| `home.titleAccent` | UPDATE — new accent |
+| `home.titleTrail` | **ADD (new key)** |
+| `home.subtitleMain` | UPDATE — new copy |
+| `home.subtitleMuted` | UPDATE — new copy |
+| `home.uspCards[]` | **ADD (new key)** — array of 5 cards, each `{ title, desc }` |
+| `home.gridHeading` | **ADD (new key)** |
+| `home.howItWorks.step1Title/desc` etc. | **ADD (new keys)** |
+| `home.howItWorks.caption` | **ADD (new key)** |
+| `home.trustStrip` | **ADD (new key)** |
+| `footer.forOperators` | **ADD (new key)** |
+| `footer.forProfessionals` | **ADD (new key)** |
+
+Existing `home.titleLead`/`titleAccent` ("Har Sarkari form ka saathi") moves to where? **The line stays valuable** — it's already in `footer.tagline`. Keep it there. The homepage hero shifts to the broader USP-led headline; the sarkari-saathi line lives on as the footer tagline + becomes the headline on `/for-aspirants` if/when that lander is built.
+
+---
+
+### Code changes summary (for Rudra / dev session)
+
+1. Extend `HeroAurora` → add `titleTrail` prop, or replace title rendering in `page.tsx` with the 3-statement structure.
+2. New component: `UspStrip` (5 cards, responsive grid).
+3. Update `ToolsBrowser` → add a section heading above the grid.
+4. New component: `HowItWorks` (3 steps + caption).
+5. New component: `TrustStrip` (3 items, muted, above footer).
+6. Update `Footer` → add "For" column.
+7. Update `en.json` + `hi.json` with all new keys.
+8. Hindi review by a native speaker before shipping (drafts above are workable but not native-edited).
 
 ---
 
