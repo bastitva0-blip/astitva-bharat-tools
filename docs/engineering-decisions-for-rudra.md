@@ -195,6 +195,27 @@ Webhook (payment.captured) = backup confirmation if handler doesn't fire (tab cl
 
 ---
 
+## 12. Background segmentation infrastructure (Phase 1, build now)
+
+**Context:** Users never pick a segment — system tags them invisibly via UTM + referrer + behavior signals, and the paywall pitch matches the detected segment. Full spec in `copy-spec.md` §5.
+
+**Build (estimated 2–3 days for layers 1–4):**
+
+1. **UTM + referrer capture** — on first visit, write `bt_attribution` to localStorage (`utm_source/medium/campaign/content`, `referrer_host`, `landing_path`, `first_seen_at`).
+2. **Signal collection** — write `bt_signals` to localStorage continuously (`files_processed_session/30d`, `session_count_7d`, `days_active_30d`, `business_hours_session_pct`, `tools_used_30d`, `device_class`). Existing analytics file-events extend to write these.
+3. **Segment scorer** — pure function `src/lib/segment.ts` reading both stores. Returns `{ primary, confidence, signals_used }`. Heuristics in copy-spec §5.
+4. **Paywall pitch resolver** — when gate fires, render pitch variant matching segment (operator / professional / individual-paying / aspirant=never). Variants in copy-spec.
+5. **Empty-state reorder** — tool grid subtly reorders based on segment hint (operator sees Print Sheet/Joiner higher; professional sees PDF tools higher).
+6. **Analytics events** — `segment_resolved`, `pitch_variant_shown`, `pitch_variant_clicked` (no PII).
+
+**Rudra to decide:**
+- [ ] Store signals in localStorage only (privacy default) or shadow them server-side for cross-device users once they pay?
+- [ ] Recompute segment on every gate trigger, or cache for the session?
+- [ ] Provide a "Reset preferences" settings link that clears `bt_attribution` + `bt_signals`?
+- [ ] How to handle paid users — segment irrelevant once they're on a tier; resolver should short-circuit.
+
+---
+
 ## Build-Order Gate
 
 Resolve before the dependent feature is built:
