@@ -1,0 +1,66 @@
+name: 🛡️ Protect Main Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-direct-push:
+    name: Check for direct push
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Detect direct push (non-merge commit)
+        id: detect
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%s)
+          PARENT_COUNT=$(git log -1 --pretty=%P | wc -w)
+
+          echo "Commit message: $COMMIT_MSG"
+          echo "Parent count: $PARENT_COUNT"
+
+          # A merge commit from a PR has 2 parents
+          # A squash/rebase merge from a PR starts with "Merge pull request" or comes from GitHub's merge queue
+          if echo "$COMMIT_MSG" | grep -qE "^Merge (pull request|branch '.*' into main)"; then
+            echo "is_direct_push=false" >> $GITHUB_OUTPUT
+            echo "✅ This is a valid PR merge. All good."
+          elif [ "$PARENT_COUNT" -ge 2 ]; then
+            echo "is_direct_push=false" >> $GITHUB_OUTPUT
+            echo "✅ This is a merge commit. All good."
+          else
+            echo "is_direct_push=true" >> $GITHUB_OUTPUT
+            echo "⚠️  Direct push detected!"
+          fi
+
+      - name: Revert direct push
+        if: steps.detect.outputs.is_direct_push == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          PUSHER="${{ github.actor }}"
+          COMMIT_SHA="${{ github.sha }}"
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+
+          git revert --no-edit HEAD
+          git commit --amend -m "🔄 [auto-revert] Direct push by @${PUSHER} (${SHORT_SHA}) — Please use a PR to merge into main"
+          git push origin main
+
+      - name: Post summary
+        if: steps.detect.outputs.is_direct_push == 'true'
+        run: |
+          echo "### 🚫 Direct Push Reverted" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Actor:** @${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The commit was automatically reverted. Please open a PR to merge changes into \`main\`." >> $GITHUB_STEP_SUMMARY

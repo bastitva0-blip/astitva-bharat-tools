@@ -1,0 +1,17 @@
+# CODEOWNERS — BharatTools Frontend
+#
+# This file specifies who must review PRs touching certain paths.
+# On GitHub Free (private repo), this is advisory only.
+# It becomes enforced automatically if you upgrade to GitHub Teams.
+#
+# Format: <pattern>  <@owner or @team>
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default: all changes require review from at least one core member
+*   @rudraksharma016 @Mudit-Lal @Amal-Devalok
+
+# Critical config files — require review from all core members
+next.config.ts        @rudraksharma016 @Mudit-Lal @Amal-Devalok
+package.json          @rudraksharma016 @Mudit-Lal @Amal-Devalok
+tsconfig.json         @rudraksharma016 @Mudit-Lal @Amal-Devalok
+.github/              @rudraksharma016 @Mudit-Lal @Amal-Devalok

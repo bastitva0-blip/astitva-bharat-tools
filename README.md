@@ -85,6 +85,23 @@ src/
 
 Adding a new exam, KB target, or print-sheet preset is usually a one-file change inside `src/lib/presets/` - the route, hub card and SSG generation pick it up automatically.
 
+## Contributing & Git workflow
+
+**Direct pushes to `main` are blocked.** All changes must go through a Pull Request.
+
+After cloning, run the one-time hook setup:
+
+```bash
+sh setup-hooks.sh
+```
+
+This points git to the `.githooks/` directory, which includes a `pre-push` hook that prevents accidental direct pushes to `main`. A GitHub Actions workflow also auto-reverts any push to `main` that doesn't come from a PR merge.
+
+**Contribution flow:**
+1. Create a branch: `git checkout -b feat/your-feature`
+2. Push your branch: `git push origin feat/your-feature`
+3. Open a PR → get at least one review → merge via GitHub UI
+
 ## Notes for contributors
 
 - **Next.js 16 has breaking changes** vs. older docs. Read the bundled docs in `node_modules/next/dist/docs/` before making routing- or config-level changes.
