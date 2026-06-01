@@ -8,6 +8,25 @@
     "startOver": "नए सिरे से शुरू करें",
     "clearAll": "सब हटाएँ"
   },
+  "shell": {
+    "trustBadge": {
+      "label": "0 बाइट भेजे गए",
+      "description": "आपके डिवाइस पर ही प्रोसेस हुआ।"
+    },
+    "dropZone": {
+      "sourceLabel": "स्रोत",
+      "processingLabel": "डिवाइस पर प्रोसेस हो रहा है…"
+    },
+    "continueEditing": {
+      "label": "एडिटिंग जारी रखें",
+      "description": "अगला कदम चुनें। हम फ़ाइल मेमोरी में आगे ले जाते हैं — दोबारा अपलोड नहीं।"
+    },
+    "errors": {
+      "noFile": "पहले एक फ़ाइल जोड़ें।",
+      "tooLarge": "फ़ाइल बहुत बड़ी है।",
+      "processFailed": "कुछ गड़बड़ हुई। दोबारा कोशिश करें।"
+    }
+  },
   "nav": {
     "homeAria": "BharatTools होम",
     "languageAria": "भाषा बदलें"

@@ -1,15 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Button } from "@devalok/shilp-sutra/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
-import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
+import { useState } from "react";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { CompressToTargetShell } from "@/components/tool-shells";
 import { fmt } from "@/i18n/format";
 import { useT } from "@/i18n/provider";
 import { compressImageToTargetKb, formatKb } from "@/lib/processing/image";
+import { getToolBySlug } from "@/lib/tools";
 
 interface Props {
   /** Fixed target in KB. If omitted, the form shows a custom NumberInput. */
@@ -22,8 +21,8 @@ interface Props {
   slug: string;
 }
 
-interface RunResult {
-  url: string;
+interface CompressResult {
+  blob: Blob;
   bytes: number;
   width: number;
   height: number;
@@ -33,116 +32,63 @@ interface RunResult {
 export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: Props) {
   const dict = useT();
   const t = dict.forms.imageCompress;
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const [customKb, setCustomKb] = useState<number>(50);
-  const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState<RunResult | null>(null);
 
   const isCustom = targetKb === undefined;
   const activeKb = isCustom ? customKb : targetKb;
-  const activeTolerance =
-    toleranceKb ?? Math.max(1, Math.round(activeKb * 0.05));
+  const activeTolerance = toleranceKb ?? Math.max(1, Math.round(activeKb * 0.05));
   const activeLabel = targetLabel ?? formatTargetLabel(activeKb);
 
-  useEffect(() => {
-    if (!file) {
-      setPreviewUrl(null);
-      return;
-    }
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+  // The shell needs a Tool registry entry. image-compress hub + size variants
+  // + custom all share the same slug-level registry record.
+  const tool = getToolBySlug("image-compress");
+  if (!tool) {
+    throw new Error("image-compress tool missing from registry");
+  }
 
-  useEffect(() => () => {
-    if (result) URL.revokeObjectURL(result.url);
-  }, [result]);
-
-  const compress = async () => {
-    if (!file) {
-      toast.error(t.errors.noFile);
-      return;
-    }
+  const onProcess = async (file: File): Promise<CompressResult> => {
     if (activeKb < 1) {
       toast.error(t.errors.targetTooSmall);
-      return;
+      throw new Error(t.errors.targetTooSmall);
     }
-    setSubmitting(true);
-    if (result) URL.revokeObjectURL(result.url);
-    setResult(null);
-    try {
-      const r = await compressImageToTargetKb(file, {
-        targetKb: activeKb,
-        toleranceKb: activeTolerance,
-      });
-      setResult({
-        url: URL.createObjectURL(r.blob),
-        bytes: r.bytes,
-        width: r.width,
-        height: r.height,
-        hitTarget: r.hitTarget,
-      });
-      if (r.hitTarget) {
-        toast.success(fmt(t.toasts.compressedTemplate, { size: formatKb(r.bytes) }));
-      } else if (r.bytes <= activeKb * 1024) {
-        toast.success(fmt(t.toasts.underTargetTemplate, { size: formatKb(r.bytes) }));
-      } else {
-        toast.error(
-          fmt(t.errors.missedTargetTemplate, {
-            target: activeLabel,
-            result: formatKb(r.bytes),
-          }),
-        );
-      }
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : t.errors.compressFailed);
-    } finally {
-      setSubmitting(false);
+    const r = await compressImageToTargetKb(file, {
+      targetKb: activeKb,
+      toleranceKb: activeTolerance,
+    });
+
+    // Per-tool success/warning toasts — outcome-specific copy lives here, not
+    // in the shell. The shell only owns the generic error toast.
+    if (r.hitTarget) {
+      toast.success(fmt(t.toasts.compressedTemplate, { size: formatKb(r.bytes) }));
+    } else if (r.bytes <= activeKb * 1024) {
+      toast.success(fmt(t.toasts.underTargetTemplate, { size: formatKb(r.bytes) }));
+    } else {
+      toast.error(
+        fmt(t.errors.missedTargetTemplate, { target: activeLabel, result: formatKb(r.bytes) }),
+      );
     }
+
+    return r;
   };
 
-  const downloadName = `bharattools-${slug}.jpg`;
-
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-      <Card variant="outline">
-        <CardHeader>
-          <CardTitle>{t.card1Title}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <FileUpload
-            accept="image/*"
-            maxSize={25 * 1024 * 1024}
-            onFiles={(files) => setFile(files[0] ?? null)}
-            label={t.source.dropLabel}
-            sublabel={t.source.dropSublabel}
-          />
-
-          {previewUrl && (
-            <div className="flex items-start gap-3 rounded-md border border-surface-border-subtle p-3">
-              <img
-                src={previewUrl}
-                alt={t.source.previewAlt}
-                className="h-28 w-28 rounded object-cover"
-              />
-              <div className="text-body-sm">
-                <div className="font-medium">{file?.name}</div>
-                <div className="text-surface-fg-muted">
-                  {file ? formatKb(file.size) : null}
-                </div>
-                <Button
-                  variant="ghost"
-                  size="compact-sm"
-                  className="mt-2"
-                  onClick={() => setFile(null)}
-                >
-                  {dict.common.remove}
-                </Button>
-              </div>
-            </div>
-          )}
-
+    <CompressToTargetShell<CompressResult>
+      tool={tool}
+      accept="image/*"
+      maxBytes={25 * 1024 * 1024}
+      dropLabel={t.source.dropLabel}
+      dropSublabel={t.source.dropSublabel}
+      sourceTitle={t.card1Title}
+      resultTitle={t.card2Title}
+      emptyState={t.result.emptyState}
+      submitLabel={fmt(t.submitTemplate, { target: activeLabel })}
+      outputType="image/jpeg"
+      outputFilename={() => `bharattools-${slug}.jpg`}
+      canSubmit={activeKb >= 1}
+      onProcess={onProcess}
+      configSlot={
+        <>
           {isCustom && (
             <div>
               <Label htmlFor="target" className="block mb-2">
@@ -161,64 +107,39 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
               </p>
             </div>
           )}
-
           {!isCustom && (
             <div className="rounded-md border border-surface-border-subtle bg-surface-2 p-3 text-body-sm">
-              <span className="font-semibold">{t.target.fixedLabel}: {activeLabel}</span>
+              <span className="font-semibold">
+                {t.target.fixedLabel}: {activeLabel}
+              </span>
               <span className="text-surface-fg-muted">
                 {fmt(t.target.fixedToleranceTemplate, { kb: activeTolerance })}
               </span>
             </div>
           )}
-
-          <Button
-            fullWidth
-            size="lg"
-            loading={submitting}
-            disabled={!file || submitting}
-            onClick={compress}
-          >
-            {fmt(t.submitTemplate, { target: activeLabel })}
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card variant="outline">
-        <CardHeader>
-          <CardTitle>{t.card2Title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {result ? (
-            <div className="space-y-4">
-              <div className="rounded-md border border-surface-fg bg-surface-2 p-4">
-                <img
-                  src={result.url}
-                  alt={t.result.alt}
-                  className="mx-auto block max-h-[60vh] w-auto"
-                />
-              </div>
-              <ResultStats
-                originalBytes={file?.size ?? 0}
-                resultBytes={result.bytes}
-                targetKb={activeKb}
-                toleranceKb={activeTolerance}
-                width={result.width}
-                height={result.height}
-              />
-              <Button asChild variant="solid" fullWidth size="lg">
-                <a href={result.url} download={downloadName}>
-                  {t.result.downloadCta}
-                </a>
-              </Button>
-            </div>
-          ) : (
-            <div className="flex h-full min-h-[240px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">
-              {t.result.emptyState}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+        </>
+      }
+      renderPreview={(result) => (
+        <div className="rounded-md border border-surface-fg bg-surface-2 p-4">
+          {/* eslint-disable-next-line @next/next/no-img-element -- blob: URL */}
+          <img
+            src={result.url}
+            alt={t.result.alt}
+            className="mx-auto block max-h-[60vh] w-auto"
+          />
+        </div>
+      )}
+      renderStats={(result, source) => (
+        <ResultStats
+          originalBytes={source.bytes}
+          resultBytes={result.bytes}
+          targetKb={activeKb}
+          toleranceKb={activeTolerance}
+          width={result.width}
+          height={result.height}
+        />
+      )}
+    />
   );
 }
 
@@ -249,7 +170,8 @@ function ResultStats({
     status = { label: fmt(t.overLimitTemplate, { kb: targetKb }), cls: "text-error-11" };
   else status = { label: t.underTarget, cls: "text-success-11" };
 
-  const reduction = originalBytes > 0 ? ((1 - resultBytes / originalBytes) * 100).toFixed(0) : null;
+  const reduction =
+    originalBytes > 0 ? ((1 - resultBytes / originalBytes) * 100).toFixed(0) : null;
 
   return (
     <div className="space-y-1 text-body-sm">

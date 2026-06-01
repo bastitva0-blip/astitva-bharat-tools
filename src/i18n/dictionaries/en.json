@@ -8,6 +8,25 @@
     "startOver": "Start over",
     "clearAll": "Clear all"
   },
+  "shell": {
+    "trustBadge": {
+      "label": "0 bytes sent",
+      "description": "Processed on your device."
+    },
+    "dropZone": {
+      "sourceLabel": "Source",
+      "processingLabel": "Processing locally…"
+    },
+    "continueEditing": {
+      "label": "Continue editing",
+      "description": "Pick the next step. We pass the file along in memory — no re-upload."
+    },
+    "errors": {
+      "noFile": "Add a file first.",
+      "tooLarge": "File is too large.",
+      "processFailed": "Something went wrong. Try again."
+    }
+  },
   "nav": {
     "homeAria": "BharatTools home",
     "languageAria": "Change language"
