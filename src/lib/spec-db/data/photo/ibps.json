@@ -1,0 +1,16 @@
+{
+  "slug": "ibps",
+  "name": "IBPS",
+  "fullName": "Institute of Banking Personnel Selection",
+  "category": "photo",
+  "dimensions": { "widthPx": 200, "heightPx": 230 },
+  "kbRange": { "min": 20, "max": 50 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "Used by PO, Clerk and SO exams.",
+    "White background; signature uploaded separately."
+  ],
+  "portalUrl": "https://www.ibps.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

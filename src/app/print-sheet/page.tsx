@@ -1,5 +1,6 @@
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 import { PrintSheetForm } from "./print-sheet-form";
 
@@ -10,7 +11,9 @@ export const metadata = {
   alternates: { canonical: "/print-sheet" },
 };
 
-export default function PrintSheetPage() {
+export default async function PrintSheetPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -41,9 +44,9 @@ export default function PrintSheetPage() {
         })}
       />
       <PageHeader
-        title="Print Sheet Generator"
-        subtitle="Drop a portrait, pick the sheet and photo size - download a PDF with cut lines, ready to print at 100% scale."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Print Sheet Generator" }]}
+        title={dict.printSheet.title}
+        subtitle={dict.printSheet.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.printSheet.breadcrumb }]}
       />
       <div className="mt-8">
         <PrintSheetForm />

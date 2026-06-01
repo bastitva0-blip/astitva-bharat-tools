@@ -1,0 +1,13 @@
+{
+  "slug": "voter-id",
+  "name": "Voter ID (EPIC)",
+  "fullName": "Election Commission Voter ID",
+  "category": "document",
+  "dimensions": { "widthPx": 413, "heightPx": 531, "widthCm": 3.5, "heightCm": 4.5 },
+  "kbRange": { "min": 0, "max": 100 },
+  "format": "jpg",
+  "background": "white",
+  "notes": ["Standard passport-style photo.", "Plain background, recent."],
+  "portalUrl": "https://voters.eci.gov.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

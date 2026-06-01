@@ -1,0 +1,13 @@
+{
+  "slug": "railway",
+  "name": "Railway (RRB)",
+  "fullName": "Railway Recruitment Board",
+  "category": "photo",
+  "dimensions": { "widthPx": 200, "heightPx": 230 },
+  "kbRange": { "min": 20, "max": 50 },
+  "format": "jpg",
+  "background": "white",
+  "notes": ["RRB portal upload spec."],
+  "portalUrl": "https://www.rrcb.gov.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

@@ -1,0 +1,16 @@
+{
+  "slug": "neet",
+  "name": "NEET",
+  "fullName": "National Eligibility cum Entrance Test",
+  "category": "photo",
+  "dimensions": { "widthPx": 200, "heightPx": 230 },
+  "kbRange": { "min": 10, "max": 200 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "NTA portal upload spec.",
+    "Front-facing, neutral expression."
+  ],
+  "portalUrl": "https://neet.nta.nic.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

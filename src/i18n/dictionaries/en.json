@@ -1,4 +1,13 @@
 {
+  "common": {
+    "home": "Home",
+    "remove": "Remove",
+    "download": "Download",
+    "cancel": "Cancel",
+    "retry": "Retry",
+    "startOver": "Start over",
+    "clearAll": "Clear all"
+  },
   "nav": {
     "homeAria": "BharatTools home",
     "languageAria": "Change language"
@@ -44,5 +53,178 @@
     "title": "Print Job Slip",
     "subtitle": "Bundle files with shop-ready instructions. One PDF, cover sheet first - send straight to the print shop.",
     "breadcrumb": "Print Job Slip"
+  },
+  "photoResize": {
+    "title": "Exam Photo Resizer",
+    "subtitle": "Pick the exam your form is for. We apply the exact pixel size, KB range and white background it needs.",
+    "breadcrumb": "Exam Photo Resizer",
+    "variant": {
+      "titleTemplate": "{name} Photo Resizer",
+      "subtitleTemplate": "Upload a photo and get a ready-to-upload {dimensions} px JPG ({kbRange} KB).",
+      "entityLabel": "Exam"
+    }
+  },
+  "imageCompress": {
+    "title": "Image Compressor",
+    "subtitle": "Hit an exact KB target. Government portals reject anything over the limit, so 'approximate' won't do.",
+    "breadcrumb": "Image Compressor",
+    "variant": {
+      "titleTemplate": "Compress Image to {label}",
+      "subtitleTemplate": "Hit {label} within ±{tolerance} KB. JPG output, runs in your browser."
+    },
+    "custom": {
+      "title": "Compress Image to Custom KB",
+      "subtitle": "Enter any kilobyte target - we'll get within ±5% of it. JPG output, runs in your browser.",
+      "breadcrumb": "Custom KB"
+    }
+  },
+  "documentPhoto": {
+    "title": "Document Photo Maker",
+    "subtitle": "Pick the document. We apply the exact pixel size, KB target and white background it needs.",
+    "breadcrumb": "Document Photo Maker",
+    "variant": {
+      "titleTemplate": "{name} Photo",
+      "subtitleRangeTemplate": "Upload a photo and get a {fullName}-ready {dimensions} px JPG ({minKb}–{maxKb} KB).",
+      "subtitleMaxTemplate": "Upload a photo and get a {fullName}-ready {dimensions} px JPG (≤ {maxKb} KB).",
+      "entityLabel": "Document",
+      "ctaTemplate": "Generate {name} photo"
+    }
+  },
+  "photoSignatureJoiner": {
+    "title": "Photo + Signature Joiner",
+    "subtitle": "Merge a photo and a signature image into a single file in the layout SSC, IBPS and similar portals require.",
+    "breadcrumb": "Photo + Signature Joiner"
+  },
+  "printSheet": {
+    "title": "Print Sheet Generator",
+    "subtitle": "Drop a portrait, pick the sheet and photo size - download a PDF with cut lines, ready to print at 100% scale.",
+    "breadcrumb": "Print Sheet Generator"
+  },
+  "jpgToPdf": {
+    "title": "JPG / Image to PDF",
+    "subtitle": "Combine images into one PDF, in the order you want. Files never leave your browser.",
+    "breadcrumb": "JPG / Image to PDF"
+  },
+  "quickSend": {
+    "title": "Quick Send",
+    "subtitle": "Customer scans a QR, files arrive in your browser. P2P - files never stored on a server.",
+    "breadcrumb": "Quick Send"
+  },
+  "forms": {
+    "imageCompress": {
+      "errors": {
+        "noFile": "Upload an image first.",
+        "targetTooSmall": "Target must be at least 1 KB.",
+        "compressFailed": "Failed to compress image.",
+        "missedTargetTemplate": "Could not hit {target} - closest was {result}."
+      },
+      "toasts": {
+        "compressedTemplate": "Compressed to {size}.",
+        "underTargetTemplate": "Saved at {size} - under target."
+      },
+      "card1Title": "1. Source image",
+      "card2Title": "2. Result",
+      "source": {
+        "dropLabel": "Drop an image here",
+        "dropSublabel": "JPG, PNG or WebP up to 25MB",
+        "previewAlt": "Source preview"
+      },
+      "target": {
+        "label": "Target size (KB)",
+        "toleranceTemplate": "Tolerance ±{kb} KB",
+        "fixedLabel": "Target",
+        "fixedToleranceTemplate": " · ±{kb} KB tolerance"
+      },
+      "submitTemplate": "Compress to {target}",
+      "result": {
+        "alt": "Compressed result",
+        "downloadCta": "Download JPG",
+        "emptyState": "Compress an image to see the result here.",
+        "withinBand": "Within target band",
+        "overLimitTemplate": "Over {kb} KB limit",
+        "underTarget": "Under target · safe to upload",
+        "fromTemplate": "From {size}",
+        "reductionTemplate": " - {pct}% smaller"
+      }
+    },
+    "photoSignatureJoiner": {
+      "errors": {
+        "noFiles": "Upload both a photo and a signature.",
+        "combineFailed": "Failed to combine images."
+      },
+      "toasts": {
+        "combinedTemplate": "Joined image ready - {size}."
+      },
+      "card1Title": "1. Inputs & layout",
+      "card2Title": "2. Result",
+      "photo": {
+        "label": "Photo",
+        "dropLabel": "Drop a portrait here",
+        "dropSublabel": "JPG or PNG",
+        "alt": "Photo"
+      },
+      "signature": {
+        "label": "Signature",
+        "dropLabel": "Drop a signature here",
+        "dropSublabel": "JPG or PNG on white paper",
+        "alt": "Signature"
+      },
+      "size": {
+        "label": "Output size",
+        "custom": "Custom",
+        "widthLabel": "Width (px)",
+        "heightLabel": "Height (px)"
+      },
+      "layout": {
+        "label": "Layout",
+        "sideBySide": "Side-by-side",
+        "stacked": "Stacked"
+      },
+      "trim": {
+        "label": "Auto-trim signature",
+        "description": "Crops the white margin around the signature so it fills its half cleanly."
+      },
+      "submit": "Combine",
+      "result": {
+        "joinedAlt": "Joined photo and signature",
+        "downloadCta": "Download JPG",
+        "emptyState": "Combine photo and signature to see the result here."
+      }
+    },
+    "pdfCompress": {
+      "errors": {
+        "noFile": "Upload a PDF first.",
+        "compressFailed": "Failed to compress PDF."
+      },
+      "toasts": {
+        "compressedTemplate": "Compressed by {pct}% - {saved} smaller.",
+        "alreadyOptimised": "PDF was already well-optimised - no further saving."
+      },
+      "source": {
+        "title": "1. Source PDF",
+        "dropLabel": "Drop a PDF here",
+        "dropSublabel": "Up to 50 MB. Works best on PDFs with embedded photos."
+      },
+      "strength": {
+        "label": "Compression strength",
+        "light": "Light",
+        "recommended": "Recommended",
+        "stronger": "Stronger",
+        "lightDesc": "Keeps photo quality almost untouched. Smallest savings.",
+        "recommendedDesc": "Balanced - re-encodes photos at 72% quality, caps at 1500 px.",
+        "strongerDesc": "Most savings. Re-encodes at 55% quality, caps at 1000 px - some blur on photos."
+      },
+      "submit": "Compress PDF",
+      "result": {
+        "title": "2. Result",
+        "imagesReencodedOne": "1 image re-encoded",
+        "imagesReencodedTemplate": "{n} images re-encoded",
+        "noJpegs": "No re-encodable JPEGs found",
+        "skippedTemplate": " · {n} skipped (already small)",
+        "previewTitle": "Compressed PDF preview",
+        "downloadCta": "Download compressed PDF",
+        "emptyState": "Compress a PDF to see the result here."
+      }
+    }
   }
 }

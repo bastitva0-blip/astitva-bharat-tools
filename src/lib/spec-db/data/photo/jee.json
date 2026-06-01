@@ -1,0 +1,16 @@
+{
+  "slug": "jee",
+  "name": "JEE Main",
+  "fullName": "Joint Entrance Examination (Main)",
+  "category": "photo",
+  "dimensions": { "widthPx": 200, "heightPx": 230 },
+  "kbRange": { "min": 10, "max": 200 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "NTA portal upload spec.",
+    "Same spec also used for JEE Advanced."
+  ],
+  "portalUrl": "https://jeemain.nta.nic.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

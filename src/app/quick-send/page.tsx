@@ -1,5 +1,6 @@
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 import { QuickSendReceiver } from "./quick-send-receiver";
 
@@ -10,7 +11,9 @@ export const metadata = {
   alternates: { canonical: "/quick-send" },
 };
 
-export default function QuickSendPage() {
+export default async function QuickSendPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -29,9 +32,9 @@ export default function QuickSendPage() {
         })}
       />
       <PageHeader
-        title="Quick Send"
-        subtitle="Customer scans a QR, files arrive in your browser. P2P - files never stored on a server."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Quick Send" }]}
+        title={dict.quickSend.title}
+        subtitle={dict.quickSend.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.quickSend.breadcrumb }]}
       />
       <div className="mt-8">
         <QuickSendReceiver />

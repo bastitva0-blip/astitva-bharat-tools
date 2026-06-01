@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { documentPresets } from "@/lib/presets/documents";
 import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 
@@ -12,7 +13,9 @@ export const metadata = {
   alternates: { canonical: "/document-photo" },
 };
 
-export default function DocumentPhotoHubPage() {
+export default async function DocumentPhotoHubPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -31,9 +34,9 @@ export default function DocumentPhotoHubPage() {
         ]}
       />
       <PageHeader
-        title="Document Photo Maker"
-        subtitle="Pick the document. We apply the exact pixel size, KB target and white background it needs."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Document Photo Maker" }]}
+        title={dict.documentPhoto.title}
+        subtitle={dict.documentPhoto.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.documentPhoto.breadcrumb }]}
       />
 
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

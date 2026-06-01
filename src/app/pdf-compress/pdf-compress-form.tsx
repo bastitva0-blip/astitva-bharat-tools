@@ -7,6 +7,8 @@ import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { fmt } from "@/i18n/format";
+import { useT } from "@/i18n/provider";
 import { formatKb } from "@/lib/processing/image";
 import { compressPdf, type CompressPreset } from "@/lib/processing/pdf-compress";
 
@@ -19,6 +21,8 @@ interface RunResult {
 }
 
 export function PdfCompressForm() {
+  const dict = useT();
+  const t = dict.forms.pdfCompress;
   const [file, setFile] = useState<File | null>(null);
   const [preset, setPreset] = useState<CompressPreset>("recommended");
   const [submitting, setSubmitting] = useState(false);
@@ -30,7 +34,7 @@ export function PdfCompressForm() {
 
   const run = async () => {
     if (!file) {
-      toast.error("Upload a PDF first.");
+      toast.error(t.errors.noFile);
       return;
     }
     setSubmitting(true);
@@ -50,12 +54,12 @@ export function PdfCompressForm() {
       const saved = r.originalBytes - r.resultBytes;
       if (saved > 0) {
         const pct = Math.round((saved / r.originalBytes) * 100);
-        toast.success(`Compressed by ${pct}% - ${formatKb(saved)} smaller.`);
+        toast.success(fmt(t.toasts.compressedTemplate, { pct, saved: formatKb(saved) }));
       } else {
-        toast.success("PDF was already well-optimised - no further saving.");
+        toast.success(t.toasts.alreadyOptimised);
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to compress PDF.");
+      toast.error(err instanceof Error ? err.message : t.errors.compressFailed);
     } finally {
       setSubmitting(false);
     }
@@ -67,15 +71,15 @@ export function PdfCompressForm() {
     <div className="grid gap-6 lg:grid-cols-2">
       <Card variant="outline">
         <CardHeader>
-          <CardTitle>1. Source PDF</CardTitle>
+          <CardTitle>{t.source.title}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <FileUpload
             accept="application/pdf,.pdf"
             maxSize={50 * 1024 * 1024}
             onFiles={(files) => setFile(files[0] ?? null)}
-            label="Drop a PDF here"
-            sublabel="Up to 50 MB. Works best on PDFs with embedded photos."
+            label={t.source.dropLabel}
+            sublabel={t.source.dropSublabel}
           />
 
           {file && (
@@ -89,29 +93,29 @@ export function PdfCompressForm() {
                   className="mt-2"
                   onClick={() => setFile(null)}
                 >
-                  Remove
+                  {dict.common.remove}
                 </Button>
               </div>
             </div>
           )}
 
           <div className="space-y-2">
-            <Label className="block">Compression strength</Label>
+            <Label className="block">{t.strength.label}</Label>
             <SegmentedControl
               size="md"
               variant="default"
               options={[
-                { id: "light", text: "Light" },
-                { id: "recommended", text: "Recommended" },
-                { id: "stronger", text: "Stronger" },
+                { id: "light", text: t.strength.light },
+                { id: "recommended", text: t.strength.recommended },
+                { id: "stronger", text: t.strength.stronger },
               ]}
               selectedId={preset}
               onSelect={(id) => setPreset(id as CompressPreset)}
             />
             <p className="text-body-xs text-surface-fg-muted">
-              {preset === "light" && "Keeps photo quality almost untouched. Smallest savings."}
-              {preset === "recommended" && "Balanced - re-encodes photos at 72% quality, caps at 1500 px."}
-              {preset === "stronger" && "Most savings. Re-encodes at 55% quality, caps at 1000 px - some blur on photos."}
+              {preset === "light" && t.strength.lightDesc}
+              {preset === "recommended" && t.strength.recommendedDesc}
+              {preset === "stronger" && t.strength.strongerDesc}
             </p>
           </div>
 
@@ -122,14 +126,14 @@ export function PdfCompressForm() {
             disabled={!file || submitting}
             onClick={run}
           >
-            Compress PDF
+            {t.submit}
           </Button>
         </CardContent>
       </Card>
 
       <Card variant="outline">
         <CardHeader>
-          <CardTitle>2. Result</CardTitle>
+          <CardTitle>{t.result.title}</CardTitle>
         </CardHeader>
         <CardContent>
           {result ? (
@@ -141,27 +145,29 @@ export function PdfCompressForm() {
                 </div>
                 <p className="mt-1 text-surface-fg-muted">
                   {result.imagesRecompressed > 0
-                    ? `${result.imagesRecompressed} image${result.imagesRecompressed === 1 ? "" : "s"} re-encoded`
-                    : "No re-encodable JPEGs found"}
+                    ? result.imagesRecompressed === 1
+                      ? t.result.imagesReencodedOne
+                      : fmt(t.result.imagesReencodedTemplate, { n: result.imagesRecompressed })
+                    : t.result.noJpegs}
                   {result.imagesSkipped > 0
-                    ? ` · ${result.imagesSkipped} skipped (already small)`
+                    ? fmt(t.result.skippedTemplate, { n: result.imagesSkipped })
                     : ""}
                 </p>
               </div>
               <iframe
-                title="Compressed PDF preview"
+                title={t.result.previewTitle}
                 src={result.url}
                 className="h-[60vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
               <Button asChild variant="solid" fullWidth size="lg">
                 <a href={result.url} download={downloadName}>
-                  Download compressed PDF
+                  {t.result.downloadCta}
                 </a>
               </Button>
             </div>
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">
-              Compress a PDF to see the result here.
+              {t.result.emptyState}
             </div>
           )}
         </CardContent>

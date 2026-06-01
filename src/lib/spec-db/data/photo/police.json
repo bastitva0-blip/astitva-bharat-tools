@@ -1,0 +1,12 @@
+{
+  "slug": "police",
+  "name": "Police Recruitment",
+  "fullName": "State Police Recruitment Boards",
+  "category": "photo",
+  "dimensions": { "widthPx": 350, "heightPx": 450, "widthCm": 3.5, "heightCm": 4.5 },
+  "kbRange": { "min": 20, "max": 50 },
+  "format": "jpg",
+  "background": "white",
+  "notes": ["Spec varies by state; this is a common default."],
+  "lastVerifiedAt": "2026-04-15"
+}

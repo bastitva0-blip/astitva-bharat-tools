@@ -98,7 +98,7 @@ export default async function PdfCompressPage() {
       <PageHeader
         title={dict.pdfCompress.title}
         subtitle={dict.pdfCompress.subtitle}
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: dict.pdfCompress.breadcrumb }]}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.pdfCompress.breadcrumb }]}
       />
       <div className="mt-8">
         <PdfCompressForm />

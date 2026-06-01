@@ -1,5 +1,6 @@
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 import { JpgToPdfForm } from "./jpg-to-pdf-form";
 
@@ -10,7 +11,9 @@ export const metadata = {
   alternates: { canonical: "/jpg-to-pdf" },
 };
 
-export default function JpgToPdfPage() {
+export default async function JpgToPdfPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -32,9 +35,9 @@ export default function JpgToPdfPage() {
         })}
       />
       <PageHeader
-        title="JPG / Image to PDF"
-        subtitle="Combine images into one PDF, in the order you want. Files never leave your browser."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "JPG / Image to PDF" }]}
+        title={dict.jpgToPdf.title}
+        subtitle={dict.jpgToPdf.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.jpgToPdf.breadcrumb }]}
       />
       <div className="mt-8">
         <JpgToPdfForm />

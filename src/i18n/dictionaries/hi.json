@@ -1,4 +1,13 @@
 {
+  "common": {
+    "home": "होम",
+    "remove": "हटाएँ",
+    "download": "डाउनलोड",
+    "cancel": "रद्द करें",
+    "retry": "फिर कोशिश करें",
+    "startOver": "नए सिरे से शुरू करें",
+    "clearAll": "सब हटाएँ"
+  },
   "nav": {
     "homeAria": "BharatTools होम",
     "languageAria": "भाषा बदलें"
@@ -44,5 +53,178 @@
     "title": "प्रिंट जॉब स्लिप",
     "subtitle": "प्रिंट शॉप के लिए साफ़ निर्देशों के साथ फ़ाइलें एक PDF में बंडल करें - कवर शीट सबसे पहले, फिर सीधे शॉप को भेजें।",
     "breadcrumb": "प्रिंट जॉब स्लिप"
+  },
+  "photoResize": {
+    "title": "परीक्षा फ़ोटो रिसाइज़र",
+    "subtitle": "जिस परीक्षा का फ़ॉर्म है उसे चुनें। हम सटीक पिक्सेल साइज़, KB रेंज और सफ़ेद बैकग्राउंड लगा देते हैं।",
+    "breadcrumb": "परीक्षा फ़ोटो रिसाइज़र",
+    "variant": {
+      "titleTemplate": "{name} फ़ोटो रिसाइज़र",
+      "subtitleTemplate": "फ़ोटो अपलोड करें और {dimensions} px JPG ({kbRange} KB) तैयार पाएँ।",
+      "entityLabel": "परीक्षा"
+    }
+  },
+  "imageCompress": {
+    "title": "इमेज कंप्रेसर",
+    "subtitle": "ठीक KB टारगेट तक पहुँचें। सरकारी पोर्टल सीमा से ऊपर कुछ भी अस्वीकार करते हैं, इसलिए 'लगभग' काम नहीं चलेगा।",
+    "breadcrumb": "इमेज कंप्रेसर",
+    "variant": {
+      "titleTemplate": "इमेज को {label} पर कंप्रेस करें",
+      "subtitleTemplate": "{label} पर ±{tolerance} KB की रेंज में पहुँचें। JPG आउटपुट, ब्राउज़र में ही।"
+    },
+    "custom": {
+      "title": "इमेज को कस्टम KB पर कंप्रेस करें",
+      "subtitle": "कोई भी KB टारगेट डालें - हम उसके ±5% के अंदर पहुँचेंगे। JPG आउटपुट, ब्राउज़र में ही।",
+      "breadcrumb": "कस्टम KB"
+    }
+  },
+  "documentPhoto": {
+    "title": "डॉक्युमेंट फ़ोटो मेकर",
+    "subtitle": "दस्तावेज़ चुनें। हम सटीक पिक्सेल साइज़, KB टारगेट और सफ़ेद बैकग्राउंड लगा देते हैं।",
+    "breadcrumb": "डॉक्युमेंट फ़ोटो मेकर",
+    "variant": {
+      "titleTemplate": "{name} फ़ोटो",
+      "subtitleRangeTemplate": "फ़ोटो अपलोड करें और {fullName} के लिए {dimensions} px JPG ({minKb}–{maxKb} KB) तैयार पाएँ।",
+      "subtitleMaxTemplate": "फ़ोटो अपलोड करें और {fullName} के लिए {dimensions} px JPG (≤ {maxKb} KB) तैयार पाएँ।",
+      "entityLabel": "दस्तावेज़",
+      "ctaTemplate": "{name} फ़ोटो बनाएँ"
+    }
+  },
+  "photoSignatureJoiner": {
+    "title": "फ़ोटो + हस्ताक्षर जोड़ें",
+    "subtitle": "फ़ोटो और हस्ताक्षर इमेज को एक फ़ाइल में मिलाएँ - उस लेआउट में जो SSC, IBPS और इसी तरह के पोर्टल माँगते हैं।",
+    "breadcrumb": "फ़ोटो + हस्ताक्षर जोड़ें"
+  },
+  "printSheet": {
+    "title": "प्रिंट शीट जनरेटर",
+    "subtitle": "एक फ़ोटो डालें, शीट और फ़ोटो साइज़ चुनें - कटिंग लाइनों के साथ PDF डाउनलोड करें, 100% स्केल पर प्रिंट के लिए तैयार।",
+    "breadcrumb": "प्रिंट शीट जनरेटर"
+  },
+  "jpgToPdf": {
+    "title": "JPG / इमेज से PDF",
+    "subtitle": "इमेजेस को एक PDF में जोड़ें, जिस क्रम में आप चाहें। फ़ाइलें ब्राउज़र से बाहर नहीं जातीं।",
+    "breadcrumb": "JPG / इमेज से PDF"
+  },
+  "quickSend": {
+    "title": "क्विक सेंड",
+    "subtitle": "ग्राहक QR स्कैन करता है, फ़ाइलें आपके ब्राउज़र में आ जाती हैं। P2P - फ़ाइलें कभी सर्वर पर स्टोर नहीं होतीं।",
+    "breadcrumb": "क्विक सेंड"
+  },
+  "forms": {
+    "imageCompress": {
+      "errors": {
+        "noFile": "पहले एक इमेज अपलोड करें।",
+        "targetTooSmall": "टारगेट कम से कम 1 KB होना चाहिए।",
+        "compressFailed": "इमेज कंप्रेस नहीं हो सकी।",
+        "missedTargetTemplate": "{target} तक नहीं पहुँच सके - सबसे क़रीब {result} रहा।"
+      },
+      "toasts": {
+        "compressedTemplate": "{size} पर कंप्रेस हुआ।",
+        "underTargetTemplate": "{size} पर सहेजा - टारगेट से नीचे।"
+      },
+      "card1Title": "1. स्रोत इमेज",
+      "card2Title": "2. परिणाम",
+      "source": {
+        "dropLabel": "यहाँ इमेज डालें",
+        "dropSublabel": "JPG, PNG या WebP, 25MB तक",
+        "previewAlt": "स्रोत प्रीव्यू"
+      },
+      "target": {
+        "label": "टारगेट साइज़ (KB)",
+        "toleranceTemplate": "सहनशीलता ±{kb} KB",
+        "fixedLabel": "टारगेट",
+        "fixedToleranceTemplate": " · ±{kb} KB सहनशीलता"
+      },
+      "submitTemplate": "{target} पर कंप्रेस करें",
+      "result": {
+        "alt": "कंप्रेस्ड परिणाम",
+        "downloadCta": "JPG डाउनलोड करें",
+        "emptyState": "इमेज कंप्रेस करें, परिणाम यहाँ दिखेगा।",
+        "withinBand": "टारगेट बैंड में",
+        "overLimitTemplate": "{kb} KB सीमा से ऊपर",
+        "underTarget": "टारगेट से नीचे · अपलोड के लिए सुरक्षित",
+        "fromTemplate": "{size} से",
+        "reductionTemplate": " - {pct}% छोटा"
+      }
+    },
+    "photoSignatureJoiner": {
+      "errors": {
+        "noFiles": "फ़ोटो और हस्ताक्षर दोनों अपलोड करें।",
+        "combineFailed": "इमेज नहीं मिल सकीं।"
+      },
+      "toasts": {
+        "combinedTemplate": "जुड़ी हुई इमेज तैयार - {size}।"
+      },
+      "card1Title": "1. इनपुट और लेआउट",
+      "card2Title": "2. परिणाम",
+      "photo": {
+        "label": "फ़ोटो",
+        "dropLabel": "यहाँ पोर्ट्रेट डालें",
+        "dropSublabel": "JPG या PNG",
+        "alt": "फ़ोटो"
+      },
+      "signature": {
+        "label": "हस्ताक्षर",
+        "dropLabel": "यहाँ हस्ताक्षर डालें",
+        "dropSublabel": "सफ़ेद काग़ज़ पर JPG या PNG",
+        "alt": "हस्ताक्षर"
+      },
+      "size": {
+        "label": "आउटपुट साइज़",
+        "custom": "कस्टम",
+        "widthLabel": "चौड़ाई (px)",
+        "heightLabel": "ऊँचाई (px)"
+      },
+      "layout": {
+        "label": "लेआउट",
+        "sideBySide": "साथ-साथ",
+        "stacked": "ऊपर-नीचे"
+      },
+      "trim": {
+        "label": "हस्ताक्षर ऑटो-ट्रिम",
+        "description": "हस्ताक्षर के चारों ओर का सफ़ेद हिस्सा काटता है ताकि वह अपना आधा साफ़ भर सके।"
+      },
+      "submit": "मिलाएँ",
+      "result": {
+        "joinedAlt": "जुड़ी हुई फ़ोटो और हस्ताक्षर",
+        "downloadCta": "JPG डाउनलोड करें",
+        "emptyState": "फ़ोटो और हस्ताक्षर मिलाएँ, परिणाम यहाँ दिखेगा।"
+      }
+    },
+    "pdfCompress": {
+      "errors": {
+        "noFile": "पहले एक PDF अपलोड करें।",
+        "compressFailed": "PDF कंप्रेस नहीं हो सका।"
+      },
+      "toasts": {
+        "compressedTemplate": "{pct}% कंप्रेस हुआ - {saved} छोटा।",
+        "alreadyOptimised": "PDF पहले से ही ऑप्टिमाइज़्ड है - और कमी संभव नहीं।"
+      },
+      "source": {
+        "title": "1. स्रोत PDF",
+        "dropLabel": "PDF यहाँ डालें",
+        "dropSublabel": "50 MB तक। फ़ोटो वाले PDF पर बेहतर काम करता है।"
+      },
+      "strength": {
+        "label": "कंप्रेशन की तीव्रता",
+        "light": "हल्का",
+        "recommended": "अनुशंसित",
+        "stronger": "अधिक",
+        "lightDesc": "फ़ोटो क्वालिटी लगभग अछूती। सबसे कम बचत।",
+        "recommendedDesc": "संतुलित - फ़ोटो 72% क्वालिटी पर री-एनकोड, 1500 px तक सीमित।",
+        "strongerDesc": "सबसे अधिक बचत। 55% क्वालिटी पर, 1000 px तक सीमित - फ़ोटो में थोड़ा धुंधलापन।"
+      },
+      "submit": "PDF कंप्रेस करें",
+      "result": {
+        "title": "2. परिणाम",
+        "imagesReencodedOne": "1 इमेज री-एनकोड",
+        "imagesReencodedTemplate": "{n} इमेजेस री-एनकोड",
+        "noJpegs": "कोई री-एनकोड करने योग्य JPEG नहीं मिला",
+        "skippedTemplate": " · {n} छोड़ी गईं (पहले से छोटी)",
+        "previewTitle": "कंप्रेस्ड PDF प्रीव्यू",
+        "downloadCta": "कंप्रेस्ड PDF डाउनलोड करें",
+        "emptyState": "PDF कंप्रेस करें, परिणाम यहाँ दिखेगा।"
+      }
+    }
   }
 }

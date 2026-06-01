@@ -1,0 +1,16 @@
+{
+  "slug": "oci",
+  "name": "OCI Card",
+  "fullName": "Overseas Citizen of India card",
+  "category": "document",
+  "dimensions": { "widthPx": 600, "heightPx": 600 },
+  "kbRange": { "min": 0, "max": 1024 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "2×2 inch (600×600 px @ 300 DPI), square aspect.",
+    "Country variant requirements may differ; check the application portal."
+  ],
+  "portalUrl": "https://ociservices.gov.in/",
+  "lastVerifiedAt": "2026-04-15"
+}
