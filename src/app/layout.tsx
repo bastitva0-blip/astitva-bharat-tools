@@ -3,6 +3,7 @@ import Script from "next/script";
 import "./globals.css";
 import { JsonLd } from "@/components/json-ld";
 import { Providers } from "@/components/providers";
+import { SegmentBootstrap } from "@/components/segment-bootstrap";
 import { TopNav } from "@/components/top-nav";
 import { LocaleProvider } from "@/i18n/provider";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
@@ -108,6 +109,7 @@ export default async function RootLayout({
           data-website-id="e00b56de-8cd9-4d71-a3aa-62de53f713de"
           strategy="afterInteractive"
         />
+        <SegmentBootstrap />
       </body>
     </html>
   );
