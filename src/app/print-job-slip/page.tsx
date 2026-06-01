@@ -99,7 +99,7 @@ export default async function PrintJobSlipPage() {
       <PageHeader
         title={dict.printJobSlip.title}
         subtitle={dict.printJobSlip.subtitle}
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: dict.printJobSlip.breadcrumb }]}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.printJobSlip.breadcrumb }]}
       />
       <div className="mt-8">
         <PrintJobSlipForm />

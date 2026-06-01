@@ -3,6 +3,8 @@ import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { PhotoSpecCard } from "@/components/photo-spec-card";
 import { PhotoSpecForm } from "@/components/photo-spec-form";
+import { fmt } from "@/i18n/format";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { documentPresets, getDocumentPreset } from "@/lib/presets/documents";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 
@@ -28,19 +30,40 @@ export default async function DocumentPhotoPage({ params }: { params: Promise<{ 
   const preset = getDocumentPreset(doc);
   if (!preset) notFound();
 
-  const toolName = `${preset.name} Photo Maker`;
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
+
+  const dims = `${preset.dimensions.widthPx}×${preset.dimensions.heightPx}`;
   const sizeText =
     preset.kbRange.min === 0
       ? `≤ ${preset.kbRange.max} KB`
       : `${preset.kbRange.min}–${preset.kbRange.max} KB`;
-  const toolDesc = `Make a portal-ready photo for ${preset.fullName}: ${preset.dimensions.widthPx}×${preset.dimensions.heightPx} px JPG, ${sizeText}, white background. Runs in your browser.`;
+
+  const title = fmt(dict.documentPhoto.variant.titleTemplate, { name: preset.name });
+  const subtitle =
+    preset.kbRange.min === 0
+      ? fmt(dict.documentPhoto.variant.subtitleMaxTemplate, {
+          fullName: preset.fullName,
+          dimensions: dims,
+          maxKb: preset.kbRange.max,
+        })
+      : fmt(dict.documentPhoto.variant.subtitleRangeTemplate, {
+          fullName: preset.fullName,
+          dimensions: dims,
+          minKb: preset.kbRange.min,
+          maxKb: preset.kbRange.max,
+        });
+  const ctaLabel = fmt(dict.documentPhoto.variant.ctaTemplate, { name: preset.name });
+
+  const schemaName = `${preset.name} Photo Maker`;
+  const schemaDesc = `Make a portal-ready photo for ${preset.fullName}: ${dims} px JPG, ${sizeText}, white background. Runs in your browser.`;
 
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
         data={toolPageSchema({
-          name: toolName,
-          description: toolDesc,
+          name: schemaName,
+          description: schemaDesc,
           path: `/document-photo/${preset.slug}`,
           breadcrumbs: [
             { label: "Home", href: "/" },
@@ -56,24 +79,18 @@ export default async function DocumentPhotoPage({ params }: { params: Promise<{ 
         })}
       />
       <PageHeader
-        title={`${preset.name} Photo`}
-        subtitle={`Upload a photo and get a ${preset.fullName} -ready ${preset.dimensions.widthPx}×${preset.dimensions.heightPx} px JPG (${
-          preset.kbRange.min === 0 ? `≤ ${preset.kbRange.max} KB` : `${preset.kbRange.min}–${preset.kbRange.max} KB`
-        }).`}
+        title={title}
+        subtitle={subtitle}
         breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Document Photo Maker", href: "/document-photo" },
+          { label: dict.common.home, href: "/" },
+          { label: dict.documentPhoto.breadcrumb, href: "/document-photo" },
           { label: preset.name },
         ]}
       />
 
       <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
-        <PhotoSpecCard preset={preset} entityLabel="Document" />
-        <PhotoSpecForm
-          preset={preset}
-          downloadSlug={preset.slug}
-          ctaLabel={`Generate ${preset.name} photo`}
-        />
+        <PhotoSpecCard preset={preset} entityLabel={dict.documentPhoto.variant.entityLabel} />
+        <PhotoSpecForm preset={preset} downloadSlug={preset.slug} ctaLabel={ctaLabel} />
       </section>
     </main>
   );

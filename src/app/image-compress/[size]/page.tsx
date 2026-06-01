@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { fmt } from "@/i18n/format";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { compressPresets, getCompressPreset } from "@/lib/presets/compress-sizes";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 import { ImageCompressForm } from "../image-compress-form";
@@ -25,15 +27,24 @@ export default async function ImageCompressSizePage({ params }: { params: Promis
   const preset = getCompressPreset(size);
   if (!preset) notFound();
 
-  const toolName = `Compress Image to ${preset.label}`;
-  const toolDesc = `Compress any image to ${preset.label} (±${preset.toleranceKb} KB) for portal upload. Binary-search JPEG with auto-downscale. Runs in your browser.`;
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
+
+  const title = fmt(dict.imageCompress.variant.titleTemplate, { label: preset.label });
+  const subtitle = fmt(dict.imageCompress.variant.subtitleTemplate, {
+    label: preset.label,
+    tolerance: preset.toleranceKb,
+  });
+
+  const schemaName = `Compress Image to ${preset.label}`;
+  const schemaDesc = `Compress any image to ${preset.label} (±${preset.toleranceKb} KB) for portal upload. Binary-search JPEG with auto-downscale. Runs in your browser.`;
 
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
         data={toolPageSchema({
-          name: toolName,
-          description: toolDesc,
+          name: schemaName,
+          description: schemaDesc,
           path: `/image-compress/${preset.slug}`,
           breadcrumbs: [
             { label: "Home", href: "/" },
@@ -48,11 +59,11 @@ export default async function ImageCompressSizePage({ params }: { params: Promis
         })}
       />
       <PageHeader
-        title={`Compress Image to ${preset.label}`}
-        subtitle={`Hit ${preset.label} within ±${preset.toleranceKb} KB. JPG output, runs in your browser.`}
+        title={title}
+        subtitle={subtitle}
         breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Image Compressor", href: "/image-compress" },
+          { label: dict.common.home, href: "/" },
+          { label: dict.imageCompress.breadcrumb, href: "/image-compress" },
           { label: preset.label },
         ]}
       />

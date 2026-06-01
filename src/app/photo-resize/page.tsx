@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { examPresets } from "@/lib/presets/exams";
 import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 
@@ -11,7 +12,9 @@ export const metadata = {
   alternates: { canonical: "/photo-resize" },
 };
 
-export default function PhotoResizeHubPage() {
+export default async function PhotoResizeHubPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -30,9 +33,9 @@ export default function PhotoResizeHubPage() {
         ]}
       />
       <PageHeader
-        title="Exam Photo Resizer"
-        subtitle="Pick the exam your form is for. We apply the exact pixel size, KB range and white background it needs."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Exam Photo Resizer" }]}
+        title={dict.photoResize.title}
+        subtitle={dict.photoResize.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.photoResize.breadcrumb }]}
       />
 
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

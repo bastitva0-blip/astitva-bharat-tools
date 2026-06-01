@@ -1,0 +1,17 @@
+{
+  "slug": "passport",
+  "name": "Indian Passport",
+  "fullName": "Passport Seva (ICAO-compliant)",
+  "category": "document",
+  "dimensions": { "widthPx": 350, "heightPx": 450, "widthCm": 3.5, "heightCm": 4.5 },
+  "kbRange": { "min": 10, "max": 300 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "ICAO-compliant spec required since September 2025.",
+    "Plain white background, no shadow on face or wall.",
+    "Both ears visible, no head covering except for religious reasons."
+  ],
+  "portalUrl": "https://www.passportindia.gov.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

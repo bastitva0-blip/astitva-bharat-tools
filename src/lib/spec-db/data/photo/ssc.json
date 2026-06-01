@@ -1,0 +1,16 @@
+{
+  "slug": "ssc",
+  "name": "SSC",
+  "fullName": "Staff Selection Commission",
+  "category": "photo",
+  "dimensions": { "widthPx": 100, "heightPx": 120, "widthCm": 3.5, "heightCm": 4.5 },
+  "kbRange": { "min": 20, "max": 50 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "Plain white background.",
+    "Recent passport-style photo, no cap or sunglasses."
+  ],
+  "portalUrl": "https://ssc.nic.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

@@ -100,7 +100,7 @@ export default async function PdfMergeSplitPage() {
       <PageHeader
         title={dict.pdfMergeSplit.title}
         subtitle={dict.pdfMergeSplit.subtitle}
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: dict.pdfMergeSplit.breadcrumb }]}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.pdfMergeSplit.breadcrumb }]}
       />
       <div className="mt-8">
         <PdfMergeSplitForm />

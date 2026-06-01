@@ -1,0 +1,13 @@
+{
+  "slug": "sbi",
+  "name": "SBI / Bank PO",
+  "fullName": "State Bank of India / Generic Bank PO",
+  "category": "photo",
+  "dimensions": { "widthPx": 200, "heightPx": 230 },
+  "kbRange": { "min": 20, "max": 50 },
+  "format": "jpg",
+  "background": "white",
+  "notes": ["Generic banking exam upload spec."],
+  "portalUrl": "https://www.sbi.co.in/",
+  "lastVerifiedAt": "2026-04-15"
+}

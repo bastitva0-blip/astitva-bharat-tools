@@ -1,0 +1,16 @@
+{
+  "slug": "pan",
+  "name": "PAN",
+  "fullName": "PAN application (NSDL / UTIITSL online)",
+  "category": "document",
+  "dimensions": { "widthPx": 213, "heightPx": 213 },
+  "kbRange": { "min": 0, "max": 20 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "NSDL / UTIITSL online uploads accept 213×213 px JPG.",
+    "Square crop - match the aspect on the crop tool."
+  ],
+  "portalUrl": "https://www.protean-tinpan.com/",
+  "lastVerifiedAt": "2026-04-15"
+}

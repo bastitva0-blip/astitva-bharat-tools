@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { compressPresets } from "@/lib/presets/compress-sizes";
 import { breadcrumbSchema, collectionPageSchema } from "@/lib/seo/schema";
 
@@ -12,7 +13,9 @@ export const metadata = {
   alternates: { canonical: "/image-compress" },
 };
 
-export default function ImageCompressHubPage() {
+export default async function ImageCompressHubPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -34,9 +37,9 @@ export default function ImageCompressHubPage() {
         ]}
       />
       <PageHeader
-        title="Image Compressor"
-        subtitle="Hit an exact KB target. Government portals reject anything over the limit, so 'approximate' won't do."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Image Compressor" }]}
+        title={dict.imageCompress.title}
+        subtitle={dict.imageCompress.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.imageCompress.breadcrumb }]}
       />
 
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

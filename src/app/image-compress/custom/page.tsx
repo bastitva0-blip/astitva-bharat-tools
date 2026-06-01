@@ -1,5 +1,6 @@
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 import { ImageCompressForm } from "../image-compress-form";
 
@@ -9,7 +10,9 @@ export const metadata = {
   alternates: { canonical: "/image-compress/custom" },
 };
 
-export default function ImageCompressCustomPage() {
+export default async function ImageCompressCustomPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -32,12 +35,12 @@ export default function ImageCompressCustomPage() {
         })}
       />
       <PageHeader
-        title="Compress Image to Custom KB"
-        subtitle="Enter any kilobyte target - we'll get within ±5% of it. JPG output, runs in your browser."
+        title={dict.imageCompress.custom.title}
+        subtitle={dict.imageCompress.custom.subtitle}
         breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Image Compressor", href: "/image-compress" },
-          { label: "Custom KB" },
+          { label: dict.common.home, href: "/" },
+          { label: dict.imageCompress.breadcrumb, href: "/image-compress" },
+          { label: dict.imageCompress.custom.breadcrumb },
         ]}
       />
       <div className="mt-8">

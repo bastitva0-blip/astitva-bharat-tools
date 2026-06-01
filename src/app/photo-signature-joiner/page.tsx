@@ -1,5 +1,6 @@
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 import { PhotoSignatureJoinerForm } from "./photo-signature-joiner-form";
 
@@ -10,7 +11,9 @@ export const metadata = {
   alternates: { canonical: "/photo-signature-joiner" },
 };
 
-export default function PhotoSignatureJoinerPage() {
+export default async function PhotoSignatureJoinerPage() {
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
@@ -38,9 +41,9 @@ export default function PhotoSignatureJoinerPage() {
         })}
       />
       <PageHeader
-        title="Photo + Signature Joiner"
-        subtitle="Merge a photo and a signature image into a single file in the layout SSC, IBPS and similar portals require."
-        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Photo + Signature Joiner" }]}
+        title={dict.photoSignatureJoiner.title}
+        subtitle={dict.photoSignatureJoiner.subtitle}
+        breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.photoSignatureJoiner.breadcrumb }]}
       />
       <div className="mt-8">
         <PhotoSignatureJoinerForm />

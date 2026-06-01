@@ -7,6 +7,8 @@ import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { fmt } from "@/i18n/format";
+import { useT } from "@/i18n/provider";
 import { compressImageToTargetKb, formatKb } from "@/lib/processing/image";
 
 interface Props {
@@ -29,6 +31,8 @@ interface RunResult {
 }
 
 export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: Props) {
+  const dict = useT();
+  const t = dict.forms.imageCompress;
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [customKb, setCustomKb] = useState<number>(50);
@@ -57,11 +61,11 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
 
   const compress = async () => {
     if (!file) {
-      toast.error("Upload an image first.");
+      toast.error(t.errors.noFile);
       return;
     }
     if (activeKb < 1) {
-      toast.error("Target must be at least 1 KB.");
+      toast.error(t.errors.targetTooSmall);
       return;
     }
     setSubmitting(true);
@@ -80,14 +84,19 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
         hitTarget: r.hitTarget,
       });
       if (r.hitTarget) {
-        toast.success(`Compressed to ${formatKb(r.bytes)}.`);
+        toast.success(fmt(t.toasts.compressedTemplate, { size: formatKb(r.bytes) }));
       } else if (r.bytes <= activeKb * 1024) {
-        toast.success(`Saved at ${formatKb(r.bytes)} - under target.`);
+        toast.success(fmt(t.toasts.underTargetTemplate, { size: formatKb(r.bytes) }));
       } else {
-        toast.error(`Could not hit ${activeLabel} - closest was ${formatKb(r.bytes)}.`);
+        toast.error(
+          fmt(t.errors.missedTargetTemplate, {
+            target: activeLabel,
+            result: formatKb(r.bytes),
+          }),
+        );
       }
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Failed to compress image.");
+      toast.error(err instanceof Error ? err.message : t.errors.compressFailed);
     } finally {
       setSubmitting(false);
     }
@@ -99,22 +108,22 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
     <div className="grid gap-6 lg:grid-cols-2">
       <Card variant="outline">
         <CardHeader>
-          <CardTitle>1. Source image</CardTitle>
+          <CardTitle>{t.card1Title}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <FileUpload
             accept="image/*"
             maxSize={25 * 1024 * 1024}
             onFiles={(files) => setFile(files[0] ?? null)}
-            label="Drop an image here"
-            sublabel="JPG, PNG or WebP up to 25MB"
+            label={t.source.dropLabel}
+            sublabel={t.source.dropSublabel}
           />
 
           {previewUrl && (
             <div className="flex items-start gap-3 rounded-md border border-surface-border-subtle p-3">
               <img
                 src={previewUrl}
-                alt="Source preview"
+                alt={t.source.previewAlt}
                 className="h-28 w-28 rounded object-cover"
               />
               <div className="text-body-sm">
@@ -128,7 +137,7 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
                   className="mt-2"
                   onClick={() => setFile(null)}
                 >
-                  Remove
+                  {dict.common.remove}
                 </Button>
               </div>
             </div>
@@ -137,7 +146,7 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
           {isCustom && (
             <div>
               <Label htmlFor="target" className="block mb-2">
-                Target size (KB)
+                {t.target.label}
               </Label>
               <NumberInput
                 id="target"
@@ -148,15 +157,17 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
                 step={1}
               />
               <p className="mt-1 text-body-xs text-surface-fg-muted">
-                Tolerance ±{activeTolerance} KB
+                {fmt(t.target.toleranceTemplate, { kb: activeTolerance })}
               </p>
             </div>
           )}
 
           {!isCustom && (
             <div className="rounded-md border border-surface-border-subtle bg-surface-2 p-3 text-body-sm">
-              <span className="font-semibold">Target: {activeLabel}</span>
-              <span className="text-surface-fg-muted"> · ±{activeTolerance} KB tolerance</span>
+              <span className="font-semibold">{t.target.fixedLabel}: {activeLabel}</span>
+              <span className="text-surface-fg-muted">
+                {fmt(t.target.fixedToleranceTemplate, { kb: activeTolerance })}
+              </span>
             </div>
           )}
 
@@ -167,14 +178,14 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
             disabled={!file || submitting}
             onClick={compress}
           >
-            Compress to {activeLabel}
+            {fmt(t.submitTemplate, { target: activeLabel })}
           </Button>
         </CardContent>
       </Card>
 
       <Card variant="outline">
         <CardHeader>
-          <CardTitle>2. Result</CardTitle>
+          <CardTitle>{t.card2Title}</CardTitle>
         </CardHeader>
         <CardContent>
           {result ? (
@@ -182,7 +193,7 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
               <div className="rounded-md border border-surface-fg bg-surface-2 p-4">
                 <img
                   src={result.url}
-                  alt="Compressed result"
+                  alt={t.result.alt}
                   className="mx-auto block max-h-[60vh] w-auto"
                 />
               </div>
@@ -196,13 +207,13 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
               />
               <Button asChild variant="solid" fullWidth size="lg">
                 <a href={result.url} download={downloadName}>
-                  Download JPG
+                  {t.result.downloadCta}
                 </a>
               </Button>
             </div>
           ) : (
             <div className="flex h-full min-h-[240px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">
-              Compress an image to see the result here.
+              {t.result.emptyState}
             </div>
           )}
         </CardContent>
@@ -226,14 +237,17 @@ function ResultStats({
   width: number;
   height: number;
 }) {
+  const dict = useT();
+  const t = dict.forms.imageCompress.result;
   const targetBytes = targetKb * 1024;
   const minBytes = Math.max(0, (targetKb - toleranceKb) * 1024);
   const overLimit = resultBytes > targetBytes;
   const inBand = resultBytes >= minBytes && resultBytes <= targetBytes;
   let status: { label: string; cls: string };
-  if (inBand) status = { label: "Within target band", cls: "text-success-11" };
-  else if (overLimit) status = { label: `Over ${targetKb} KB limit`, cls: "text-error-11" };
-  else status = { label: "Under target · safe to upload", cls: "text-success-11" };
+  if (inBand) status = { label: t.withinBand, cls: "text-success-11" };
+  else if (overLimit)
+    status = { label: fmt(t.overLimitTemplate, { kb: targetKb }), cls: "text-error-11" };
+  else status = { label: t.underTarget, cls: "text-success-11" };
 
   const reduction = originalBytes > 0 ? ((1 - resultBytes / originalBytes) * 100).toFixed(0) : null;
 
@@ -247,8 +261,11 @@ function ResultStats({
       </div>
       {originalBytes > 0 && (
         <p className="text-surface-fg-muted">
-          From {formatKb(originalBytes)}
-          {reduction && Number(reduction) > 0 ? ` - ${reduction}% smaller` : ""}.
+          {fmt(t.fromTemplate, { size: formatKb(originalBytes) })}
+          {reduction && Number(reduction) > 0
+            ? fmt(t.reductionTemplate, { pct: reduction })
+            : ""}
+          .
         </p>
       )}
     </div>

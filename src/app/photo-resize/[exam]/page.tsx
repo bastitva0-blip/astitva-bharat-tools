@@ -3,6 +3,8 @@ import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { PhotoSpecCard } from "@/components/photo-spec-card";
 import { PhotoSpecForm } from "@/components/photo-spec-form";
+import { fmt } from "@/i18n/format";
+import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { examPresets, getExamPreset } from "@/lib/presets/exams";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
 
@@ -26,15 +28,29 @@ export default async function PhotoResizeExamPage({ params }: { params: Promise<
   const preset = getExamPreset(exam);
   if (!preset) notFound();
 
-  const toolName = `${preset.name} Photo Resizer`;
-  const toolDesc = `Resize and compress a photo for ${preset.fullName}: ${preset.dimensions.widthPx}×${preset.dimensions.heightPx} px, ${preset.kbRange.min}–${preset.kbRange.max} KB JPG with white background. Runs in your browser.`;
+  const locale = await getCurrentLocale();
+  const dict = getDictionary(locale);
+
+  const dims = `${preset.dimensions.widthPx}×${preset.dimensions.heightPx}`;
+  const kb = `${preset.kbRange.min}–${preset.kbRange.max}`;
+
+  const title = fmt(dict.photoResize.variant.titleTemplate, { name: preset.name });
+  const subtitle = fmt(dict.photoResize.variant.subtitleTemplate, {
+    dimensions: dims,
+    kbRange: kb,
+  });
+
+  // Schema/JSON-LD intentionally stays in English — search engines index the
+  // canonical URL and structured data should match it.
+  const schemaName = `${preset.name} Photo Resizer`;
+  const schemaDesc = `Resize and compress a photo for ${preset.fullName}: ${dims} px, ${kb} KB JPG with white background. Runs in your browser.`;
 
   return (
     <main className="mx-auto w-full max-w-6xl px-page-x py-10">
       <JsonLd
         data={toolPageSchema({
-          name: toolName,
-          description: toolDesc,
+          name: schemaName,
+          description: schemaDesc,
           path: `/photo-resize/${preset.slug}`,
           breadcrumbs: [
             { label: "Home", href: "/" },
@@ -50,17 +66,17 @@ export default async function PhotoResizeExamPage({ params }: { params: Promise<
         })}
       />
       <PageHeader
-        title={toolName}
-        subtitle={`Upload a photo and get a ready-to-upload ${preset.dimensions.widthPx}×${preset.dimensions.heightPx} px JPG (${preset.kbRange.min}–${preset.kbRange.max} KB).`}
+        title={title}
+        subtitle={subtitle}
         breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "Exam Photo Resizer", href: "/photo-resize" },
+          { label: dict.common.home, href: "/" },
+          { label: dict.photoResize.breadcrumb, href: "/photo-resize" },
           { label: preset.name },
         ]}
       />
 
       <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
-        <PhotoSpecCard preset={preset} entityLabel="Exam" />
+        <PhotoSpecCard preset={preset} entityLabel={dict.photoResize.variant.entityLabel} />
         <PhotoSpecForm preset={preset} downloadSlug={preset.slug} />
       </section>
     </main>
