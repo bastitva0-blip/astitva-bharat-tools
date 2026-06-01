@@ -14,7 +14,13 @@ export default function robots(): MetadataRoute.Robots {
     };
   }
   return {
-    rules: { userAgent: "*", allow: "/" },
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      // /pipeline-test/* is the engineering-decisions #2 prototype scaffold —
+      // not user-facing. Delete this rule when the prototype is removed.
+      disallow: ["/pipeline-test/"],
+    },
     sitemap: `${SITE_URL}/sitemap.xml`,
   };
 }
