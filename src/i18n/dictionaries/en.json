@@ -29,7 +29,8 @@
   },
   "nav": {
     "homeAria": "BharatTools home",
-    "languageAria": "Change language"
+    "languageAria": "Change language",
+    "formGuides": "Form guides"
   },
   "home": {
     "badge": "Browser-only · Files never uploaded",

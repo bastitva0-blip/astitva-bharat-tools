@@ -8,9 +8,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@devalok/shilp-sutra/ui/dropdown-menu";
+import { useT } from "@/i18n/provider";
 import { toolCategories, tools } from "@/lib/tools";
 
 export function NavMenu() {
+  const dict = useT();
   return (
     <nav className="ml-2 hidden items-center gap-1 md:flex">
       {toolCategories.map((cat) => {
@@ -40,6 +42,13 @@ export function NavMenu() {
           </DropdownMenu>
         );
       })}
+
+      <Link
+        href="/form-guides"
+        className="rounded-md px-3 py-2 text-body-sm font-medium text-surface-fg transition-colors hover:bg-accent-3 hover:text-accent-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
+      >
+        {dict.nav.formGuides}
+      </Link>
     </nav>
   );
 }

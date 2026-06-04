@@ -29,7 +29,8 @@
   },
   "nav": {
     "homeAria": "BharatTools होम",
-    "languageAria": "भाषा बदलें"
+    "languageAria": "भाषा बदलें",
+    "formGuides": "फ़ॉर्म गाइड"
   },
   "home": {
     "badge": "केवल ब्राउज़र में · फ़ाइलें कभी अपलोड नहीं",

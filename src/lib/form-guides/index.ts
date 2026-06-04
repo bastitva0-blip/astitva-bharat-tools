@@ -38,6 +38,17 @@ export const formGuides: FormGuide[] = [
     authority: { name: "NTA", url: "https://jeemain.nta.nic.in/" },
     order: 1,
   },
+  {
+    slug: "neet",
+    examName: "NEET UG",
+    fullName: "National Eligibility cum Entrance Test (UG)",
+    description:
+      "End-to-end walk-through of the NTA NEET application: registration, exam city choices, photo and signature uploads, postcard photo, thumb impressions, and category-specific fee payment.",
+    specSummary: "Photo 10–200 KB · Postcard 50–300 KB · Signature 4–30 KB",
+    lastUpdatedAt: "2026-06-04",
+    authority: { name: "NTA", url: "https://neet.nta.nic.in/" },
+    order: 2,
+  },
 ];
 
 export function getFormGuide(slug: string): FormGuide | undefined {
