@@ -39,16 +39,16 @@ export const metadata: Metadata = {
   description: PAGE_DESCRIPTION,
   keywords: PAGE_KEYWORDS,
   alternates: {
-    canonical: "/form-guide/jee-main",
+    canonical: "/form-guides/jee-main",
     languages: {
-      "en-IN": "/form-guide/jee-main",
-      "hi-IN": "/form-guide/jee-main",
-      "x-default": "/form-guide/jee-main",
+      "en-IN": "/form-guides/jee-main",
+      "hi-IN": "/form-guides/jee-main",
+      "x-default": "/form-guides/jee-main",
     },
   },
   openGraph: {
     type: "article",
-    url: "/form-guide/jee-main",
+    url: "/form-guides/jee-main",
     title: PAGE_TITLE,
     description: PAGE_DESCRIPTION,
     locale: "en_IN",
@@ -153,7 +153,7 @@ export default function JeeMainGuidePage() {
         data={[
           breadcrumbSchema([
             { label: "Home", href: "/" },
-            { label: "Form guides", href: "/form-guide/jee-main" },
+            { label: "Form guides", href: "/form-guides" },
             { label: "JEE Main" },
           ]),
           howToSchema({
@@ -172,7 +172,8 @@ export default function JeeMainGuidePage() {
         subtitle="Step-by-step guide to the NTA portal — registration, photo (10–200 KB), signature (4–30 KB), document uploads, fee payment. Use the in-browser tools we link inline; nothing leaves your device."
         breadcrumbs={[
           { label: "Home", href: "/" },
-          { label: "JEE Main guide" },
+          { label: "Form guides", href: "/form-guides" },
+          { label: "JEE Main" },
         ]}
       />
 

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { formGuides } from "@/lib/form-guides";
 import { compressPresets } from "@/lib/presets/compress-sizes";
 import { documentPresets } from "@/lib/presets/documents";
 import { examPresets } from "@/lib/presets/exams";
@@ -55,14 +56,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const formGuides: MetadataRoute.Sitemap = [
+  const formGuideIndex: MetadataRoute.Sitemap = [
     {
-      url: url("/form-guide/jee-main"),
+      url: url("/form-guides"),
       lastModified: now,
       changeFrequency: "monthly",
-      priority: 0.6,
+      priority: 0.7,
     },
   ];
 
-  return [...staticRoutes, ...hubs, ...examPages, ...compressPages, ...documentPages, ...formGuides];
+  const formGuidePages: MetadataRoute.Sitemap = formGuides.map((g) => ({
+    url: url(`/form-guides/${g.slug}`),
+    lastModified: new Date(g.lastUpdatedAt),
+    changeFrequency: "monthly",
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...hubs,
+    ...examPages,
+    ...compressPages,
+    ...documentPages,
+    ...formGuideIndex,
+    ...formGuidePages,
+  ];
 }

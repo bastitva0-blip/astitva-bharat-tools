@@ -17,6 +17,9 @@ export async function Footer() {
         </div>
 
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          <Link href="/form-guides" className="hover:text-surface-fg">
+            {dict.footer.formGuides}
+          </Link>
           <Link href="/about" className="hover:text-surface-fg">
             {dict.footer.about}
           </Link>
