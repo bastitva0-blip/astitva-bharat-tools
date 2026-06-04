@@ -55,5 +55,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...hubs, ...examPages, ...compressPages, ...documentPages];
+  const formGuides: MetadataRoute.Sitemap = [
+    {
+      url: url("/form-guide/jee-main"),
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+  ];
+
+  return [...staticRoutes, ...hubs, ...examPages, ...compressPages, ...documentPages, ...formGuides];
 }
