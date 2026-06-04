@@ -1,8 +1,12 @@
+import Link from "next/link";
+import { ArrowRight, BookOpen } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { Footer } from "@/components/footer";
 import { HeroAurora } from "@/components/hero-aurora";
 import { JsonLd } from "@/components/json-ld";
 import { ToolsBrowser } from "@/components/tools-browser";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
+import { formGuides } from "@/lib/form-guides";
 import { faqPageSchema, softwareAppSchema } from "@/lib/seo/schema";
 import { SITE_DESCRIPTION, SITE_KEYWORDS, SITE_NAME } from "@/lib/seo/site";
 
@@ -110,6 +114,58 @@ export default async function HomePage() {
       />
       <main className="mx-auto w-full max-w-6xl px-page-x pb-20">
         <ToolsBrowser />
+
+        <section className="mt-20">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <h2 className="inline-flex items-center gap-2 text-heading-md font-semibold">
+                <BookOpen className="size-5 text-accent-11" aria-hidden />
+                {dict.home.guides.heading}
+              </h2>
+              <p className="mt-2 max-w-2xl text-body-md text-surface-fg-muted">
+                {dict.home.guides.description}
+              </p>
+            </div>
+            <Link
+              href="/form-guides"
+              className="hidden shrink-0 items-center gap-1.5 whitespace-nowrap text-body-sm font-medium text-accent-11 hover:underline sm:inline-flex"
+            >
+              {dict.home.guides.seeAll}
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[...formGuides]
+              .sort((a, b) => a.order - b.order)
+              .slice(0, 3)
+              .map((guide) => (
+                <Link key={guide.slug} href={`/form-guides/${guide.slug}`} className="block">
+                  <Card variant="outline" interactive className="h-full">
+                    <CardHeader>
+                      <CardTitle>{guide.examName}</CardTitle>
+                      <CardDescription>{guide.fullName}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="rounded-md border border-surface-border-subtle bg-surface-2 px-3 py-2 text-body-xs font-medium">
+                        {guide.specSummary}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+          </div>
+
+          <div className="mt-6 sm:hidden">
+            <Link
+              href="/form-guides"
+              className="inline-flex items-center gap-1.5 text-body-sm font-medium text-accent-11 hover:underline"
+            >
+              {dict.home.guides.seeAll}
+              <ArrowRight className="size-4" aria-hidden />
+            </Link>
+          </div>
+        </section>
       </main>
       <Footer />
     </>

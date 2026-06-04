@@ -29,14 +29,20 @@
   },
   "nav": {
     "homeAria": "BharatTools home",
-    "languageAria": "Change language"
+    "languageAria": "Change language",
+    "formGuides": "Form guides"
   },
   "home": {
     "badge": "Browser-only · Files never uploaded",
     "titleLead": "Har Sarkari form ka",
     "titleAccent": "saathi",
     "subtitleMain": "Photo to spec, signature merge, KB compression, print sheet - every step of submitting an Indian government form, in one place.",
-    "subtitleMuted": "All on-device. Your files never leave your browser."
+    "subtitleMuted": "All on-device. Your files never leave your browser.",
+    "guides": {
+      "heading": "Form filling guides",
+      "description": "Step-by-step walk-throughs for the exam and government forms Indians fill most. Each guide names the photo and signature spec, the upload rules, and the right tool for every step.",
+      "seeAll": "See all form guides"
+    }
   },
   "tools": {
     "searchPlaceholder": "Search tools - try 'UPSC', '50 KB', 'passport'…",
@@ -55,6 +61,7 @@
     "about": "About",
     "privacy": "Privacy",
     "terms": "Terms",
+    "formGuides": "Form guides",
     "shilpSutra": "Shilp Sutra",
     "builtBy": "Built by"
   },
