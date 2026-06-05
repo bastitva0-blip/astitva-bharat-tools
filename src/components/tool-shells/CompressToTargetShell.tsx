@@ -16,6 +16,27 @@ interface BaseResult {
   bytes: number;
 }
 
+// Matches a (type, filename) pair against an HTML accept-style list, e.g.
+// "image/*,application/pdf,.heic". Handles wildcards and extension entries.
+function matchesAccept(mime: string, name: string, accept: string): boolean {
+  const tokens = accept.split(",").map((s) => s.trim()).filter(Boolean);
+  if (tokens.length === 0 || tokens.includes("*/*")) return true;
+  const lowerName = name.toLowerCase();
+  for (const token of tokens) {
+    if (token.startsWith(".")) {
+      if (lowerName.endsWith(token.toLowerCase())) return true;
+      continue;
+    }
+    if (token.endsWith("/*")) {
+      const prefix = token.slice(0, -1); // "image/"
+      if (mime.startsWith(prefix)) return true;
+      continue;
+    }
+    if (token === mime) return true;
+  }
+  return false;
+}
+
 interface PreviewableResult extends BaseResult {
   url: string;
 }
@@ -112,22 +133,35 @@ export function CompressToTargetShell<TResult extends BaseResult>({
     void hydrate();
   }, [hydrate]);
 
-  // If a pipeline entry arrives from a previous tool, skip the picker.
-  // Wrapped in a Blob→File coercion so the rest of the shell works uniformly.
+  // If a pipeline entry arrives from a previous tool, skip the picker — but
+  // only if its MIME / extension matches what this tool accepts. Skipping
+  // when there's no match lets the user reach the drop zone and pick a fresh
+  // file; the entry stays in the pipeline in case they navigate somewhere
+  // that does accept it.
   const consumedRef = useRef(false);
   useEffect(() => {
     if (consumedRef.current || !pipelineEntry || file) return;
+
+    if (!matchesAccept(pipelineEntry.meta.type, pipelineEntry.meta.name, accept)) {
+      consumedRef.current = true;
+      return;
+    }
+
     consumedRef.current = true;
     const coerced = new File([pipelineEntry.blob], pipelineEntry.meta.name, {
       type: pipelineEntry.meta.type,
     });
+    // Syncing the external pipeline store into local state on arrival is
+    // the intended pattern here — exactly the case the React docs allow for
+    // useEffect + setState. Lint rule errs on the side of strict.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFile(coerced);
     fire("file_added", {
       tool_id: tool.slug,
       file_count: 1,
       file_size_bucket: sizeBucket(coerced.size),
     });
-  }, [pipelineEntry, file, tool.slug]);
+  }, [pipelineEntry, file, tool.slug, accept]);
 
   const previewUrl = useBlobUrl(file);
 
