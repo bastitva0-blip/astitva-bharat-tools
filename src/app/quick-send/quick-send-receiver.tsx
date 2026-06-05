@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check, Copy, Download, FileIcon, Printer, RefreshCw } from "lucide-react";
+import { Check, Copy, Download, ExternalLink, FileIcon, Printer, RefreshCw } from "lucide-react";
 import { QRCodeCanvas } from "qrcode.react";
 import { Badge } from "@devalok/shilp-sutra/ui/badge";
 import { Button } from "@devalok/shilp-sutra/ui/button";
@@ -213,19 +213,31 @@ export function QuickSendReceiver() {
                     Ask the customer to open their phone camera and point it at this QR. Or share this link:
                   </p>
                   <div className="flex items-stretch gap-2">
-                    <code className="flex-1 break-all rounded bg-surface-2 px-2 py-1 text-body-xs">
-                      {senderUrl}
-                    </code>
+                    <button
+                      type="button"
+                      onClick={copySenderUrl}
+                      aria-label={copied ? "Link copied" : "Copy link"}
+                      className="flex flex-1 items-center gap-2 break-all rounded bg-surface-2 px-2 py-1 text-left text-body-xs hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8"
+                    >
+                      {copied ? (
+                        <Check className="size-3.5 shrink-0 text-success-11" />
+                      ) : (
+                        <Copy className="size-3.5 shrink-0 text-surface-fg-muted" />
+                      )}
+                      <code className="min-w-0 flex-1 break-all">{senderUrl}</code>
+                    </button>
                     <Button
                       type="button"
                       variant="soft"
                       size="sm"
-                      onClick={copySenderUrl}
-                      aria-label={copied ? "Link copied" : "Copy link"}
+                      asChild
+                      aria-label="Open link in new tab"
                       className="shrink-0"
                     >
-                      {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-                      <span className="ml-1">{copied ? "Copied" : "Copy"}</span>
+                      <a href={senderUrl} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="size-4" />
+                        <span className="ml-1">Open</span>
+                      </a>
                     </Button>
                   </div>
                   <div className="border-t border-surface-border-subtle pt-3">
