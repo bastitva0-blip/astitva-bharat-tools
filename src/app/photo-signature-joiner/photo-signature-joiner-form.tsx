@@ -11,6 +11,7 @@ import { Switch } from "@devalok/shilp-sutra/ui/switch";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { fmt } from "@/i18n/format";
 import { useT } from "@/i18n/provider";
+import { useConsumePipelineFile } from "@/lib/pipeline";
 import { joinerPresets, type JoinerLayout } from "@/lib/presets/joiner";
 import { joinPhotoAndSignature } from "@/lib/processing/joiner";
 import { formatKb } from "@/lib/processing/image";
@@ -30,6 +31,14 @@ export function PhotoSignatureJoinerForm() {
   const [autoTrim, setAutoTrim] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ url: string; bytes: number } | null>(null);
+
+  // Pick up a photo handed off from a previous tool (e.g. Image Compressor,
+  // Photo Resizer). Fills the photo slot; the signature still needs to be
+  // uploaded separately.
+  useConsumePipelineFile({
+    accept: "image/*",
+    onFile: (file) => setPhoto(file),
+  });
 
   const isCustom = presetId === "custom";
   const preset = useMemo(

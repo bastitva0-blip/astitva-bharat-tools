@@ -49,6 +49,17 @@ export const formGuides: FormGuide[] = [
     authority: { name: "NTA", url: "https://neet.nta.nic.in/" },
     order: 2,
   },
+  {
+    slug: "upsc",
+    examName: "UPSC",
+    fullName: "Union Public Service Commission (CSE / IFS / CDS / NDA)",
+    description:
+      "4-card portal walkthrough on upsconline.nic.in — account creation, Universal Registration Number (URN), Common Application Form with live photo capture, exam-specific centre selection and ₹100 fee.",
+    specSummary: "Photo 20–200 KB · Triple signature 20–100 KB · ID PDF 50–300 KB",
+    lastUpdatedAt: "2026-06-06",
+    authority: { name: "UPSC", url: "https://upsconline.nic.in/" },
+    order: 3,
+  },
 ];
 
 export function getFormGuide(slug: string): FormGuide | undefined {

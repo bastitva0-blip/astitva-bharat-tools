@@ -1,13 +1,17 @@
 import {
   ClipboardList,
   Combine,
+  Contrast,
   Crop,
   FileArchive,
   FileText,
   Gauge,
   IdCard,
+  Layers,
   PenLine,
   Printer,
+  QrCode,
+  Repeat,
   Send,
   type LucideIcon,
 } from "lucide-react";
@@ -41,6 +45,10 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "pdf-compress": FileArchive,
   "pdf-merge-split": Combine,
   "print-job-slip": ClipboardList,
+  "image-format-convert": Repeat,
+  "qr-generate": QrCode,
+  "photo-grayscale": Contrast,
+  "aadhaar-collage": Layers,
 };
 
 export function ToolIcon({

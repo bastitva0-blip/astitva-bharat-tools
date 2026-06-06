@@ -21,6 +21,10 @@
       "label": "Continue editing",
       "description": "Pick the next step. We pass the file along in memory — no re-upload."
     },
+    "comingSoon": {
+      "label": "This tool is on the way. Preview the layout below — we'll wire processing up soon.",
+      "cta": "Notify me when it's live"
+    },
     "errors": {
       "noFile": "Add a file first.",
       "tooLarge": "File is too large.",
@@ -50,11 +54,15 @@
     "noResultsLead": "No tools match",
     "noResultsTrailing": ". Try",
     "noResultsHints": ["photo", "compress", "PDF"],
+    "closestHeading": "Closest tools for",
+    "fuzzyHeading": "Did you mean",
+    "deepLinkPrefix": "Quick open:",
     "soon": "soon"
   },
   "categories": {
     "forms": "Sarkari forms",
-    "sharing": "Sharing & print shop"
+    "sharing": "Sharing & print shop",
+    "utility": "Quick utilities"
   },
   "footer": {
     "tagline": "Har Sarkari form ka saathi.",

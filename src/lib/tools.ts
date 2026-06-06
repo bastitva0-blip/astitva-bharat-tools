@@ -8,9 +8,13 @@ export type ToolIconKind =
   | "pdf-compress"
   | "pdf-merge-split"
   | "print-job-slip"
-  | "quick-send";
+  | "quick-send"
+  | "image-format-convert"
+  | "qr-generate"
+  | "photo-grayscale"
+  | "aadhaar-collage";
 
-export type ToolCategory = "forms" | "sharing";
+export type ToolCategory = "forms" | "sharing" | "utility";
 
 export interface ToolCategoryDef {
   id: ToolCategory;
@@ -21,6 +25,7 @@ export interface ToolCategoryDef {
 export const toolCategories: ToolCategoryDef[] = [
   { id: "forms", label: "Sarkari forms" },
   { id: "sharing", label: "Sharing & print shop" },
+  { id: "utility", label: "Quick utilities" },
 ];
 
 // --- Spec-aligned taxonomy (base-infrastructure-plan §1.1) ----------------
@@ -362,6 +367,108 @@ export const tools: Tool[] = [
     inputAccept: ["application/pdf", "image/jpeg", "image/png"],
     needsWorker: false,
     segmentAffinity: { operator: 0.8 },
+  },
+  {
+    slug: "image-format-convert",
+    href: "/image-format-convert",
+    name: "Image Format Converter",
+    tagline: "JPG ↔ PNG ↔ WebP, in your browser",
+    description:
+      "Convert between JPG, PNG and WebP. JPG flattens transparency to white for portal compatibility.",
+    status: "live",
+    category: "forms",
+    iconKind: "image-format-convert",
+    iconColor: "info",
+    type: "convert",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "image converter", "jpg to png", "png to jpg", "webp to jpg", "jpg to webp",
+      "image format change", "convert image", "image convert", "jpeg to png",
+      "इमेज कन्वर्ट", "फोटो फॉर्मेट",
+      "format converter", "any to jpg", "any to png",
+    ],
+    inputAccept: IMAGE_ACCEPT,
+    needsWorker: false,
+    decodedPixelCap: 16_000_000,
+    nextSteps: ["image-compress", "jpg-to-pdf", "photo-signature-joiner"],
+  },
+  {
+    slug: "qr-generate",
+    href: "/qr-generate",
+    name: "QR Code Generator",
+    tagline: "Make a QR for a URL, UPI ID or contact",
+    description:
+      "Type the text — get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download.",
+    status: "live",
+    category: "utility",
+    iconKind: "qr-generate",
+    iconColor: "accent",
+    type: "generate",
+    buildStatus: "shipped",
+    domain: "qr",
+    paywall: "always-free",
+    keywords: [
+      "qr code generator", "make qr code", "qr code banao", "upi qr code",
+      "url qr", "phone number qr", "qr banaye",
+      "क्यूआर कोड", "क्यूआर बनाओ", "यूपीआई क्यूआर",
+      "create qr", "generate qr", "qr code free",
+    ],
+    inputAccept: [],
+    needsWorker: false,
+    popularityScore: 0.85,
+  },
+  {
+    slug: "photo-grayscale",
+    href: "/photo-grayscale",
+    name: "Photo Grayscale Converter",
+    tagline: "Convert a colour photo to clean black & white",
+    description:
+      "Some sarkari portals and print shops want greyscale. One click, on-device, no quality loss.",
+    status: "live",
+    category: "forms",
+    iconKind: "photo-grayscale",
+    iconColor: "neutral",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "grayscale photo", "greyscale photo", "black and white photo", "b&w photo",
+      "photo bw", "photo greyscale", "photo black white karo",
+      "ब्लैक एंड व्हाइट फोटो", "ग्रेस्केल",
+      "convert to grayscale", "remove colour",
+    ],
+    inputAccept: IMAGE_ACCEPT,
+    needsWorker: false,
+    decodedPixelCap: 16_000_000,
+    nextSteps: ["image-compress", "jpg-to-pdf", "print-sheet"],
+  },
+  {
+    slug: "aadhaar-collage",
+    href: "/aadhaar-collage",
+    name: "Aadhaar Front + Back Collage",
+    tagline: "Combine both sides on a single A4 sheet",
+    description:
+      "Stack front and back of an Aadhaar card on one A4 page — ready for portals that ask for both sides as a single upload.",
+    status: "soon",
+    category: "forms",
+    iconKind: "aadhaar-collage",
+    iconColor: "warning",
+    type: "compose",
+    buildStatus: "next",
+    domain: "sarkari",
+    paywall: "always-free",
+    keywords: [
+      "aadhaar collage", "aadhaar front back", "aadhaar one page", "aadhaar combine",
+      "id card collage", "front back collage",
+      "आधार फ्रंट बैक", "आधार एक पेज",
+      "aadhar collage", "adhar dono side",
+    ],
+    inputAccept: ["image/jpeg", "image/png"],
+    needsWorker: false,
+    nextSteps: ["pdf-compress", "image-compress"],
   },
   {
     slug: "quick-send",
