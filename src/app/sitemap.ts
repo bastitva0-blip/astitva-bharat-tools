@@ -28,6 +28,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/pdf-merge-split",
     "/print-job-slip",
     "/quick-send",
+    "/image-format-convert",
+    "/qr-generate",
+    "/photo-grayscale",
+    "/aadhaar-collage",
   ].map((p) => ({
     url: url(p),
     lastModified: now,

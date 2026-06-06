@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
-import { PhotoSpecCard } from "@/components/photo-spec-card";
 import { PhotoSpecForm } from "@/components/photo-spec-form";
 import { fmt } from "@/i18n/format";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
@@ -53,7 +52,6 @@ export default async function DocumentPhotoPage({ params }: { params: Promise<{ 
           minKb: preset.kbRange.min,
           maxKb: preset.kbRange.max,
         });
-  const ctaLabel = fmt(dict.documentPhoto.variant.ctaTemplate, { name: preset.name });
 
   const schemaName = `${preset.name} Photo Maker`;
   const schemaDesc = `Make a portal-ready photo for ${preset.fullName}: ${dims} px JPG, ${sizeText}, white background. Runs in your browser.`;
@@ -88,9 +86,8 @@ export default async function DocumentPhotoPage({ params }: { params: Promise<{ 
         ]}
       />
 
-      <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
-        <PhotoSpecCard preset={preset} entityLabel={dict.documentPhoto.variant.entityLabel} />
-        <PhotoSpecForm preset={preset} downloadSlug={preset.slug} ctaLabel={ctaLabel} />
+      <section className="mt-8">
+        <PhotoSpecForm preset={preset} downloadSlug={preset.slug} />
       </section>
     </main>
   );

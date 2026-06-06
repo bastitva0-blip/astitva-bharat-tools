@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
-import { PhotoSpecCard } from "@/components/photo-spec-card";
 import { PhotoSpecForm } from "@/components/photo-spec-form";
 import { fmt } from "@/i18n/format";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
@@ -75,8 +74,7 @@ export default async function PhotoResizeExamPage({ params }: { params: Promise<
         ]}
       />
 
-      <section className="mt-8 grid gap-6 lg:grid-cols-[1fr_2fr]">
-        <PhotoSpecCard preset={preset} entityLabel={dict.photoResize.variant.entityLabel} />
+      <section className="mt-8">
         <PhotoSpecForm preset={preset} downloadSlug={preset.slug} />
       </section>
     </main>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArrowDown, ArrowUp, RotateCw, X } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
@@ -8,6 +8,7 @@ import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { useConsumePipelineFile } from "@/lib/pipeline";
 import { formatKb } from "@/lib/processing/image";
 import {
   buildPdfFromImages,
@@ -39,7 +40,7 @@ export function JpgToPdfForm() {
     if (resultUrl) URL.revokeObjectURL(resultUrl);
   }, [resultUrl]);
 
-  const addFiles = (files: File[]) => {
+  const addFiles = useCallback((files: File[]) => {
     const additions: Item[] = files.map((f) => ({
       id: `${f.name}-${f.size}-${f.lastModified}-${Math.random().toString(36).slice(2)}`,
       file: f,
@@ -47,7 +48,13 @@ export function JpgToPdfForm() {
       rotation: 0,
     }));
     setItems((cur) => [...cur, ...additions]);
-  };
+  }, []);
+
+  // Pick up an image handed off from a previous tool (e.g. Image Compressor).
+  useConsumePipelineFile({
+    accept: "image/*",
+    onFile: (file) => addFiles([file]),
+  });
 
   const remove = (id: string) => {
     setItems((cur) => {
