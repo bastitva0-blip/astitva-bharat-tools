@@ -1,6 +1,14 @@
 import type { Socket } from "socket.io-client";
 import { BUFFERED_AMOUNT_HIGH, BUFFERED_AMOUNT_LOW, STUN_URL } from "./constants";
 
+/**
+ * WebRTC offerer / answerer designation for SDP negotiation.
+ *
+ * "sender" creates the DataChannel and issues the SDP offer; "receiver"
+ * waits for `ondatachannel` and answers. The names are historical — they
+ * refer to **who starts the negotiation**, NOT to file-transfer direction.
+ * Once the channel is open, files can flow in either direction.
+ */
 export type PeerRole = "receiver" | "sender";
 
 export interface PeerEvents {
