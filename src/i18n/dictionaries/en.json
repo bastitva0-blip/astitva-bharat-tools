@@ -144,7 +144,7 @@
   },
   "quickSend": {
     "title": "Quick Send",
-    "subtitle": "Customer scans a QR, files arrive in your browser. P2P - files never stored on a server.",
+    "subtitle": "Pair two devices with a QR or short code, then drop files in either direction. P2P · files never stored on a server.",
     "breadcrumb": "Quick Send"
   },
   "forms": {

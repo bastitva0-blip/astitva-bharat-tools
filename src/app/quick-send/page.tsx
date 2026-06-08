@@ -2,12 +2,12 @@ import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { toolPageSchema } from "@/lib/seo/tool-schema";
-import { QuickSendReceiver } from "./quick-send-receiver";
+import { QuickSendHost } from "./quick-send-host";
 
 export const metadata = {
-  title: "Quick Send - Send files to a print shop",
+  title: "Quick Send — share files between your devices",
   description:
-    "Browser-to-browser file transfer for xerox shops. Show a QR, customer scans, files arrive instantly. No app, no number sharing, no cloud upload.",
+    "Browser-to-browser file transfer. Pair two devices with a short code or QR — then drag and drop files in either direction. No upload, no app, no cloud copy.",
   alternates: { canonical: "/quick-send" },
 };
 
@@ -20,14 +20,26 @@ export default async function QuickSendPage() {
         data={toolPageSchema({
           name: "Quick Send",
           description:
-            "Peer-to-peer file transfer for print shops. The shop opens Quick Send and gets a QR code; the customer scans with their phone and sends files directly into the shop's browser via WebRTC. No upload, no app, no phone-number exchange.",
+            "Peer-to-peer file transfer between two browsers. Pair via QR or short code, then drag-and-drop files in either direction over WebRTC. No upload, no app, no phone-number exchange.",
           path: "/quick-send",
           breadcrumbs: [{ label: "Home", href: "/" }, { label: "Quick Send" }],
           steps: [
-            { name: "Open Quick Send", text: "Print-shop operator opens this page on a desktop or laptop browser." },
-            { name: "Customer scans QR", text: "The customer scans the on-screen QR code with their phone camera." },
-            { name: "Pick files on phone", text: "Customer chooses files from their phone - anything up to 500 MB each." },
-            { name: "Print or download", text: "Files arrive in the operator's browser. Click Print for PDFs and images, or Download to save." },
+            {
+              name: "Open Quick Send",
+              text: "Open this page on the device you want to pair with — laptop, phone or tablet.",
+            },
+            {
+              name: "Pair the other device",
+              text: "Show its QR code (or type the short code) on the second device. Or tap 'Scan a code' to pair the other way around.",
+            },
+            {
+              name: "Drag-and-drop in either direction",
+              text: "Once paired, either device can drop files. They go straight to the other browser — nothing is uploaded.",
+            },
+            {
+              name: "Print or download",
+              text: "Click Print for PDFs and images, or Download to save anything.",
+            },
           ],
         })}
       />
@@ -37,7 +49,7 @@ export default async function QuickSendPage() {
         breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.quickSend.breadcrumb }]}
       />
       <div className="mt-8">
-        <QuickSendReceiver />
+        <QuickSendHost />
       </div>
     </main>
   );
