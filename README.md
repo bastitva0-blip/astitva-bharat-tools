@@ -1,15 +1,22 @@
 # bharattools-frontend
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-black?logo=next.js)](https://nextjs.org)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev)
+[![Code of Conduct](https://img.shields.io/badge/Contributor%20Covenant-2.1-purple)](./CODE_OF_CONDUCT.md)
+
 > **BharatTools - Har Sarkari form ka saathi.**
 > Browser-only utilities for Indian government forms. Photo to spec, signature merge, KB compression, print sheet - every step of submitting a Sarkari form, in one place. Files never leave your device.
 
 The Next.js app behind [bharattools.app](https://bharattools.app). Companion repo: [`bharattools-backend`](https://github.com/devalok-design/bharattools-backend).
 
-Built by [Devalok](https://devalok.in).
+Built by [Devalok](https://devalok.in). Licensed under the [MIT License](./LICENSE).
 
 ## Why "browser-only"
 
-Every Phase 1 tool processes images and PDFs on your device - no upload, no server round-trip, no copy of your file on our infrastructure. Privacy isn't a marketing claim here; it's an architectural fact, enforced by the fact that the endpoints simply don't exist.
+Every tool processes images and PDFs on your device - no upload, no server round-trip, no copy of your file on our infrastructure. Privacy isn't a marketing claim here; it's an architectural fact, enforced by the fact that the endpoints simply don't exist.
+
+For the live list of tools and what each does, visit [bharattools.app](https://bharattools.app).
 
 ## Tech
 
@@ -22,23 +29,6 @@ Every Phase 1 tool processes images and PDFs on your device - no upload, no serv
 | PDF generation | [`pdf-lib`](https://pdf-lib.js.org/) |
 | Optional bg removal | [`@imgly/background-removal`](https://github.com/imgly/background-removal-js) (lazy-loaded ONNX model) |
 | Icons | [`lucide-react`](https://lucide.dev/) |
-
-## Phase 1 tools
-
-| Status | Route | Tool |
-|---|---|---|
-| ✅ Live | `/photo-resize/[exam]` | **Exam Photo Resizer** - UPSC, SSC, NEET, IBPS, RRB, JEE, State PSC, Police, SBI. Locked-aspect crop, exact pixel size, KB-target JPEG, white background. |
-| ✅ Live | `/image-compress/[size]` + `/image-compress/custom` | **Image Compressor** - 20 KB / 50 / 100 / 200 / 500 / 1 MB / 2 MB / custom. Binary-search JPEG with auto-downscale fallback. |
-| ✅ Live | `/print-sheet` | **Print Sheet Generator** - A4 or 4×6 inch, passport / Aadhaar / 2×2 inch / custom photo size, optional client-side bg removal. PDF output with cut-line borders. |
-| ✅ Live | `/document-photo/[doc]` | **Document Photo Maker** - Aadhaar, PAN, Passport (ICAO), Voter ID, OCI. |
-| ✅ Live | `/photo-signature-joiner` | **Photo + Signature Joiner** - SSC- / IBPS-style merged uploads. |
-| ✅ Live | `/jpg-to-pdf` | **JPG / Image to PDF** - multi-image PDF with KB target. |
-| ✅ Live | `/pdf-compress` | **PDF Compressor** - KB-target PDF compression. |
-| ✅ Live | `/pdf-merge-split` | **PDF Merge / Split** - combine or separate PDFs. |
-| ✅ Live | `/print-job-slip` | **Print Job Slip** - generate print-shop job slip. |
-| ✅ Live | `/quick-send` | **Quick Send** - P2P WebRTC file transfer, no cloud, nothing stored. |
-
-See `docs/` for the tool design spec, full tools list, and engineering decisions. Product strategy lives in the Karm project + private working notes (not committed here).
 
 ## Local development
 
@@ -66,41 +56,33 @@ NEXT_PUBLIC_API_URL=http://localhost:3010   # backend, only used if a server too
 
 ```
 src/
-├── app/                          # App Router routes
-│   ├── photo-resize/             # Tool 1 (hub + dynamic [exam] route)
-│   ├── image-compress/           # Tool 2 (hub + [size] + custom)
-│   ├── print-sheet/              # Tool 5
-│   ├── document-photo/           # Tool 4 (placeholder)
-│   ├── photo-signature-joiner/   # Tool 3 (placeholder)
-│   ├── jpg-to-pdf/               # Tool 6 (placeholder)
-│   ├── layout.tsx · page.tsx · globals.css
-│   └── ...
-├── components/                   # TopNav, Footer, ToolIcon, ToolsBrowser, ComingSoon, ...
-├── lib/
-│   ├── presets/                  # exams.ts, compress-sizes.ts, print-sheet.ts
-│   ├── processing/               # image.ts, print-sheet.ts (Canvas + pdf-lib utilities)
-│   └── tools.ts                  # Tool registry → drives nav, search, home page
-└── ...
+├── app/          # App Router routes (one folder per tool)
+├── components/   # Shared UI: TopNav, Footer, ToolIcon, ToolsBrowser, ...
+└── lib/
+    ├── presets/    # exams.ts, compress-sizes.ts, print-sheet.ts
+    ├── processing/ # Canvas + pdf-lib utilities
+    └── tools.ts    # Tool registry → drives nav, search, home page
 ```
 
-Adding a new exam, KB target, or print-sheet preset is usually a one-file change inside `src/lib/presets/` - the route, hub card and SSG generation pick it up automatically.
+Adding a new exam, KB target, or print-sheet preset is usually a one-file change inside `src/lib/presets/` - the route, hub card and SSG generation pick it up automatically. See `docs/` for the tool design spec and engineering notes.
 
-## Contributing & Git workflow
+## Contributing
 
-**Direct pushes to `main` are blocked.** All changes must go through a Pull Request.
+We welcome issues and PRs. Before contributing, please read:
 
-After cloning, run the one-time hook setup:
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — setup, branch/PR workflow, project conventions, how to add a new tool or preset.
+- **[CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md)** — community standards.
+- **[SECURITY.md](./SECURITY.md)** — how to report vulnerabilities privately.
+
+Quick start for contributors:
 
 ```bash
-sh setup-hooks.sh
+bun install
+sh setup-hooks.sh   # one-time: enables pre-push hook that blocks direct pushes to main
+bun dev
 ```
 
-This points git to the `.githooks/` directory, which includes a `pre-push` hook that prevents accidental direct pushes to `main`. A GitHub Actions workflow also auto-reverts any push to `main` that doesn't come from a PR merge.
-
-**Contribution flow:**
-1. Create a branch: `git checkout -b feat/your-feature`
-2. Push your branch: `git push origin feat/your-feature`
-3. Open a PR → get at least one review → merge via GitHub UI
+Direct pushes to `main` are blocked — all changes go through a Pull Request.
 
 ## Notes for contributors
 

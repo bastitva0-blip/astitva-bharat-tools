@@ -1,0 +1,118 @@
+name: Bug report
+description: Something is broken or behaving incorrectly.
+title: "[Bug] "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please fill in as much detail as you can — it makes the difference between a 5-minute fix and a 3-day round-trip.
+
+        **Security issues:** do not file them here. See [SECURITY.md](../../blob/main/SECURITY.md).
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug. What did you expect, and what actually happened?
+      placeholder: |
+        I tried to compress a 3 MB JPEG to 100 KB on /image-compress/100kb. The output was 240 KB and the page never showed an error.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tool
+    attributes:
+      label: Which tool?
+      description: Which BharatTools feature does this affect?
+      options:
+        - Photo Resizer (/photo-resize)
+        - Image Compressor (/image-compress)
+        - Print Sheet Generator (/print-sheet)
+        - Document Photo Maker (/document-photo)
+        - Photo + Signature Joiner (/photo-signature-joiner)
+        - JPG / Image to PDF (/jpg-to-pdf)
+        - PDF Compressor (/pdf-compress)
+        - PDF Merge / Split (/pdf-merge-split)
+        - Print Job Slip (/print-job-slip)
+        - Quick Send (/quick-send)
+        - Home / Navigation / general UI
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: URL or route
+      description: Exact URL where the bug occurred.
+      placeholder: https://bharattools.app/image-compress/100kb
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps. Be specific.
+      placeholder: |
+        1. Open /image-compress/100kb
+        2. Upload a 3 MB JPEG (3000×4000)
+        3. Click Compress
+        4. Output is 240 KB instead of ≤100 KB
+    validations:
+      required: true
+
+  - type: textarea
+    id: sample
+    attributes:
+      label: Sample file (optional but very helpful)
+      description: Attach the input file, or describe it (format, dimensions, size). For sensitive files, describe — don't upload.
+    validations:
+      required: false
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & version
+      placeholder: Chrome 128, Firefox 130, Safari 17, Edge 128, Brave…
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: Windows 11, macOS 14, Ubuntu 24.04, Android 14, iOS 17…
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device type
+      options:
+        - Desktop / laptop
+        - Tablet
+        - Phone
+    validations:
+      required: false
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: Anything in DevTools console or network tab? Paste it here.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmations
+      options:
+        - label: I have searched existing issues and this is not a duplicate.
+          required: true
+        - label: I have read the [Code of Conduct](../../blob/main/CODE_OF_CONDUCT.md).
+          required: true

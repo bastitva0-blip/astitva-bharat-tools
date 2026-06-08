@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/devalok-design/bharattools-frontend/security/policy
+    about: Please report security issues privately — do not open a public issue. See SECURITY.md.
+  - name: Question or discussion
+    url: https://github.com/devalok-design/bharattools-frontend/discussions
+    about: For general questions, ideas, and discussion, please use GitHub Discussions.
+  - name: Devalok website
+    url: https://devalok.in
+    about: Learn more about the team behind BharatTools.
