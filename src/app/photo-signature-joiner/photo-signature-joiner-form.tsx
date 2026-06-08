@@ -239,7 +239,7 @@ export function PhotoSignatureJoinerForm() {
                 <img
                   src={result.url}
                   alt={t.result.joinedAlt}
-                  className="mx-auto block max-h-[60vh] w-auto"
+                  className="mx-auto block max-h-[60vh] max-w-full w-auto"
                 />
               </div>
               <div className="flex items-center justify-between text-body-sm">

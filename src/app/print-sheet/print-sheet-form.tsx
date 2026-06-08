@@ -107,10 +107,10 @@ export function PrintSheetForm() {
               <img
                 src={previewUrl}
                 alt="Source preview"
-                className="h-32 w-24 rounded object-cover object-top"
+                className="h-32 w-24 shrink-0 rounded object-cover object-top"
               />
-              <div className="text-body-sm">
-                <div className="font-medium">{file?.name}</div>
+              <div className="min-w-0 flex-1 text-body-sm">
+                <div className="truncate font-medium">{file?.name}</div>
                 <div className="text-surface-fg-muted">
                   {file ? `${(file.size / 1024).toFixed(0)} KB` : null}
                 </div>

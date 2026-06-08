@@ -92,7 +92,7 @@ export function QrGenerateForm() {
                 placeholder={opt?.placeholder}
               />
               {opt?.prefix && config.value && (
-                <p className="mt-1 text-body-xs text-surface-fg-muted">
+                <p className="mt-1 text-body-xs text-surface-fg-muted break-all">
                   Encodes as: <code className="rounded bg-surface-2 px-1 py-0.5">{encodeValue(config)}</code>
                 </p>
               )}
@@ -142,6 +142,7 @@ export function QrGenerateForm() {
             marginSize={2}
             bgColor="#ffffff"
             fgColor="#000000"
+            style={{ maxWidth: "100%", height: "auto" }}
           />
         ) : (
           <p className="text-body-sm text-surface-fg-muted">Type something to preview the QR.</p>

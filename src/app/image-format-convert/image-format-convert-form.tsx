@@ -39,12 +39,12 @@ export function ImageFormatConvertForm() {
       outputFilename={(source, target) => `${baseName(source.name)}.${target.ext}`}
       renderSourcePreview={(file, url) => (
         // eslint-disable-next-line @next/next/no-img-element -- blob: URL
-        <img src={url} alt={file.name} className="block max-h-[200px] w-auto rounded border border-surface-border-subtle" />
+        <img src={url} alt={file.name} className="block max-h-[200px] max-w-full w-auto rounded border border-surface-border-subtle" />
       )}
       renderResultPreview={(url, target) => (
         <div className="rounded-md border border-surface-fg bg-surface-2 p-4">
           {/* eslint-disable-next-line @next/next/no-img-element -- blob: URL */}
-          <img src={url} alt={`Converted ${target.label}`} className="mx-auto block max-h-[60vh] w-auto" />
+          <img src={url} alt={`Converted ${target.label}`} className="mx-auto block max-h-[60vh] max-w-full w-auto" />
         </div>
       )}
     />

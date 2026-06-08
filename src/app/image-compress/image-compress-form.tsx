@@ -125,7 +125,7 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
           <img
             src={result.url}
             alt={t.result.alt}
-            className="mx-auto block max-h-[60vh] w-auto"
+            className="mx-auto block max-h-[60vh] max-w-full w-auto"
           />
         </div>
       )}
