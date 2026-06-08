@@ -1,9 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Github } from "lucide-react";
 import { LanguageToggle } from "@/components/language-toggle";
 import { NavMenu } from "@/components/nav-menu";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
+
+const GITHUB_URL = "https://github.com/devalok-design/bharattools-frontend";
 
 export async function TopNav() {
   const locale = await getCurrentLocale();
@@ -25,6 +28,15 @@ export async function TopNav() {
         <NavMenu />
 
         <div className="ml-auto flex items-center gap-2">
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={dict.nav.githubAria}
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md text-surface-fg-muted transition-colors hover:bg-accent-3 hover:text-accent-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
+          >
+            <Github size={18} aria-hidden />
+          </a>
           <LanguageToggle />
           <ThemeToggle />
         </div>

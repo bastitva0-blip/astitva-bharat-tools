@@ -34,6 +34,7 @@
   "nav": {
     "homeAria": "BharatTools होम",
     "languageAria": "भाषा बदलें",
+    "githubAria": "GitHub पर सोर्स कोड देखें",
     "formGuides": "फ़ॉर्म गाइड"
   },
   "home": {
@@ -71,6 +72,8 @@
     "terms": "शर्तें",
     "formGuides": "फ़ॉर्म गाइड",
     "shilpSutra": "Shilp Sutra",
+    "github": "GitHub",
+    "openSource": "ओपन सोर्स",
     "builtBy": "निर्माता:"
   },
   "pdfCompress": {

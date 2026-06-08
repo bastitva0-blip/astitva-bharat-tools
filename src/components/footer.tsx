@@ -1,6 +1,9 @@
 import Link from "next/link";
+import { Github } from "lucide-react";
 import { DevalokMark } from "@/components/devalok-mark";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
+
+const GITHUB_URL = "https://github.com/devalok-design/bharattools-frontend";
 
 export async function Footer() {
   const locale = await getCurrentLocale();
@@ -36,6 +39,15 @@ export async function Footer() {
             className="hover:text-surface-fg"
           >
             {dict.footer.shilpSutra}
+          </a>
+          <a
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 hover:text-surface-fg"
+          >
+            <Github size={14} aria-hidden />
+            {dict.footer.github}
           </a>
         </nav>
 
