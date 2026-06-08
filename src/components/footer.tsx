@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Github } from "lucide-react";
+import {  FaGithub } from "react-icons/fa";
 import { DevalokMark } from "@/components/devalok-mark";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 
@@ -46,7 +46,7 @@ export async function Footer() {
             rel="noreferrer"
             className="inline-flex items-center gap-1.5 hover:text-surface-fg"
           >
-            <Github size={14} aria-hidden />
+            <FaGithub size={14} aria-hidden />
             {dict.footer.github}
           </a>
         </nav>

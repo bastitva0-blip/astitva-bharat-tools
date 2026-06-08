@@ -243,7 +243,7 @@ export function ResizeToSpecShell({
                     src={fileUrl}
                     alt="Source"
                     onLoad={onImageLoad}
-                    className="mx-auto block max-h-[60vh] w-auto"
+                    className="mx-auto block max-h-[60vh] max-w-full w-auto"
                   />
                 </ReactCrop>
                 <p className="mt-3 text-body-xs text-surface-fg-muted">
@@ -275,7 +275,7 @@ export function ResizeToSpecShell({
                 <img
                   src={resultUrl}
                   alt="Generated photo"
-                  className="mx-auto block max-h-[60vh] w-auto"
+                  className="mx-auto block max-h-[60vh] max-w-full w-auto"
                 />
               </div>
 
