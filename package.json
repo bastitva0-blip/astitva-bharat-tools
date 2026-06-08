@@ -2,6 +2,17 @@
   "name": "bharattools-frontend",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
+  "description": "Browser-only utilities for Indian government forms — every step of submitting a Sarkari form, in one place. Files never leave your device.",
+  "homepage": "https://bharattools.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devalok-design/bharattools-frontend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devalok-design/bharattools-frontend/issues"
+  },
+  "author": "Devalok <hello@devalok.in> (https://devalok.in)",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

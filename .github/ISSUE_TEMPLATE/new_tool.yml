@@ -1,0 +1,80 @@
+name: New tool proposal
+description: Propose a brand-new tool to add to BharatTools.
+title: "[New tool] "
+labels: ["new-tool", "needs-discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new tool. We're picky about what we add — every tool has to be browser-only and genuinely useful for someone filling out an Indian government form. Please answer all the questions below so we can have a real discussion before any code is written.
+
+  - type: input
+    id: name
+    attributes:
+      label: Tool name
+      placeholder: e.g. "Aadhaar Address Update Photo Maker"
+    validations:
+      required: true
+
+  - type: textarea
+    id: who
+    attributes:
+      label: Who would use this and when?
+      description: The specific form, exam, or government process this helps with. Be concrete — "students" or "everyone" is not specific enough.
+      placeholder: |
+        Candidates applying to UPSC CDS need a 200×230 px photo at 20–50 KB. Currently they're using paid online tools that upload their image.
+    validations:
+      required: true
+
+  - type: textarea
+    id: spec
+    attributes:
+      label: Source specification
+      description: Where is the requirement documented? Link to the official form, exam notification, or government page.
+    validations:
+      required: true
+
+  - type: textarea
+    id: behavior
+    attributes:
+      label: What does the tool do?
+      description: Input → processing → output. Include exact dimensions, KB targets, file formats, color requirements, etc.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy model
+      description: Non-negotiable — every tool must run entirely on-device.
+      options:
+        - label: This tool can be implemented entirely in the browser, with no file uploads or third-party API calls that see user content.
+          required: true
+
+  - type: textarea
+    id: existing
+    attributes:
+      label: Does an existing BharatTools tool partly cover this?
+      description: Could this be a preset on an existing tool instead of a new one? (e.g. just a new entry in `src/lib/presets/exams.ts`.)
+    validations:
+      required: false
+
+  - type: textarea
+    id: edge-cases
+    attributes:
+      label: Edge cases
+      description: Unusual inputs, failure modes, accessibility considerations.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmations
+      options:
+        - label: I have searched existing issues and this is not a duplicate proposal.
+          required: true
+        - label: I have read [CONTRIBUTING.md](../../blob/main/CONTRIBUTING.md) and understand that new tools need design discussion before implementation.
+          required: true
+        - label: I have read the [Code of Conduct](../../blob/main/CODE_OF_CONDUCT.md).
+          required: true
