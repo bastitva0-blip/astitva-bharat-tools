@@ -70,7 +70,7 @@ export function PairCard({ roomId }: PairCardProps) {
                 aria-label={copied === "code" ? "Code copied" : "Copy room code"}
                 className="group flex w-full items-center justify-between gap-3 rounded-md border border-surface-border-subtle bg-surface-2 px-4 py-3 text-left transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8"
               >
-                <span className="font-mono text-heading-md tracking-[0.18em] text-surface-fg sm:text-heading-lg">
+                <span className="font-mono text-heading-md text-surface-fg sm:text-heading-lg">
                   {displayCode}
                 </span>
                 {copied === "code" ? (
@@ -145,15 +145,11 @@ export function PairCard({ roomId }: PairCardProps) {
 }
 
 /**
- * Format a raw room ID into hyphenated groups of 4 for easier typing.
- * "ab12cd34" → "AB12-CD34". Falls back to "—" while loading.
+ * Render the room code for display. Codes are `river-flower`
+ * (e.g. `ganga-kamal`) — shown as-is so it matches what the user
+ * types into the address bar. Falls back to "—" while loading.
  */
 function formatRoomCode(roomId: string | null): string {
   if (!roomId) return "—";
-  const upper = roomId.toUpperCase();
-  const groups: string[] = [];
-  for (let i = 0; i < upper.length; i += 4) {
-    groups.push(upper.slice(i, i + 4));
-  }
-  return groups.join("-");
+  return roomId;
 }
