@@ -136,6 +136,14 @@ export function useQuickSendSession({
 
     const attachPeer = (role: PeerRole) => {
       if (!signaling) return;
+      // A previous guest may have joined and dropped before WebRTC opened —
+      // tear that half-built peer down before standing up a fresh one for the
+      // new guest, otherwise stale ICE/SDP handlers stack up on the socket.
+      if (peer) {
+        peer.close();
+        peer = null;
+        peerRef.current = null;
+      }
       peer = new Peer(signaling.socket, role);
       peerRef.current = peer;
       peer.on("open", () => {
@@ -189,6 +197,19 @@ export function useQuickSendSession({
         // peer alive independently. Trust peer.close() for the real signal.
         signaling.socket.on("peer-left", () => {
           if (channelOpen) return;
+          // Host case: a guest scanned the QR / typed the code but dropped
+          // before WebRTC paired. Backend keeps the room alive, so tear down
+          // the half-built peer and slide back to "waiting" — another scan
+          // will trigger peer-joined again and re-attach.
+          if (mode === "host") {
+            if (peer) {
+              peer.close();
+              peer = null;
+              peerRef.current = null;
+            }
+            setPhase((p) => (p === "ended" ? p : "waiting"));
+            return;
+          }
           setPhase("ended");
           peer?.close();
         });

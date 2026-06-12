@@ -40,7 +40,7 @@ export function SessionPanel({
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      <Card variant="outline">
+      <Card variant="outline" className="min-w-0 overflow-hidden">
         <CardHeader>
           <CardTitle>Send to the paired device</CardTitle>
         </CardHeader>
@@ -99,14 +99,14 @@ export function SessionPanel({
                     return (
                       <li
                         key={o.fileId}
-                        className="rounded-md border border-surface-border-subtle p-3"
+                        className="min-w-0 overflow-hidden rounded-md border border-surface-border-subtle p-3"
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex min-w-0 items-center gap-3">
                           <FileIcon size={16} className="shrink-0 text-surface-fg-muted" />
                           <div className="min-w-0 flex-1 truncate text-body-sm">{o.name}</div>
                           {o.done && <Check size={16} className="shrink-0 text-success-11" />}
                         </div>
-                        <div className="mt-2">
+                        <div className="mt-2 min-w-0">
                           <Progress
                             value={pct}
                             size="sm"
@@ -124,7 +124,7 @@ export function SessionPanel({
         </CardContent>
       </Card>
 
-      <Card variant="outline">
+      <Card variant="outline" className="min-w-0 overflow-hidden">
         <CardHeader>
           <CardTitle>Received files</CardTitle>
         </CardHeader>
@@ -149,20 +149,20 @@ export function SessionPanel({
                 return (
                   <li
                     key={f.meta.fileId}
-                    className="rounded-md border border-surface-border-subtle p-3"
+                    className="min-w-0 overflow-hidden rounded-md border border-surface-border-subtle p-3"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex min-w-0 flex-wrap items-center gap-3 sm:flex-nowrap">
                       <FileIcon size={18} className="shrink-0 text-surface-fg-muted" />
                       <div className="min-w-0 flex-1">
                         <div className="truncate text-body-sm font-medium">
                           {f.meta.name}
                         </div>
-                        <div className="text-body-xs text-surface-fg-muted">
+                        <div className="truncate text-body-xs text-surface-fg-muted">
                           {formatBytes(f.meta.size)} · {f.meta.mime || "unknown"}
                         </div>
                       </div>
                       {fileReady && (
-                        <div className="flex shrink-0 gap-2">
+                        <div className="flex shrink-0 flex-wrap gap-2">
                           {canPrint(f.meta.mime) && (
                             <Button
                               size="sm"
@@ -184,7 +184,7 @@ export function SessionPanel({
                         </div>
                       )}
                     </div>
-                    <div className="mt-2">
+                    <div className="mt-2 min-w-0">
                       <Progress
                         value={pct}
                         size="sm"

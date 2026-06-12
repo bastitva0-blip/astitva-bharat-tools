@@ -89,9 +89,15 @@ export function PairCard({ roomId }: PairCardProps) {
 
             <div className="space-y-3">
               <p className="text-body-sm text-surface-fg-muted">
-                Scan this QR with the other device&apos;s camera.
+                Scan this QR with the other device&apos;s camera — or tap it to
+                copy the link.
               </p>
-              <div className="flex justify-center rounded-md border border-surface-border-subtle bg-white p-6">
+              <button
+                type="button"
+                onClick={() => copy("url", senderUrl)}
+                aria-label={copied === "url" ? "Link copied" : "Copy link"}
+                className="group relative flex w-full justify-center rounded-md border border-surface-border-subtle bg-white p-6 transition-colors hover:bg-surface-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-8"
+              >
                 <QRCodeCanvas
                   value={senderUrl}
                   size={224}
@@ -99,7 +105,21 @@ export function PairCard({ roomId }: PairCardProps) {
                   includeMargin={false}
                   style={{ maxWidth: "100%", height: "auto" }}
                 />
-              </div>
+                <span
+                  className="pointer-events-none absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-surface-2/90 px-2 py-0.5 text-body-xs text-surface-fg-muted opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                  aria-hidden
+                >
+                  {copied === "url" ? (
+                    <>
+                      <Check className="size-3 text-success-11" /> Copied
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="size-3" /> Tap to copy link
+                    </>
+                  )}
+                </span>
+              </button>
               <div className="flex items-stretch gap-2">
                 <button
                   type="button"
