@@ -28,6 +28,9 @@ export class Peer {
   private opened = false;
   private closed = false;
   private disconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly onSocketSignal: (msg: {
+    data: { type: string; sdp?: RTCSessionDescriptionInit; candidate?: RTCIceCandidateInit };
+  }) => void;
 
   constructor(
     private readonly socket: Socket,
@@ -75,9 +78,11 @@ export class Peer {
       this.pc.ondatachannel = (e) => this.attachChannel(e.channel);
     }
 
-    socket.on("signal", (msg: { data: { type: string; sdp?: RTCSessionDescriptionInit; candidate?: RTCIceCandidateInit } }) => {
+    this.onSocketSignal = (msg) => {
+      if (this.closed) return;
       void this.onSignal(msg.data);
-    });
+    };
+    socket.on("signal", this.onSocketSignal);
   }
 
   on<K extends keyof PeerEvents>(event: K, handler: PeerEvents[K]) {
@@ -121,6 +126,7 @@ export class Peer {
     if (this.closed) return;
     this.closed = true;
     this.clearDisconnectTimer();
+    this.socket.off("signal", this.onSocketSignal);
     try {
       this.channel?.close();
     } catch {
