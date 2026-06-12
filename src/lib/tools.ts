@@ -452,12 +452,12 @@ export const tools: Tool[] = [
     tagline: "Combine both sides on a single A4 sheet",
     description:
       "Stack front and back of an Aadhaar card on one A4 page — ready for portals that ask for both sides as a single upload.",
-    status: "soon",
+    status: "live",
     category: "forms",
     iconKind: "aadhaar-collage",
     iconColor: "warning",
     type: "compose",
-    buildStatus: "next",
+    buildStatus: "shipped",
     domain: "sarkari",
     paywall: "always-free",
     keywords: [

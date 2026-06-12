@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, X } from "lucide-react";
+import { ArrowDown, ArrowUp, RotateCw, X } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
@@ -14,10 +14,15 @@ import { useBlobUrl } from "@/lib/processing/kernel";
 import type { Tool } from "@/lib/tools";
 import { ShellChrome } from "./primitives";
 
+export type ComposeItemRotation = 0 | 90 | 180 | 270;
+
 export interface ComposeItem {
   id: string;
   file: File;
   previewUrl: string;
+  /** Per-item rotation applied by the user. Only meaningful when the shell
+   *  was opened with `enableRotation`; otherwise stays at 0. */
+  rotation: ComposeItemRotation;
 }
 
 export interface ComposeResult {
@@ -46,6 +51,9 @@ interface ComposeShellProps {
   outputFilename: string;
   outputType: string;
   comingSoon?: boolean;
+  /** Show a per-item rotate button. Caller is responsible for honouring the
+   *  rotation field on each ComposeItem inside onProcess. */
+  enableRotation?: boolean;
 }
 
 // ComposeShell — base-infrastructure-plan §3.
@@ -71,6 +79,7 @@ export function ComposeShell({
   outputFilename,
   outputType,
   comingSoon = false,
+  enableRotation = false,
 }: ComposeShellProps) {
   const dict = useT();
   const { set: setPipeline } = usePipeline();
@@ -105,6 +114,7 @@ export function ComposeShell({
         id: `${f.name}-${f.size}-${f.lastModified}-${Math.random().toString(36).slice(2)}`,
         file: f,
         previewUrl: URL.createObjectURL(f),
+        rotation: 0,
       }));
       setItems((cur) => [...cur, ...additions]);
       setResultBlob(null);
@@ -128,6 +138,17 @@ export function ComposeShell({
       if (target) URL.revokeObjectURL(target.previewUrl);
       return cur.filter((i) => i.id !== id);
     });
+    setResultBlob(null);
+  };
+
+  const rotate = (id: string) => {
+    setItems((cur) =>
+      cur.map((i) =>
+        i.id === id
+          ? { ...i, rotation: (((i.rotation + 90) % 360) as ComposeItemRotation) }
+          : i,
+      ),
+    );
     setResultBlob(null);
   };
 
@@ -216,14 +237,26 @@ export function ComposeShell({
                   <img
                     src={it.previewUrl}
                     alt=""
-                    className="h-14 w-14 shrink-0 rounded border border-surface-border-subtle object-cover"
+                    className="h-14 w-14 shrink-0 rounded border border-surface-border-subtle object-cover transition-transform"
+                    style={{ transform: `rotate(${it.rotation}deg)` }}
                   />
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-body-sm font-medium">{it.file.name}</div>
                     <div className="text-body-xs text-surface-fg-muted">
                       {formatKb(it.file.size)}
+                      {it.rotation !== 0 ? ` · rotated ${it.rotation}°` : ""}
                     </div>
                   </div>
+                  {enableRotation && (
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      aria-label="Rotate 90°"
+                      onClick={() => rotate(it.id)}
+                    >
+                      <RotateCw size={16} />
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     size="icon-sm"
