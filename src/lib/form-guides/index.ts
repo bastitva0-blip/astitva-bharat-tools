@@ -60,6 +60,17 @@ export const formGuides: FormGuide[] = [
     authority: { name: "UPSC", url: "https://upsconline.nic.in/" },
     order: 3,
   },
+  {
+    slug: "rrb-alp",
+    examName: "RRB ALP",
+    fullName: "Railway Recruitment Board — Assistant Loco Pilot",
+    description:
+      "Six-phase walkthrough of rrbapply.gov.in — account creation with Aadhaar verification, RRB zone selection, education and CBT-2 trade, photo/signature uploads, fee payment with bank-refund setup, and confirmation page download.",
+    specSummary: "Photo 20–50 KB · Signature 20–50 KB · SC/ST cert 50–100 KB",
+    lastUpdatedAt: "2026-06-12",
+    authority: { name: "RRB", url: "https://www.rrbapply.gov.in/" },
+    order: 4,
+  },
 ];
 
 export function getFormGuide(slug: string): FormGuide | undefined {
