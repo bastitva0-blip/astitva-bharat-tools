@@ -264,6 +264,78 @@
       }
     }
   },
+  "toolText": {
+    "photo-resize": {
+      "name": "Exam Photo Resizer",
+      "tagline": "UPSC, SSC, NEET, JEE - exact pixel + KB specs",
+      "description": "Upload a photo, pick the exam, and get a portal-ready JPG with the right pixel size, KB target and white background."
+    },
+    "image-compress": {
+      "name": "Image Compressor",
+      "tagline": "Hit an exact KB target",
+      "description": "Compress any image to a precise KB size - 20 KB, 50 KB, 200 KB or any custom target. Within ±5 KB of your goal."
+    },
+    "document-photo": {
+      "name": "Document Photo Maker",
+      "tagline": "Aadhaar, PAN, Passport, OCI, Voter ID",
+      "description": "Identity-document photos at exact spec - dimensions, KB and white background. Ready for the portal."
+    },
+    "photo-signature-joiner": {
+      "name": "Photo + Signature Joiner",
+      "tagline": "Combine for SSC and IBPS uploads",
+      "description": "Merge a photo and signature into a single image at portal-standard dimensions. Side-by-side or stacked."
+    },
+    "print-sheet": {
+      "name": "Print Sheet Generator",
+      "tagline": "6–8 passport photos on one sheet",
+      "description": "Lay out passport-size photos on a 4×6 inch or A4 sheet with cutting guides. Print at home or any studio."
+    },
+    "jpg-to-pdf": {
+      "name": "JPG / Image to PDF",
+      "tagline": "Combine images into one PDF",
+      "description": "Stitch one or many images into a PDF, reorder pages, rotate as needed. A4 or Letter, portrait or landscape."
+    },
+    "pdf-compress": {
+      "name": "PDF Compressor",
+      "tagline": "Shrink PDFs to fit the upload limit",
+      "description": "Re-encodes embedded photos and strips metadata to hit form-portal upload limits. Light, recommended or stronger - your call."
+    },
+    "pdf-merge-split": {
+      "name": "PDF Merge & Split",
+      "tagline": "Combine PDFs or split by page ranges",
+      "description": "Merge several PDFs into one, or split a PDF into separate files using page ranges like '1-3, 5, 7-9'. All in-browser."
+    },
+    "print-job-slip": {
+      "name": "Print Job Slip",
+      "tagline": "Bundle files with shop-ready instructions",
+      "description": "Pick files, set copies, color or B&W, sides and page ranges. Outputs one PDF starting with a cover sheet the print shop can read at a glance."
+    },
+    "image-format-convert": {
+      "name": "Image Format Converter",
+      "tagline": "JPG ↔ PNG ↔ WebP, in your browser",
+      "description": "Convert between JPG, PNG and WebP. JPG flattens transparency to white for portal compatibility."
+    },
+    "qr-generate": {
+      "name": "QR Code Generator",
+      "tagline": "Make a QR for a URL, UPI ID or contact",
+      "description": "Type the text — get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download."
+    },
+    "photo-grayscale": {
+      "name": "Photo Grayscale Converter",
+      "tagline": "Convert a colour photo to clean black & white",
+      "description": "Some sarkari portals and print shops want greyscale. One click, on-device, no quality loss."
+    },
+    "aadhaar-collage": {
+      "name": "Aadhaar Front + Back Collage",
+      "tagline": "Combine both sides on a single A4 sheet",
+      "description": "Stack front and back of an Aadhaar card on one A4 page — ready for portals that ask for both sides as a single upload."
+    },
+    "quick-send": {
+      "name": "Quick Send",
+      "tagline": "Send files to a print shop - scan a QR, no app, no number",
+      "description": "Browser-to-browser file transfer. Print-shop opens Quick Send, customer scans the QR with their phone and sends files directly. P2P - files never stored on a server."
+    }
+  },
   "paywall": {
     "cta": {
       "seePlans": "See plans",
