@@ -12,7 +12,7 @@ import { useConsumePipelineFile, usePipeline } from "@/lib/pipeline";
 import { formatKb } from "@/lib/processing/image";
 import { useBlobUrl } from "@/lib/processing/kernel";
 import type { Tool } from "@/lib/tools";
-import { ShellChrome } from "./primitives";
+import { DownloadBar, PaywallPitch, ShellChrome } from "./primitives";
 
 export type ComposeItemRotation = 0 | 90 | 180 | 270;
 
@@ -206,9 +206,6 @@ export function ComposeShell({
     }
   }, [items, minItems, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
 
-  const onDownloadClick = useCallback(() => {
-    fire("download_click", { tool_id: tool.slug, output_type: outputType });
-  }, [tool.slug, outputType]);
 
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>
@@ -309,11 +306,14 @@ export function ComposeShell({
           </CardHeader>
           <CardContent className="space-y-4">
             {renderResultPreview(resultUrl)}
-            <Button asChild variant="solid" fullWidth size="lg">
-              <a href={resultUrl} download={outputFilename} onClick={onDownloadClick}>
-                {dict.common.download}
-              </a>
-            </Button>
+            <PaywallPitch tool={tool} trigger="post-download" />
+            <DownloadBar
+              url={resultUrl}
+              filename={outputFilename}
+              toolSlug={tool.slug}
+              outputType={outputType}
+              fullWidth
+            />
           </CardContent>
         </Card>
       )}

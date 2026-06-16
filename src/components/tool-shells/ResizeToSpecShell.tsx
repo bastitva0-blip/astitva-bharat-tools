@@ -21,7 +21,14 @@ import { formatKb } from "@/lib/processing/image";
 import { useBlobUrl } from "@/lib/processing/kernel";
 import type { PhotoSpec } from "@/lib/spec-db";
 import type { Tool } from "@/lib/tools";
-import { ShellChrome } from "./primitives";
+import {
+  DownloadBar,
+  PaywallPitch,
+  PreviewPane,
+  ShellChrome,
+  SpecCompliancePill,
+  type ComplianceStatus,
+} from "./primitives";
 
 export interface ResizeResult {
   blob: Blob;
@@ -178,10 +185,6 @@ export function ResizeToSpecShell({
     }
   }, [completedCrop, onProcess, tool.slug, preset.slug, preset.kbRange.max, dict.shell.errors, setPipeline, outputFilename, file]);
 
-  const onDownloadClick = useCallback(() => {
-    fire("download_click", { tool_id: tool.slug, output_type: "image/jpeg" });
-  }, [tool.slug]);
-
   const onEditAgain = () => {
     setResultBlob(null);
     setResultMeta(null);
@@ -270,28 +273,39 @@ export function ResizeToSpecShell({
 
           {resultMeta && resultUrl && (
             <>
-              <div className="rounded-md border border-surface-fg bg-surface-2 p-4">
+              <PreviewPane
+                metadata={{
+                  dimensions: `${preset.dimensions.widthPx}×${preset.dimensions.heightPx} px`,
+                  bytes: resultMeta.bytes,
+                }}
+              >
                 {/* eslint-disable-next-line @next/next/no-img-element -- blob: URL */}
                 <img
                   src={resultUrl}
                   alt="Generated photo"
                   className="mx-auto block max-h-[60vh] max-w-full w-auto"
                 />
-              </div>
+              </PreviewPane>
 
-              <ResultStrip result={resultMeta} preset={preset} />
+              {(() => {
+                const { status, label } = resolveResizeCompliance(resultMeta, preset);
+                return <SpecCompliancePill status={status} label={label} />;
+              })()}
 
-              <div className="flex flex-wrap gap-3">
-                <Button asChild variant="solid" size="lg">
-                  <a href={resultUrl} download={outputFilename} onClick={onDownloadClick}>
-                    {dict.common.download}
-                  </a>
-                </Button>
-                <Button variant="soft" size="lg" onClick={onEditAgain}>
-                  <Pencil className="mr-1.5 size-4" aria-hidden />
-                  Edit crop
-                </Button>
-              </div>
+              <PaywallPitch tool={tool} trigger="post-download" />
+
+              <DownloadBar
+                url={resultUrl}
+                filename={outputFilename}
+                toolSlug={tool.slug}
+                outputType="image/jpeg"
+                secondaryActions={
+                  <Button variant="soft" size="lg" onClick={onEditAgain}>
+                    <Pencil className="mr-1.5 size-4" aria-hidden />
+                    Edit crop
+                  </Button>
+                }
+              />
             </>
           )}
         </CardContent>
@@ -322,41 +336,15 @@ function SpecPill({ label, value, highlight }: { label: string; value: string; h
   );
 }
 
-function ResultStrip({
-  result,
-  preset,
-}: {
-  result: { bytes: number; hitTarget: boolean };
-  preset: PhotoSpec;
-}) {
+function resolveResizeCompliance(
+  result: { bytes: number; hitTarget: boolean },
+  preset: PhotoSpec,
+): { status: ComplianceStatus; label: string } {
   const max = preset.kbRange.max * 1024;
-  const min = preset.kbRange.min * 1024;
-  const overLimit = result.bytes > max;
-  let label: string;
-  let cls: string;
-  if (result.hitTarget) {
-    label = "Within KB target";
-    cls = "text-success-11";
-  } else if (overLimit) {
-    label = `Over upper limit (${preset.kbRange.max} KB)`;
-    cls = "text-error-11";
-  } else if (min === 0) {
-    label = "Saved · safe to upload";
-    cls = "text-success-11";
-  } else {
-    label = "Under upper limit · safe to upload";
-    cls = "text-success-11";
+  if (result.hitTarget) return { status: "pass", label: "Within KB target" };
+  if (result.bytes > max) {
+    return { status: "fail", label: `Over upper limit (${preset.kbRange.max} KB)` };
   }
-  return (
-    <div className="flex items-center justify-between text-body-sm">
-      <span>
-        <span className="font-semibold">
-          {preset.dimensions.widthPx}×{preset.dimensions.heightPx} px
-        </span>
-        {" · "}
-        <span>{formatKb(result.bytes)}</span>
-      </span>
-      <span className={cls}>{label}</span>
-    </div>
-  );
+  if (preset.kbRange.min === 0) return { status: "pass", label: "Saved · safe to upload" };
+  return { status: "pass", label: "Under upper limit · safe to upload" };
 }
