@@ -9,7 +9,7 @@ import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analyt
 import { usePipeline } from "@/lib/pipeline";
 import { useBlobUrl } from "@/lib/processing/kernel";
 import type { Tool } from "@/lib/tools";
-import { ContinueEditingPanel, DropZone, TrustBadge } from "./primitives";
+import { ContinueEditingPanel, DownloadBar, DropZone, PaywallPitch, TrustBadge } from "./primitives";
 
 interface BaseResult {
   blob: Blob;
@@ -231,10 +231,6 @@ export function CompressToTargetShell<TResult extends BaseResult>({
     }
   }, [file, result, onProcess, setPipeline, outputFilename, tool.slug, dict.shell.errors]);
 
-  const onDownloadClick = useCallback(() => {
-    fire("download_click", { tool_id: tool.slug, output_type: outputType });
-  }, [tool.slug, outputType]);
-
   const fullResult = result;
 
   return (
@@ -282,15 +278,14 @@ export function CompressToTargetShell<TResult extends BaseResult>({
               <div className="space-y-4">
                 {renderPreview(fullResult)}
                 {renderStats(fullResult, { bytes: file?.size ?? 0 })}
-                <Button asChild variant="solid" fullWidth size="lg">
-                  <a
-                    href={fullResult.url}
-                    download={file ? outputFilename(file) : "download"}
-                    onClick={onDownloadClick}
-                  >
-                    {dict.common.download}
-                  </a>
-                </Button>
+                <PaywallPitch tool={tool} trigger="post-download" />
+                <DownloadBar
+                  url={fullResult.url}
+                  filename={file ? outputFilename(file) : "download"}
+                  toolSlug={tool.slug}
+                  outputType={outputType}
+                  fullWidth
+                />
               </div>
             ) : (
               <div className="flex h-full min-h-[240px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">

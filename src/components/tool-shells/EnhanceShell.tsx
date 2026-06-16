@@ -11,7 +11,7 @@ import { useConsumePipelineFile, usePipeline } from "@/lib/pipeline";
 import { formatKb } from "@/lib/processing/image";
 import { useBlobUrl } from "@/lib/processing/kernel";
 import type { Tool } from "@/lib/tools";
-import { ShellChrome } from "./primitives";
+import { DownloadBar, PaywallPitch, ShellChrome } from "./primitives";
 
 export interface EnhanceResult {
   blob: Blob;
@@ -128,10 +128,6 @@ export function EnhanceShell({
     }
   }, [file, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
 
-  const onDownloadClick = useCallback(() => {
-    fire("download_click", { tool_id: tool.slug, output_type: outputType });
-  }, [tool.slug, outputType]);
-
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>
       <Card variant="outline">
@@ -160,6 +156,8 @@ export function EnhanceShell({
                 />
               )}
 
+              {resultUrl && <PaywallPitch tool={tool} trigger="post-download" />}
+
               <div className="flex flex-wrap gap-3">
                 {!resultUrl && (
                   <Button size="lg" loading={submitting} disabled={submitting || comingSoon} onClick={submit}>
@@ -167,15 +165,23 @@ export function EnhanceShell({
                   </Button>
                 )}
                 {resultUrl && (
-                  <Button asChild variant="solid" size="lg">
-                    <a href={resultUrl} download={outputFilename(file)} onClick={onDownloadClick}>
-                      {dict.common.download}
-                    </a>
+                  <DownloadBar
+                    url={resultUrl}
+                    filename={outputFilename(file)}
+                    toolSlug={tool.slug}
+                    outputType={outputType}
+                    secondaryActions={
+                      <Button variant="soft" size="lg" onClick={() => adoptFile(null)}>
+                        Choose a different photo
+                      </Button>
+                    }
+                  />
+                )}
+                {!resultUrl && (
+                  <Button variant="soft" size="lg" onClick={() => adoptFile(null)}>
+                    Choose a different photo
                   </Button>
                 )}
-                <Button variant="soft" size="lg" onClick={() => adoptFile(null)}>
-                  Choose a different photo
-                </Button>
               </div>
             </>
           )}

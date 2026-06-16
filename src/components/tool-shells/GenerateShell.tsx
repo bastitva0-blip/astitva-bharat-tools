@@ -9,7 +9,7 @@ import { durationBucket, fire, sizeBucket } from "@/lib/analytics";
 import { usePipeline } from "@/lib/pipeline";
 import { useBlobUrl } from "@/lib/processing/kernel";
 import type { Tool } from "@/lib/tools";
-import { ShellChrome } from "./primitives";
+import { DownloadBar, PaywallPitch, ShellChrome } from "./primitives";
 
 export interface GenerateResult {
   blob: Blob;
@@ -108,10 +108,6 @@ export function GenerateShell<TConfig>({
     }
   }, [ready, config, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
 
-  const onDownloadClick = useCallback(() => {
-    fire("download_click", { tool_id: tool.slug, output_type: outputType });
-  }, [tool.slug, outputType]);
-
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>
       <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
@@ -144,15 +140,16 @@ export function GenerateShell<TConfig>({
             </div>
 
             {resultUrl && (
-              <Button asChild variant="solid" fullWidth size="lg">
-                <a
-                  href={resultUrl}
-                  download={outputFilename(config)}
-                  onClick={onDownloadClick}
-                >
-                  {dict.common.download}
-                </a>
-              </Button>
+              <>
+                <PaywallPitch tool={tool} trigger="post-download" />
+                <DownloadBar
+                  url={resultUrl}
+                  filename={outputFilename(config)}
+                  toolSlug={tool.slug}
+                  outputType={outputType}
+                  fullWidth
+                />
+              </>
             )}
           </CardContent>
         </Card>

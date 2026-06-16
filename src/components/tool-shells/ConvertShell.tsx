@@ -12,7 +12,7 @@ import { useConsumePipelineFile, usePipeline } from "@/lib/pipeline";
 import { formatKb } from "@/lib/processing/image";
 import { useBlobUrl } from "@/lib/processing/kernel";
 import type { Tool } from "@/lib/tools";
-import { DropZone, ShellChrome } from "./primitives";
+import { DownloadBar, DropZone, PaywallPitch, ShellChrome } from "./primitives";
 
 export interface ConvertResult {
   blob: Blob;
@@ -150,10 +150,6 @@ export function ConvertShell({
     }
   }, [file, target, onProcess, tool.slug, setPipeline, outputFilename, dict.shell.errors]);
 
-  const onDownloadClick = useCallback(() => {
-    fire("download_click", { tool_id: tool.slug, output_type: target?.mime ?? "" });
-  }, [tool.slug, target?.mime]);
-
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>
       {/* The pivot bar — source on the left, target picker on the right,
@@ -239,15 +235,14 @@ export function ConvertShell({
           </CardHeader>
           <CardContent className="space-y-4">
             {renderResultPreview(resultUrl, target)}
-            <Button asChild variant="solid" fullWidth size="lg">
-              <a
-                href={resultUrl}
-                download={file ? outputFilename(file, target) : `output.${target.ext}`}
-                onClick={onDownloadClick}
-              >
-                {dict.common.download}
-              </a>
-            </Button>
+            <PaywallPitch tool={tool} trigger="post-download" />
+            <DownloadBar
+              url={resultUrl}
+              filename={file ? outputFilename(file, target) : `output.${target.ext}`}
+              toolSlug={tool.slug}
+              outputType={target.mime}
+              fullWidth
+            />
           </CardContent>
         </Card>
       )}

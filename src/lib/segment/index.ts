@@ -3,6 +3,13 @@
 export { captureAttribution, getAttribution, resetAttribution } from "./attribution";
 export { startSignalCollection, getSignals, resetSignals } from "./signals";
 export { scoreSegment } from "./scorer";
+export { resolvePaywallPitch } from "./paywall";
+export type {
+  PaywallPitchResolution,
+  PaywallTrigger,
+  PitchTier,
+  PitchVariant,
+} from "./paywall";
 export type {
   Attribution,
   ResolvedSignals,

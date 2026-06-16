@@ -263,5 +263,35 @@
         "emptyState": "Compress a PDF to see the result here."
       }
     }
+  },
+  "paywall": {
+    "cta": {
+      "seePlans": "See plans",
+      "upgrade": "Upgrade"
+    },
+    "operator": {
+      "tool-open": "Run a print shop? ₹5.50/day pays for itself in two customers.",
+      "batch-initiated": "Batch unlock for shops — ₹5.50/day, pays for itself in two customers.",
+      "high-cost-feature": "Heavy job? ₹5.50/day unlocks priority processing for your shop.",
+      "post-download": "Running this all day? ₹5.50/day takes the limits off."
+    },
+    "professional": {
+      "tool-open": "₹1,999/yr commercial-use licence — DPDP-friendly invoices.",
+      "batch-initiated": "Batch processing for work files — ₹1,999/yr commercial-use licence.",
+      "high-cost-feature": "Premium processing for client work — ₹1,999/yr commercial-use licence.",
+      "post-download": "Use this at work? ₹1,999/yr commercial-use licence, DPDP-friendly."
+    },
+    "individual-paying": {
+      "tool-open": "Need it often? ₹499/yr — less than chai a day.",
+      "batch-initiated": "Bulk file? ₹19 for the next 24 hours, or ₹499/yr.",
+      "high-cost-feature": "Unlock heavy processing — ₹19 for 24 hours, or ₹499/yr.",
+      "post-download": "Like it? ₹499/yr — less than chai a day."
+    },
+    "neutral": {
+      "tool-open": "Need more? See plans — pay-as-you-go or annual.",
+      "batch-initiated": "Unlock batch processing — pay-as-you-go or annual.",
+      "high-cost-feature": "Unlock heavy processing — see plans.",
+      "post-download": "Useful? See plans."
+    }
   }
 }
