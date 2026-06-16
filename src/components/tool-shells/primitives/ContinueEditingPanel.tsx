@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { useT } from "@/i18n/provider";
 import { fire } from "@/lib/analytics";
+import { getToolText } from "@/lib/tool-text";
 import { tools, type Tool } from "@/lib/tools";
 
 interface ContinueEditingPanelProps {
@@ -37,24 +38,27 @@ export function ContinueEditingPanel({ fromTool }: ContinueEditingPanelProps) {
       </CardHeader>
       <CardContent>
         <div className="grid gap-2 sm:grid-cols-2">
-          {targets.map((target) => (
-            <Link
-              key={target.slug}
-              href={target.href}
-              onClick={() =>
-                fire("cross_tool_click", { from_tool: fromTool.slug, to_tool: target.slug })
-              }
-              className="group flex items-center justify-between gap-3 rounded-md border border-surface-border-subtle p-3 hover:border-surface-fg"
-            >
-              <div className="min-w-0">
-                <div className="truncate text-body-sm font-medium">{target.name}</div>
-                <div className="truncate text-body-xs text-surface-fg-muted">
-                  {target.tagline}
+          {targets.map((target) => {
+            const text = getToolText(target, dict);
+            return (
+              <Link
+                key={target.slug}
+                href={target.href}
+                onClick={() =>
+                  fire("cross_tool_click", { from_tool: fromTool.slug, to_tool: target.slug })
+                }
+                className="group flex items-center justify-between gap-3 rounded-md border border-surface-border-subtle p-3 hover:border-surface-fg"
+              >
+                <div className="min-w-0">
+                  <div className="truncate text-body-sm font-medium">{text.name}</div>
+                  <div className="truncate text-body-xs text-surface-fg-muted">
+                    {text.tagline}
+                  </div>
                 </div>
-              </div>
-              <ArrowRight className="size-4 shrink-0 opacity-50 transition group-hover:opacity-100" aria-hidden />
-            </Link>
-          ))}
+                <ArrowRight className="size-4 shrink-0 opacity-50 transition group-hover:opacity-100" aria-hidden />
+              </Link>
+            );
+          })}
         </div>
       </CardContent>
     </Card>

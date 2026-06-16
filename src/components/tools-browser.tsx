@@ -9,6 +9,7 @@ import { ToolIcon } from "@/components/tool-icon";
 import { useT } from "@/i18n/provider";
 import { fire } from "@/lib/analytics/events";
 import { resolveDeepLink, searchTools, type SearchOutcome } from "@/lib/search";
+import { getToolText } from "@/lib/tool-text";
 import { toolCategories, tools, type Tool } from "@/lib/tools";
 
 const EMPTY_OUTCOME: SearchOutcome = { results: tools, mode: "all" };
@@ -186,6 +187,8 @@ function ToolCard({
   query: string;
   soonLabel: string;
 }) {
+  const dict = useT();
+  const text = getToolText(tool, dict);
   const live = tool.status === "live";
   const onClick = () => {
     if (!query) return;
@@ -203,11 +206,11 @@ function ToolCard({
             <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="lg" />
             {!live && <Badge color="neutral">{soonLabel}</Badge>}
           </div>
-          <CardTitle className="mt-4 font-semibold">{tool.name}</CardTitle>
-          <CardDescription>{tool.tagline}</CardDescription>
+          <CardTitle className="mt-4 font-semibold">{text.name}</CardTitle>
+          <CardDescription>{text.tagline}</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-body-sm text-surface-fg-muted">{tool.description}</p>
+          <p className="text-body-sm text-surface-fg-muted">{text.description}</p>
         </CardContent>
       </Card>
     </Link>
