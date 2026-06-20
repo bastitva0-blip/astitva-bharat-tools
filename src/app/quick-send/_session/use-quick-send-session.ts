@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { fire, sizeBucket } from "@/lib/analytics";
 import { CHUNK_BYTES, MAX_FILE_BYTES } from "@/lib/p2p/constants";
 import { Peer, type PeerRole } from "@/lib/p2p/peer";
 import {
@@ -109,6 +110,7 @@ export function useQuickSendSession({
           const f = cur[frame.fileId];
           if (!f) return cur;
           const blob = new Blob(f.chunks as BlobPart[], { type: f.meta.mime });
+          fire("qs_file_received", { file_size_bucket: sizeBucket(f.meta.size) });
           return {
             ...cur,
             [frame.fileId]: { ...f, blob, chunks: [] },
@@ -148,10 +150,22 @@ export function useQuickSendSession({
       peerRef.current = peer;
       peer.on("open", () => {
         channelOpen = true;
+        fire("qs_peer_connected", {});
         setPhase("paired");
       });
-      peer.on("close", () => setPhase((p) => (p === "ended" ? p : "ended")));
-      peer.on("error", (e) => toast.error(e.message));
+      peer.on("close", () => {
+        // Only a real (previously-open) connection counts as a disconnect —
+        // not a half-built peer torn down on unmount/retry.
+        if (channelOpen) fire("qs_peer_disconnected", { reason: "closed" });
+        setPhase((p) => (p === "ended" ? p : "ended"));
+      });
+      peer.on("error", (e) => {
+        fire("qs_connection_error", {
+          stage: "datachannel",
+          error_type: e instanceof Error ? e.name : "unknown",
+        });
+        toast.error(e.message);
+      });
       peer.on("control", handleControl);
       peer.on("binary", handleBinary);
     };
@@ -174,6 +188,7 @@ export function useQuickSendSession({
         if (mode === "host") {
           const id = await createRoom(signaling);
           if (cancelled) return;
+          fire("qs_session_created", { role: "host" });
           setRoomId(id);
           setPhase("waiting");
 
@@ -187,6 +202,7 @@ export function useQuickSendSession({
           }
           await joinRoom(signaling, paramRoomId);
           if (cancelled) return;
+          fire("qs_session_created", { role: "guest" });
           // Guest is the SDP offerer.
           attachPeer("sender");
           await peerRef.current?.start();
@@ -219,6 +235,10 @@ export function useQuickSendSession({
         });
       } catch (err) {
         if (cancelled) return;
+        fire("qs_connection_error", {
+          stage: "signaling",
+          error_type: err instanceof Error ? err.message : "unknown",
+        });
         const msg = friendlyError(err);
         setErrorMsg(msg);
         setPhase("error");
@@ -242,6 +262,9 @@ export function useQuickSendSession({
         await sendOne(peer, file, setOutgoing);
       }
     } catch (err) {
+      fire("qs_transfer_error", {
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
       toast.error(err instanceof Error ? err.message : "Send failed.");
     } finally {
       sendingRef.current = false;
@@ -256,6 +279,7 @@ export function useQuickSendSession({
           toast.error(
             `${f.name} is over ${Math.round(MAX_FILE_BYTES / 1024 / 1024)} MB. Skipped.`,
           );
+          fire("file_rejected", { tool_id: "quick-send", reason: "too_large" });
           continue;
         }
         valid.push(f);
@@ -328,6 +352,7 @@ async function sendOne(
     );
   }
   peer.sendControl(encodeControl({ kind: "file-end", fileId }));
+  fire("qs_file_sent", { file_size_bucket: sizeBucket(file.size) });
   setOutgoing((cur) =>
     cur.map((o) => (o.fileId === fileId ? { ...o, done: true } : o)),
   );
