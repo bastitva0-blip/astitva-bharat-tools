@@ -106,16 +106,22 @@ export function useQuickSendSession({
           },
         }));
       } else if (frame.kind === "file-end") {
+        // Capture the size inside the (pure) updater, fire AFTER it — never
+        // call fire() inside a setState updater (double-invoked in StrictMode).
+        let receivedSize = 0;
         setIncoming((cur) => {
           const f = cur[frame.fileId];
           if (!f) return cur;
+          receivedSize = f.meta.size;
           const blob = new Blob(f.chunks as BlobPart[], { type: f.meta.mime });
-          fire("qs_file_received", { file_size_bucket: sizeBucket(f.meta.size) });
           return {
             ...cur,
             [frame.fileId]: { ...f, blob, chunks: [] },
           };
         });
+        if (receivedSize > 0) {
+          fire("qs_file_received", { file_size_bucket: sizeBucket(receivedSize) });
+        }
       }
     };
 
@@ -146,6 +152,10 @@ export function useQuickSendSession({
         peer = null;
         peerRef.current = null;
       }
+      // Reset for the fresh peer so a failed re-attach (guest #2 ICE failure
+      // after guest #1 left) can't inherit guest #1's open state and emit a
+      // qs_peer_disconnected with no matching qs_peer_connected.
+      channelOpen = false;
       peer = new Peer(signaling.socket, role);
       peerRef.current = peer;
       peer.on("open", () => {
@@ -235,9 +245,12 @@ export function useQuickSendSession({
         });
       } catch (err) {
         if (cancelled) return;
+        // Only emit known signaling codes; never the raw connect_error message
+        // (can contain the signaling URL / transport details).
+        const code = err instanceof Error ? err.message : "";
         fire("qs_connection_error", {
           stage: "signaling",
-          error_type: err instanceof Error ? err.message : "unknown",
+          error_type: code === "not-found" || code === "full" ? code : "connect_failed",
         });
         const msg = friendlyError(err);
         setErrorMsg(msg);
@@ -262,10 +275,14 @@ export function useQuickSendSession({
         await sendOne(peer, file, setOutgoing);
       }
     } catch (err) {
-      fire("qs_transfer_error", {
-        error_type: err instanceof Error ? err.name : "unknown",
-      });
-      toast.error(err instanceof Error ? err.message : "Send failed.");
+      // If the peer was torn down (unmount/reset mid-send), the throw is
+      // expected teardown, not a real transfer failure — don't report it.
+      if (peerRef.current) {
+        fire("qs_transfer_error", {
+          error_type: err instanceof Error ? err.name : "unknown",
+        });
+        toast.error(err instanceof Error ? err.message : "Send failed.");
+      }
     } finally {
       sendingRef.current = false;
     }
