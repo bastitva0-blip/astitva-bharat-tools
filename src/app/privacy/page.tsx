@@ -65,6 +65,12 @@ export default function PrivacyPage() {
             sent to Google Analytics 4 and PostHog (both configured cookieless and
             anonymous). You can opt out at any time.
           </p>
+          <p>
+            <strong>Search terms.</strong> Words you type into the tool search box are
+            recorded in aggregate (e.g. to spot tools we&rsquo;re missing) - never the
+            text you enter <em>inside</em> a tool, and never linked to you. Please
+            don&rsquo;t type personal details into search; opting out stops this too.
+          </p>
         </Section>
 
         <Section title="What we don&rsquo;t collect">

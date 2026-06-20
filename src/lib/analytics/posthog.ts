@@ -5,7 +5,8 @@
 //   - autocapture off             → explicit events only, no blind DOM capture
 //   - session recording off       → no replay = no PII
 //   - person_profiles identified  → no profiles for anonymous visitors
-//   - manual pageviews            → App Router route changes (see provider)
+//   - history_change pageviews    → initial + App Router route changes, no
+//                                   racing a manual tracker against init
 //   - exceptions + performance    → bug + Web-Vitals signal, no PII
 //
 // This module statically imports posthog-js, so it must only be reached from
@@ -36,7 +37,7 @@ export function initPostHog(): void {
     autocapture: false,
     disable_session_recording: true,
     person_profiles: "identified_only",
-    capture_pageview: false,
+    capture_pageview: "history_change",
     capture_pageleave: true,
     capture_exceptions: true,
     capture_performance: true,
@@ -46,12 +47,6 @@ export function initPostHog(): void {
   registerSink((name, payload) =>
     posthog.capture(name, payload as Record<string, unknown>),
   );
-}
-
-/** Manual SPA pageview — App Router route changes (provider drives this). */
-export function posthogPageview(url: string): void {
-  if (!started) return;
-  posthog.capture("$pageview", { $current_url: url });
 }
 
 /** Stop capturing for this session (paired with the GA kill switch on opt-out). */

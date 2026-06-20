@@ -75,6 +75,9 @@ export function PrintSheetForm() {
 
     fire("process_start", { tool_id: TOOL });
     const t0 = performance.now();
+    // Background-removal failures already emit bg_process_error (+ maybe
+    // library_load_error); don't also double-count them as process_error.
+    let bgFailed = false;
     try {
       let image: Blob = file;
       if (removeBg) {
@@ -95,6 +98,7 @@ export function PrintSheetForm() {
             duration_bucket: durationBucket(performance.now() - bgT0),
           });
         } catch (bgErr) {
+          bgFailed = true;
           fire("bg_process_error", {
             tool_id: TOOL,
             error_type: bgErr instanceof Error ? bgErr.name : "unknown",
@@ -115,10 +119,12 @@ export function PrintSheetForm() {
       toast.success(`Sheet ready - ${grid.total} photos.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to generate PDF.");
-      fire("process_error", {
-        tool_id: TOOL,
-        error_type: err instanceof Error ? err.name : "unknown",
-      });
+      if (!bgFailed) {
+        fire("process_error", {
+          tool_id: TOOL,
+          error_type: err instanceof Error ? err.name : "unknown",
+        });
+      }
     } finally {
       setSubmitting(false);
       setPhase("idle");
