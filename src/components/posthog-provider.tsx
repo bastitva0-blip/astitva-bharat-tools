@@ -1,27 +1,16 @@
 "use client";
 
-import { Suspense, useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { fire } from "@/lib/analytics";
-import { initPostHog, posthogPageview } from "@/lib/analytics/posthog";
+import { initPostHog } from "@/lib/analytics/posthog";
 
-// Mounts PostHog (cookieless) and SPA pageview tracking. Mounted prod-only from
-// layout.tsx alongside GA. Respects the stored opt-out (`bt-analytics === off`)
-// by simply never initialising PostHog. Also bridges uncaught errors into the
-// typed event bus so GA + the signal collector see them (PostHog captures its
-// own $exception via capture_exceptions).
+// Mounts PostHog (cookieless). Mounted prod-only from layout.tsx alongside GA.
+// Respects the stored opt-out (`bt-analytics === off`) by never initialising
+// PostHog. Pageviews are captured by PostHog itself (capture_pageview:
+// "history_change") — no manual tracker to race against init. Also bridges
+// uncaught errors into the typed event bus so GA + the signal collector see
+// them (PostHog captures its own $exception via capture_exceptions).
 const OPTOUT_KEY = "bt-analytics";
-
-function PageviewTracker() {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  useEffect(() => {
-    if (!pathname) return;
-    const qs = searchParams?.toString();
-    posthogPageview(qs ? `${pathname}?${qs}` : pathname);
-  }, [pathname, searchParams]);
-  return null;
-}
 
 export function PostHogProvider() {
   useEffect(() => {
@@ -83,9 +72,5 @@ export function PostHogProvider() {
     };
   }, []);
 
-  return (
-    <Suspense fallback={null}>
-      <PageviewTracker />
-    </Suspense>
-  );
+  return null;
 }

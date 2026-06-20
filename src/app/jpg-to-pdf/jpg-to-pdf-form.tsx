@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowUp, RotateCw, X } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
@@ -36,9 +36,16 @@ export function JpgToPdfForm() {
   const [submitting, setSubmitting] = useState(false);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
 
+  // Revoke preview URLs only on unmount. Using [items] here would revoke URLs
+  // that are still displayed after a rotate/reorder (those keep the same
+  // previewUrl), breaking the thumbnails. remove() revokes per-item.
+  const itemsRef = useRef(items);
+  useEffect(() => {
+    itemsRef.current = items;
+  });
   useEffect(() => () => {
-    items.forEach((it) => URL.revokeObjectURL(it.previewUrl));
-  }, [items]);
+    itemsRef.current.forEach((it) => URL.revokeObjectURL(it.previewUrl));
+  }, []);
 
   useEffect(() => () => {
     if (resultUrl) URL.revokeObjectURL(resultUrl);
