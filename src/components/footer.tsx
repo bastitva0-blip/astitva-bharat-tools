@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {  FaGithub } from "react-icons/fa";
+import { AnalyticsPrefsButton } from "@/components/analytics-prefs-button";
 import { DevalokMark } from "@/components/devalok-mark";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 
@@ -32,6 +33,7 @@ export async function Footer() {
           <Link href="/terms" className="hover:text-surface-fg">
             {dict.footer.terms}
           </Link>
+          <AnalyticsPrefsButton label={dict.footer.analyticsPrefs} />
           <a
             href="https://shilp-sutra.devalok.in"
             target="_blank"

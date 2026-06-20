@@ -74,6 +74,7 @@ export function GenerateShell<TConfig>({
       toast.error(dict.shell.errors.processFailed);
       return;
     }
+    if (resultBlob) fire("process_retry", { tool_id: tool.slug, after: "complete" });
     setSubmitting(true);
     setResultBlob(null);
 
@@ -106,7 +107,7 @@ export function GenerateShell<TConfig>({
     } finally {
       setSubmitting(false);
     }
-  }, [ready, config, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
+  }, [ready, config, resultBlob, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
 
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>

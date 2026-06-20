@@ -109,11 +109,20 @@ export function ConvertShell({
 
   const target = targets.find((t) => t.id === targetId) ?? targets[0];
 
+  const selectTarget = useCallback(
+    (id: string) => {
+      setTargetId(id);
+      fire("preset_selected", { tool_id: tool.slug, preset_id: id });
+    },
+    [tool.slug],
+  );
+
   const submit = useCallback(async () => {
     if (!file || !target) {
       toast.error(dict.shell.errors.noFile);
       return;
     }
+    if (resultBlob) fire("process_retry", { tool_id: tool.slug, after: "complete" });
     setSubmitting(true);
     setResultBlob(null);
 
@@ -148,7 +157,7 @@ export function ConvertShell({
     } finally {
       setSubmitting(false);
     }
-  }, [file, target, onProcess, tool.slug, setPipeline, outputFilename, dict.shell.errors]);
+  }, [file, target, resultBlob, onProcess, tool.slug, setPipeline, outputFilename, dict.shell.errors]);
 
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>
@@ -206,7 +215,7 @@ export function ConvertShell({
                 variant="default"
                 options={targets.map((t) => ({ id: t.id, text: t.label }))}
                 selectedId={targetId}
-                onSelect={setTargetId}
+                onSelect={selectTarget}
               />
               {target?.sub && (
                 <p className="mt-2 text-body-xs text-surface-fg-muted">{target.sub}</p>

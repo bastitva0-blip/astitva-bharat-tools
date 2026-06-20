@@ -10,7 +10,7 @@ export const metadata = {
   alternates: { canonical: "/privacy" },
 };
 
-const LAST_UPDATED = "8 May 2026";
+const LAST_UPDATED = "20 June 2026";
 
 export default function PrivacyPage() {
   return (
@@ -33,9 +33,12 @@ export default function PrivacyPage() {
             uploaded to our servers, and we have no way to retrieve them.
           </p>
           <p>
-            We also keep collection of everything else minimal. We don&rsquo;t require
-            an account, we don&rsquo;t ask for your email, and we don&rsquo;t run
-            third-party analytics or advertising in Phase 1.
+            We also keep everything else minimal. We don&rsquo;t require an account,
+            and we don&rsquo;t ask for your email. To improve the tools we collect
+            anonymous, cookieless usage metrics &mdash; no cookies, no personal data,
+            and never the contents of your files. You can opt out anytime from the
+            notice on your first visit or via &ldquo;Analytics preferences&rdquo; in the
+            footer.
           </p>
         </Section>
 
@@ -52,6 +55,16 @@ export default function PrivacyPage() {
             stay in your browser. We don&rsquo;t see filenames, file contents, image
             data, or any text you might have entered in form fields.
           </p>
+          <p>
+            <strong>Anonymous usage metrics.</strong> To learn which tools get used,
+            where people get stuck, and what breaks, we record cookieless, aggregate
+            events &mdash; for example which tool was opened, whether processing
+            succeeded or failed, and <em>bucketed</em> file sizes (e.g.
+            &ldquo;100KB&ndash;1MB&rdquo;, never the exact bytes or the file itself).
+            They carry no identifier that can single you out, set no cookies, and are
+            sent to Google Analytics 4 and PostHog (both configured cookieless and
+            anonymous). You can opt out at any time.
+          </p>
         </Section>
 
         <Section title="What we don&rsquo;t collect">
@@ -59,18 +72,32 @@ export default function PrivacyPage() {
             <li>Names, phone numbers, email addresses, government IDs</li>
             <li>File contents, filenames, EXIF metadata, signatures</li>
             <li>Account information - there are no accounts</li>
-            <li>Behavioural analytics (no PostHog, GA, Mixpanel etc. in Phase 1)</li>
-            <li>Advertising cookies (no AdSense or equivalent in Phase 1)</li>
+            <li>Tracking cookies or cross-site identifiers - our analytics are cookieless and anonymous</li>
+            <li>Session recordings or replays - we never record your screen</li>
+            <li>Advertising cookies or ad networks (no AdSense or equivalent)</li>
           </ul>
         </Section>
 
-        <Section title="If we add analytics or ads later">
+        <Section title="Analytics and your choices">
           <p>
-            If a future release introduces optional analytics or advertising, we will
-            update this page first, gate the integrations behind a clearly-labelled
-            consent banner with &ldquo;Accept&rdquo; and &ldquo;Essential only&rdquo;
-            buttons, and document any new data flows. We&rsquo;d rather show you what
-            changed than slip new collection in quietly.
+            We use two analytics tools - <strong>Google Analytics 4</strong> and{" "}
+            <strong>PostHog</strong> - both configured to be cookieless and anonymous:
+            they set no cookies, build no persistent profile, and collect no personal
+            data or file contents. We use them only to improve the product - finding
+            drop-off points and bugs.
+          </p>
+          <p>
+            This includes <strong>aggregate heatmaps</strong> - where on a page people
+            click and how far they scroll - captured as anonymous coordinates, with no
+            recording of your screen and no cookies. It tells us which buttons get
+            missed and where layouts confuse, nothing about who you are.
+          </p>
+          <p>
+            A notice tells you on your first visit. You can opt out at any time - from
+            that notice or via <strong>&ldquo;Analytics preferences&rdquo;</strong> in
+            the footer. Opting out stops all analytics immediately and is remembered on
+            this device. We&rsquo;d rather show you what we collect than slip anything in
+            quietly.
           </p>
         </Section>
 

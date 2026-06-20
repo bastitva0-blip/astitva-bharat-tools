@@ -92,6 +92,7 @@ export function EnhanceShell({
       toast.error(dict.shell.errors.noFile);
       return;
     }
+    if (resultBlob) fire("process_retry", { tool_id: tool.slug, after: "complete" });
     setSubmitting(true);
     setResultBlob(null);
 
@@ -126,7 +127,7 @@ export function EnhanceShell({
     } finally {
       setSubmitting(false);
     }
-  }, [file, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
+  }, [file, resultBlob, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
 
   return (
     <ShellChrome tool={tool} comingSoon={comingSoon}>
