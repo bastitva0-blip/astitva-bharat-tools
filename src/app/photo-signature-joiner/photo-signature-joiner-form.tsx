@@ -9,6 +9,7 @@ import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { Switch } from "@devalok/shilp-sutra/ui/switch";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analytics";
 import { fmt } from "@/i18n/format";
 import { useT } from "@/i18n/provider";
 import { useConsumePipelineFile } from "@/lib/pipeline";
@@ -16,7 +17,19 @@ import { joinerPresets, type JoinerLayout } from "@/lib/presets/joiner";
 import { joinPhotoAndSignature } from "@/lib/processing/joiner";
 import { formatKb } from "@/lib/processing/image";
 
+const TOOL = "photo-signature-joiner";
+
+function fireFileAdded(file: File) {
+  fire("file_added", {
+    tool_id: TOOL,
+    file_count: 1,
+    file_size_bucket: sizeBucket(file.size),
+    file_type: file.type || "unknown",
+  });
+}
+
 export function PhotoSignatureJoinerForm() {
+  useToolAnalytics(TOOL);
   const dict = useT();
   const t = dict.forms.photoSignatureJoiner;
   const [photo, setPhoto] = useState<File | null>(null);
@@ -37,7 +50,10 @@ export function PhotoSignatureJoinerForm() {
   // uploaded separately.
   useConsumePipelineFile({
     accept: "image/*",
-    onFile: (file) => setPhoto(file),
+    onFile: (file) => {
+      setPhoto(file);
+      fireFileAdded(file);
+    },
   });
 
   const isCustom = presetId === "custom";
@@ -86,6 +102,9 @@ export function PhotoSignatureJoinerForm() {
     setSubmitting(true);
     if (result) URL.revokeObjectURL(result.url);
     setResult(null);
+
+    fire("process_start", { tool_id: TOOL, preset: presetId });
+    const t0 = performance.now();
     try {
       const r = await joinPhotoAndSignature({
         photo,
@@ -96,9 +115,19 @@ export function PhotoSignatureJoinerForm() {
         autoTrimSignature: autoTrim,
       });
       setResult({ url: URL.createObjectURL(r.blob), bytes: r.bytes });
+      fire("process_complete", {
+        tool_id: TOOL,
+        duration_bucket: durationBucket(performance.now() - t0),
+        input_size_bucket: sizeBucket(photo.size + signature.size),
+        output_size_bucket: sizeBucket(r.bytes),
+      });
       toast.success(fmt(t.toasts.combinedTemplate, { size: formatKb(r.bytes) }));
     } catch (err) {
       toast.error(err instanceof Error ? err.message : t.errors.combineFailed);
+      fire("process_error", {
+        tool_id: TOOL,
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -116,7 +145,11 @@ export function PhotoSignatureJoinerForm() {
             <FileUpload
               accept="image/*"
               maxSize={25 * 1024 * 1024}
-              onFiles={(files) => setPhoto(files[0] ?? null)}
+              onFiles={(files) => {
+                const f = files[0] ?? null;
+                setPhoto(f);
+                if (f) fireFileAdded(f);
+              }}
               label={t.photo.dropLabel}
               sublabel={t.photo.dropSublabel}
             />
@@ -139,7 +172,11 @@ export function PhotoSignatureJoinerForm() {
             <FileUpload
               accept="image/*"
               maxSize={10 * 1024 * 1024}
-              onFiles={(files) => setSignature(files[0] ?? null)}
+              onFiles={(files) => {
+                const f = files[0] ?? null;
+                setSignature(f);
+                if (f) fireFileAdded(f);
+              }}
               label={t.signature.dropLabel}
               sublabel={t.signature.dropSublabel}
             />
@@ -249,7 +286,11 @@ export function PhotoSignatureJoinerForm() {
                 <span className="text-surface-fg-muted">{formatKb(result.bytes)}</span>
               </div>
               <Button asChild variant="solid" fullWidth size="lg">
-                <a href={result.url} download="bharattools-photo-signature.jpg">
+                <a
+                  href={result.url}
+                  download="bharattools-photo-signature.jpg"
+                  onClick={() => fire("download_click", { tool_id: TOOL, output_type: "image/jpeg" })}
+                >
                   {t.result.downloadCta}
                 </a>
               </Button>

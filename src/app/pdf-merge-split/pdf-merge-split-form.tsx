@@ -9,6 +9,7 @@ import { Input } from "@devalok/shilp-sutra/ui/input";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analytics";
 import { formatKb } from "@/lib/processing/image";
 import {
   getPdfPageCount,
@@ -18,6 +19,8 @@ import {
   splitPdfEveryPage,
   type SplitResult,
 } from "@/lib/processing/pdf-merge-split";
+
+const TOOL = "pdf-merge-split";
 
 type Mode = "merge" | "split";
 type SplitMode = "ranges" | "every";
@@ -39,6 +42,7 @@ interface SplitOutput {
 }
 
 export function PdfMergeSplitForm() {
+  useToolAnalytics(TOOL);
   const [mode, setMode] = useState<Mode>("merge");
 
   return (
@@ -51,7 +55,10 @@ export function PdfMergeSplitForm() {
           { id: "split", text: "Split PDF" },
         ]}
         selectedId={mode}
-        onSelect={(id) => setMode(id as Mode)}
+        onSelect={(id) => {
+          setMode(id as Mode);
+          fire("preset_selected", { tool_id: TOOL, preset_id: id });
+        }}
       />
       {mode === "merge" ? <MergePanel /> : <SplitPanel />}
     </div>
@@ -68,6 +75,7 @@ function MergePanel() {
   }, [output]);
 
   const addFiles = (files: File[]) => {
+    if (files.length === 0) return;
     setItems((cur) => [
       ...cur,
       ...files.map((f) => ({
@@ -75,6 +83,12 @@ function MergePanel() {
         file: f,
       })),
     ]);
+    fire("file_added", {
+      tool_id: TOOL,
+      file_count: files.length,
+      file_size_bucket: sizeBucket(files.reduce((s, f) => s + f.size, 0)),
+      file_type: "application/pdf",
+    });
   };
 
   const remove = (id: string) => {
@@ -101,13 +115,27 @@ function MergePanel() {
     setSubmitting(true);
     if (output) URL.revokeObjectURL(output.url);
     setOutput(null);
+
+    fire("process_start", { tool_id: TOOL, preset: "merge" });
+    const t0 = performance.now();
+    const inputBytes = items.reduce((s, i) => s + i.file.size, 0);
     try {
       const merged = await mergePdfs(items.map((i) => i.file));
       const blob = new Blob([new Uint8Array(merged)], { type: "application/pdf" });
       setOutput({ url: URL.createObjectURL(blob), bytes: merged.length });
+      fire("process_complete", {
+        tool_id: TOOL,
+        duration_bucket: durationBucket(performance.now() - t0),
+        input_size_bucket: sizeBucket(inputBytes),
+        output_size_bucket: sizeBucket(merged.length),
+      });
       toast.success(`Merged ${items.length} PDFs.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to merge.");
+      fire("process_error", {
+        tool_id: TOOL,
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -196,7 +224,11 @@ function MergePanel() {
                 className="h-[60vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
               <Button asChild variant="solid" fullWidth size="lg">
-                <a href={output.url} download="bharattools-merged.pdf">
+                <a
+                  href={output.url}
+                  download="bharattools-merged.pdf"
+                  onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
+                >
                   Download merged PDF · {formatKb(output.bytes)}
                 </a>
               </Button>
@@ -245,6 +277,14 @@ function SplitPanel() {
   const setSourceFile = (next: File | null) => {
     setFile(next);
     setPageCount(null);
+    if (next) {
+      fire("file_added", {
+        tool_id: TOOL,
+        file_count: 1,
+        file_size_bucket: sizeBucket(next.size),
+        file_type: next.type || "application/pdf",
+      });
+    }
   };
 
   const run = async () => {
@@ -255,6 +295,9 @@ function SplitPanel() {
     setSubmitting(true);
     outputs.forEach((o) => URL.revokeObjectURL(o.url));
     setOutputs([]);
+
+    fire("process_start", { tool_id: TOOL, preset: `split-${splitMode}` });
+    const t0 = performance.now();
     try {
       let results: SplitResult[];
       if (splitMode === "every") {
@@ -269,9 +312,19 @@ function SplitPanel() {
         return { url: URL.createObjectURL(blob), label: r.label, bytes: r.bytes.length };
       });
       setOutputs(next);
+      fire("process_complete", {
+        tool_id: TOOL,
+        duration_bucket: durationBucket(performance.now() - t0),
+        input_size_bucket: sizeBucket(file.size),
+        output_size_bucket: sizeBucket(next.reduce((s, o) => s + o.bytes, 0)),
+      });
       toast.success(`Split into ${next.length} PDF${next.length === 1 ? "" : "s"}.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to split.");
+      fire("process_error", {
+        tool_id: TOOL,
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -369,7 +422,11 @@ function SplitPanel() {
                     <div className="text-body-xs text-surface-fg-muted">{formatKb(o.bytes)}</div>
                   </div>
                   <Button asChild variant="solid" size="sm">
-                    <a href={o.url} download={`${baseName}-${o.label}.pdf`}>
+                    <a
+                      href={o.url}
+                      download={`${baseName}-${o.label}.pdf`}
+                      onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
+                    >
                       Download
                     </a>
                   </Button>

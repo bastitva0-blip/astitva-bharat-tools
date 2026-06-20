@@ -8,6 +8,7 @@ import { FileUpload } from "@devalok/shilp-sutra/ui/file-upload";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analytics";
 import { useConsumePipelineFile } from "@/lib/pipeline";
 import { formatKb } from "@/lib/processing/image";
 import {
@@ -15,6 +16,8 @@ import {
   type Orientation,
   type PageSize,
 } from "@/lib/processing/images-to-pdf";
+
+const TOOL = "jpg-to-pdf";
 
 type Rotation = 0 | 90 | 180 | 270;
 
@@ -26,6 +29,7 @@ interface Item {
 }
 
 export function JpgToPdfForm() {
+  useToolAnalytics(TOOL);
   const [items, setItems] = useState<Item[]>([]);
   const [pageSize, setPageSize] = useState<PageSize>("a4");
   const [orientation, setOrientation] = useState<Orientation>("portrait");
@@ -41,6 +45,7 @@ export function JpgToPdfForm() {
   }, [resultUrl]);
 
   const addFiles = useCallback((files: File[]) => {
+    if (files.length === 0) return;
     const additions: Item[] = files.map((f) => ({
       id: `${f.name}-${f.size}-${f.lastModified}-${Math.random().toString(36).slice(2)}`,
       file: f,
@@ -48,6 +53,12 @@ export function JpgToPdfForm() {
       rotation: 0,
     }));
     setItems((cur) => [...cur, ...additions]);
+    fire("file_added", {
+      tool_id: TOOL,
+      file_count: additions.length,
+      file_size_bucket: sizeBucket(additions.reduce((s, a) => s + a.file.size, 0)),
+      file_type: additions[0]?.file.type || "unknown",
+    });
   }, []);
 
   // Pick up an image handed off from a previous tool (e.g. Image Compressor).
@@ -92,6 +103,10 @@ export function JpgToPdfForm() {
     setSubmitting(true);
     if (resultUrl) URL.revokeObjectURL(resultUrl);
     setResultUrl(null);
+
+    fire("process_start", { tool_id: TOOL });
+    const t0 = performance.now();
+    const inputBytes = items.reduce((s, i) => s + i.file.size, 0);
     try {
       const bytes = await buildPdfFromImages({
         items: items.map((i) => ({ blob: i.file, rotation: i.rotation })),
@@ -100,9 +115,19 @@ export function JpgToPdfForm() {
       });
       const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
       setResultUrl(URL.createObjectURL(blob));
+      fire("process_complete", {
+        tool_id: TOOL,
+        duration_bucket: durationBucket(performance.now() - t0),
+        input_size_bucket: sizeBucket(inputBytes),
+        output_size_bucket: sizeBucket(blob.size),
+      });
       toast.success(`PDF ready - ${items.length} page${items.length === 1 ? "" : "s"}.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to build PDF.");
+      fire("process_error", {
+        tool_id: TOOL,
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -234,7 +259,11 @@ export function JpgToPdfForm() {
                 className="h-[70vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
               <Button asChild variant="solid" fullWidth size="lg">
-                <a href={resultUrl} download="bharattools-images.pdf">
+                <a
+                  href={resultUrl}
+                  download="bharattools-images.pdf"
+                  onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
+                >
                   Download PDF
                 </a>
               </Button>

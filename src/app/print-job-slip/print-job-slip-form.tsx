@@ -12,6 +12,7 @@ import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { Textarea } from "@devalok/shilp-sutra/ui/textarea";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analytics";
 import { formatKb } from "@/lib/processing/image";
 import {
   buildPrintJobPdf,
@@ -21,6 +22,8 @@ import {
   type PrintJobItem,
   type Sides,
 } from "@/lib/processing/print-job-slip";
+
+const TOOL = "print-job-slip";
 
 type Row = {
   id: string;
@@ -63,6 +66,7 @@ function defaultRow(): Row {
 }
 
 export function PrintJobSlipForm() {
+  useToolAnalytics(TOOL);
   const [files, setFiles] = useState<SourceFile[]>([]);
   const [notes, setNotes] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -98,7 +102,14 @@ export function PrintJobSlipForm() {
         return source;
       }),
     );
+    if (additions.length === 0) return;
     setFiles((cur) => [...cur, ...additions]);
+    fire("file_added", {
+      tool_id: TOOL,
+      file_count: additions.length,
+      file_size_bucket: sizeBucket(additions.reduce((s, a) => s + a.file.size, 0)),
+      file_type: additions[0]?.file.type || "unknown",
+    });
   };
 
   const removeFile = (fileId: string) => {
@@ -168,6 +179,10 @@ export function PrintJobSlipForm() {
     setSubmitting(true);
     if (result) URL.revokeObjectURL(result.url);
     setResult(null);
+
+    fire("process_start", { tool_id: TOOL });
+    const t0 = performance.now();
+    const inputBytes = files.reduce((s, f) => s + f.file.size, 0);
     try {
       const payload: PrintJobItem[] = [];
       for (const f of files) {
@@ -189,9 +204,19 @@ export function PrintJobSlipForm() {
       const out = await buildPrintJobPdf({ items: payload, notes });
       const blob = new Blob([new Uint8Array(out)], { type: "application/pdf" });
       setResult({ url: URL.createObjectURL(blob), bytes: out.length });
+      fire("process_complete", {
+        tool_id: TOOL,
+        duration_bucket: durationBucket(performance.now() - t0),
+        input_size_bucket: sizeBucket(inputBytes),
+        output_size_bucket: sizeBucket(out.length),
+      });
       toast.success("Print job slip ready.");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to build slip.");
+      fire("process_error", {
+        tool_id: TOOL,
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
     } finally {
       setSubmitting(false);
     }
@@ -438,12 +463,19 @@ export function PrintJobSlipForm() {
               />
               <div className="flex flex-col gap-2 sm:flex-row">
                 <Button asChild variant="solid" size="lg" className="flex-1">
-                  <a href={result.url} download="bharattools-print-job.pdf">
+                  <a
+                    href={result.url}
+                    download="bharattools-print-job.pdf"
+                    onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
+                  >
                     Download · {formatKb(result.bytes)}
                   </a>
                 </Button>
                 <Button asChild variant="soft" size="lg" className="flex-1">
-                  <Link href="/quick-send">
+                  <Link
+                    href="/quick-send"
+                    onClick={() => fire("cross_tool_click", { from_tool: TOOL, to_tool: "quick-send" })}
+                  >
                     <Send size={16} />
                     Send via Quick Send
                   </Link>
