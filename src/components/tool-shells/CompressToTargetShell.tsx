@@ -160,6 +160,7 @@ export function CompressToTargetShell<TResult extends BaseResult>({
       tool_id: tool.slug,
       file_count: 1,
       file_size_bucket: sizeBucket(coerced.size),
+      file_type: coerced.type || "unknown",
     });
   }, [pipelineEntry, file, tool.slug, accept]);
 
@@ -175,6 +176,7 @@ export function CompressToTargetShell<TResult extends BaseResult>({
           tool_id: tool.slug,
           file_count: 1,
           file_size_bucket: sizeBucket(next.size),
+          file_type: next.type || "unknown",
         });
       }
     },

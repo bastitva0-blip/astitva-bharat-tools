@@ -123,6 +123,7 @@ export function ComposeShell({
         tool_id: tool.slug,
         file_count: additions.length,
         file_size_bucket: sizeBucket(additions.reduce((s, a) => s + a.file.size, 0)),
+        file_type: additions[0]?.file.type || "unknown",
       });
     },
     [items.length, maxItems, tool.slug],
