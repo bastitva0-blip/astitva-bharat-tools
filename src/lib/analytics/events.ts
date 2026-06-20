@@ -101,6 +101,7 @@ export interface EventMap {
   qs_file_sent: { file_size_bucket: SizeBucket };
   qs_file_received: { file_size_bucket: SizeBucket };
   qs_transfer_error: { error_type: string };
+  qs_camera_permission: { state: "granted" | "denied" | "no_camera" | "error" };
 }
 
 export type EventName = keyof EventMap;
