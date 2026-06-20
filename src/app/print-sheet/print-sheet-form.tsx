@@ -9,10 +9,14 @@ import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { Switch } from "@devalok/shilp-sutra/ui/switch";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analytics";
 import { fitGrid, photoSizePresets, sheetPresets } from "@/lib/presets/print-sheet";
 import { buildPrintSheetPdf } from "@/lib/processing/print-sheet";
 
+const TOOL = "print-sheet";
+
 export function PrintSheetForm() {
+  useToolAnalytics(TOOL);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [sheetId, setSheetId] = useState<string>("a4");
@@ -68,20 +72,53 @@ export function PrintSheetForm() {
     setSubmitting(true);
     if (resultUrl) URL.revokeObjectURL(resultUrl);
     setResultUrl(null);
+
+    fire("process_start", { tool_id: TOOL });
+    const t0 = performance.now();
     try {
       let image: Blob = file;
       if (removeBg) {
         setPhase("bg");
-        const mod = await import("@imgly/background-removal");
-        image = await mod.removeBackground(file);
+        fire("bg_process_start", { tool_id: TOOL });
+        const bgT0 = performance.now();
+        try {
+          let mod: typeof import("@imgly/background-removal");
+          try {
+            mod = await import("@imgly/background-removal");
+          } catch (loadErr) {
+            fire("library_load_error", { lib: "background-removal" });
+            throw loadErr;
+          }
+          image = await mod.removeBackground(file);
+          fire("bg_process_complete", {
+            tool_id: TOOL,
+            duration_bucket: durationBucket(performance.now() - bgT0),
+          });
+        } catch (bgErr) {
+          fire("bg_process_error", {
+            tool_id: TOOL,
+            error_type: bgErr instanceof Error ? bgErr.name : "unknown",
+          });
+          throw bgErr;
+        }
       }
       setPhase("pdf");
       const bytes = await buildPrintSheetPdf({ image, sheet, photo });
       const blob = new Blob([new Uint8Array(bytes)], { type: "application/pdf" });
       setResultUrl(URL.createObjectURL(blob));
+      fire("process_complete", {
+        tool_id: TOOL,
+        duration_bucket: durationBucket(performance.now() - t0),
+        input_size_bucket: sizeBucket(file.size),
+        output_size_bucket: sizeBucket(blob.size),
+      });
       toast.success(`Sheet ready - ${grid.total} photos.`);
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to generate PDF.");
+      fire("process_error", {
+        tool_id: TOOL,
+        error_type: err instanceof Error ? err.name : "unknown",
+      });
     } finally {
       setSubmitting(false);
       setPhase("idle");
@@ -98,7 +135,18 @@ export function PrintSheetForm() {
           <FileUpload
             accept="image/*"
             maxSize={25 * 1024 * 1024}
-            onFiles={(files) => setFile(files[0] ?? null)}
+            onFiles={(files) => {
+              const f = files[0] ?? null;
+              setFile(f);
+              if (f) {
+                fire("file_added", {
+                  tool_id: TOOL,
+                  file_count: 1,
+                  file_size_bucket: sizeBucket(f.size),
+                  file_type: f.type || "unknown",
+                });
+              }
+            }}
             label="Drop a portrait here"
             sublabel="Best results: a passport-prepped JPG from the Exam Photo Resizer."
           />

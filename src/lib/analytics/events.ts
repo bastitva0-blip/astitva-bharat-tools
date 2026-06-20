@@ -35,7 +35,12 @@ type SearchSurface = "home" | "nav" | "palette" | "tools_index";
 export interface EventMap {
   // --- Tool lifecycle (tool-design-spec §2.16) ----------------------------
   tool_open: { tool_id: ToolSlug; locale: Locale };
-  file_added: { tool_id: ToolSlug; file_count: number; file_size_bucket: SizeBucket };
+  file_added: {
+    tool_id: ToolSlug;
+    file_count: number;
+    file_size_bucket: SizeBucket;
+    file_type?: string;
+  };
   process_start: { tool_id: ToolSlug; preset?: string };
   process_complete: {
     tool_id: ToolSlug;
@@ -73,6 +78,18 @@ export interface EventMap {
   file_rejected: { tool_id: ToolSlug; reason: RejectReason };
   spec_missed: { tool_id: ToolSlug; preset?: string; reason: string };
   process_retry: { tool_id: ToolSlug; after: "error" | "complete" };
+
+  // --- Phase B: heavy-path reliability + engagement ----------------------
+  // Background removal (@imgly/background-removal) — heaviest, most fragile
+  // on-device path; dynamic import + WASM model download.
+  bg_process_start: { tool_id: ToolSlug };
+  bg_process_complete: { tool_id: ToolSlug; duration_bucket: DurationBucket };
+  bg_process_error: { tool_id: ToolSlug; error_type: string };
+  // Dynamic import() of a heavy lib failed (chunk/network/WASM). Static
+  // imports surface as process_error instead.
+  library_load_error: { lib: string };
+  // External link click — `target` is the destination hostname only.
+  outbound_click: { target: string };
 }
 
 export type EventName = keyof EventMap;

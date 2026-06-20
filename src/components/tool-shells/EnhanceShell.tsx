@@ -79,6 +79,7 @@ export function EnhanceShell({
           tool_id: tool.slug,
           file_count: 1,
           file_size_bucket: sizeBucket(next.size),
+          file_type: next.type || "unknown",
         });
       }
     },

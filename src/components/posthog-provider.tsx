@@ -56,11 +56,30 @@ export function PostHogProvider() {
         where: "unhandledrejection",
       });
     };
+    // Outbound-link clicks — one delegated listener covers every external <a>
+    // (no per-link wiring, works for server-rendered links too). target is the
+    // destination hostname only.
+    const onClick = (e: MouseEvent) => {
+      const anchor = (e.target as HTMLElement | null)?.closest?.("a");
+      const href = anchor?.getAttribute("href");
+      if (!href) return;
+      try {
+        const url = new URL(href, window.location.href);
+        if (url.origin !== window.location.origin && /^https?:$/.test(url.protocol)) {
+          fire("outbound_click", { target: url.hostname });
+        }
+      } catch {
+        // non-URL href (mailto:, #anchor, etc.) — ignore
+      }
+    };
+
     window.addEventListener("error", onError);
     window.addEventListener("unhandledrejection", onRejection);
+    document.addEventListener("click", onClick, { capture: true });
     return () => {
       window.removeEventListener("error", onError);
       window.removeEventListener("unhandledrejection", onRejection);
+      document.removeEventListener("click", onClick, { capture: true });
     };
   }, []);
 
