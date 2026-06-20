@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "@devalok/shilp-sutra/ui/dialog";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
+import { fire } from "@/lib/analytics";
 
 interface Props {
   /** Optional path prefix that, when matched in a scanned URL, triggers same-origin routing. */
@@ -113,6 +114,7 @@ function ScannerView({
       try {
         const hasCam = await QrScanner.hasCamera();
         if (!hasCam) {
+          fire("qs_camera_permission", { state: "no_camera" });
           setError("No camera available on this device.");
           return;
         }
@@ -131,8 +133,12 @@ function ScannerView({
           },
         );
         await scanner.start();
+        fire("qs_camera_permission", { state: "granted" });
         if (cancelled) scanner.destroy();
       } catch (e) {
+        fire("qs_camera_permission", {
+          state: e instanceof Error && e.name === "NotAllowedError" ? "denied" : "error",
+        });
         setError(
           e instanceof Error
             ? e.message
