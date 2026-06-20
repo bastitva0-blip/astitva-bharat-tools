@@ -121,9 +121,9 @@ export default async function RootLayout({
             <TopNav />
             {children}
           </Providers>
+          <MetricsNotice />
         </LocaleProvider>
         <SegmentBootstrap />
-        <MetricsNotice />
       </body>
       {GA_ENABLED && (
         <>
