@@ -7,6 +7,7 @@ import { Label } from "@devalok/shilp-sutra/ui/label";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { Slider } from "@devalok/shilp-sutra/ui/slider";
 import { GenerateShell, type GenerateResult } from "@/components/tool-shells";
+import { fire } from "@/lib/analytics";
 import { getToolBySlug } from "@/lib/tools";
 
 type QrContent = "text" | "url" | "upi" | "phone";
@@ -75,9 +76,10 @@ export function QrGenerateForm() {
                 variant="default"
                 options={CONTENT_OPTIONS.map((o) => ({ id: o.id, text: o.text }))}
                 selectedId={config.contentType}
-                onSelect={(id) =>
-                  setConfig({ ...config, contentType: id as QrContent, value: "" })
-                }
+                onSelect={(id) => {
+                  setConfig({ ...config, contentType: id as QrContent, value: "" });
+                  fire("preset_selected", { tool_id: tool.slug, preset_id: id });
+                }}
               />
             </div>
 
