@@ -90,6 +90,17 @@ export interface EventMap {
   library_load_error: { lib: string };
   // External link click — `target` is the destination hostname only.
   outbound_click: { target: string };
+
+  // --- Phase C: quick-send P2P (most network/WebRTC failure surface) ------
+  // No filenames; transfer sizes bucketed. error_type is an Error name or a
+  // signaling code (not-found/full), never user data.
+  qs_session_created: { role: "host" | "guest" };
+  qs_peer_connected: Record<string, never>;
+  qs_peer_disconnected: { reason: string };
+  qs_connection_error: { stage: "signaling" | "datachannel"; error_type: string };
+  qs_file_sent: { file_size_bucket: SizeBucket };
+  qs_file_received: { file_size_bucket: SizeBucket };
+  qs_transfer_error: { error_type: string };
 }
 
 export type EventName = keyof EventMap;

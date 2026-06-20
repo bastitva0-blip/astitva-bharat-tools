@@ -1,5 +1,6 @@
 "use client";
 
+import { useToolAnalytics } from "@/lib/analytics";
 import { PairCard } from "./_session/pair-card";
 import { SessionPanel } from "./_session/session-panel";
 import { useQuickSendSession } from "./_session/use-quick-send-session";
@@ -8,6 +9,7 @@ import { useQuickSendSession } from "./_session/use-quick-send-session";
 // then drops into the same bidirectional session panel that the guest sees
 // once the data channel is open.
 export function QuickSendHost() {
+  useToolAnalytics("quick-send");
   const session = useQuickSendSession({ mode: "host" });
   const showPairing = session.phase === "connecting" || session.phase === "waiting";
 
