@@ -5,6 +5,7 @@ import { Label } from "@devalok/shilp-sutra/ui/label";
 import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { CompressToTargetShell } from "@/components/tool-shells";
+import { fire } from "@/lib/analytics";
 import { fmt } from "@/i18n/format";
 import { useT } from "@/i18n/provider";
 import { compressImageToTargetKb, formatKb } from "@/lib/processing/image";
@@ -67,6 +68,7 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
       toast.error(
         fmt(t.errors.missedTargetTemplate, { target: activeLabel, result: formatKb(r.bytes) }),
       );
+      fire("spec_missed", { tool_id: tool.slug, preset: slug, reason: "kb_over_target" });
     }
 
     return r;

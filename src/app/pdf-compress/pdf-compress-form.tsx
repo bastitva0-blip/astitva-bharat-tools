@@ -5,6 +5,7 @@ import { Label } from "@devalok/shilp-sutra/ui/label";
 import { SegmentedControl } from "@devalok/shilp-sutra/ui/segmented-control";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { CompressToTargetShell } from "@/components/tool-shells";
+import { fire } from "@/lib/analytics";
 import { fmt } from "@/i18n/format";
 import { useT } from "@/i18n/provider";
 import { formatKb } from "@/lib/processing/image";
@@ -74,7 +75,10 @@ export function PdfCompressForm() {
               { id: "stronger", text: t.strength.stronger },
             ]}
             selectedId={preset}
-            onSelect={(id) => setPreset(id as CompressPreset)}
+            onSelect={(id) => {
+              setPreset(id as CompressPreset);
+              fire("preset_selected", { tool_id: tool.slug, preset_id: id });
+            }}
           />
           <p className="text-body-xs text-surface-fg-muted">
             {preset === "light" && t.strength.lightDesc}
