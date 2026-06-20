@@ -20,7 +20,10 @@ import { registerSink } from "./events";
 // phc_ project keys are client-side by design (write-only ingest, rate-limited)
 // — safe to ship in the bundle, same as the GA measurement ID.
 const POSTHOG_KEY = "phc_kn63MeZXuQEDgvDfD43QJ7gNNRvU9ef68LTwcQLhagKh";
-const POSTHOG_HOST = "https://eu.i.posthog.com";
+// Ingestion proxied first-party via /ingest (next.config rewrites → EU) to
+// survive adblockers. ui_host keeps the toolbar / links pointing at the EU app.
+const POSTHOG_HOST = "/ingest";
+const POSTHOG_UI_HOST = "https://eu.posthog.com";
 
 let started = false;
 
@@ -33,6 +36,7 @@ export function initPostHog(): void {
   started = true;
   posthog.init(POSTHOG_KEY, {
     api_host: POSTHOG_HOST,
+    ui_host: POSTHOG_UI_HOST,
     persistence: "memory",
     autocapture: false,
     disable_session_recording: true,
