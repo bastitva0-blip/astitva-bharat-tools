@@ -129,6 +129,7 @@ export function ResizeToSpecShell({
       return;
     }
 
+    if (resultBlob) fire("process_retry", { tool_id: tool.slug, after: "complete" });
     setSubmitting(true);
     setResultBlob(null);
     setResultMeta(null);
@@ -172,6 +173,7 @@ export function ResizeToSpecShell({
         toast.success(`Saved at ${formatKb(r.bytes)} (under upper limit).`);
       } else {
         toast.error(`Could not hit the KB target — closest was ${formatKb(r.bytes)}.`);
+        fire("spec_missed", { tool_id: tool.slug, preset: preset.slug, reason: "kb_over_target" });
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : dict.shell.errors.processFailed;
@@ -183,7 +185,7 @@ export function ResizeToSpecShell({
     } finally {
       setSubmitting(false);
     }
-  }, [completedCrop, onProcess, tool.slug, preset.slug, preset.kbRange.max, dict.shell.errors, setPipeline, outputFilename, file]);
+  }, [completedCrop, resultBlob, onProcess, tool.slug, preset.slug, preset.kbRange.max, dict.shell.errors, setPipeline, outputFilename, file]);
 
   const onEditAgain = () => {
     setResultBlob(null);

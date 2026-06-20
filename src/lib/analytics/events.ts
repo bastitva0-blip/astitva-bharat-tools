@@ -1,13 +1,15 @@
 // Typed analytics event bus (base-infrastructure-plan §6.1).
 //
 // Every event is declared in EventMap with a fixed payload shape. Tools call
-// `fire("process_complete", { tool_id, ... })` — never `umami.track(...)`
+// `fire("process_complete", { tool_id, ... })` — never `gtag(...)`
 // directly. Because payloads are typed, fields like `email`/`phone`/`name`
 // are structurally rejected at compile time (they aren't in any payload
 // type, so the type system refuses them).
 //
 // Sink behavior:
-//   prod  — forward to window.umami.track (the script in layout.tsx)
+//   prod  — GA4 via window.gtag (gtag.js in layout.tsx, Consent Mode v2) PLUS
+//           any registered extra sink. PostHog registers itself (cookieless)
+//           through registerSink() in initPostHog() — see ./posthog.ts.
 //   dev   — console.info, no network
 //   test  — also captured in a ring buffer (testSinkEvents) for assertions
 //
@@ -19,10 +21,12 @@ import type { DurationBucket, SizeBucket } from "./buckets";
 type ToolSlug = string;
 type Locale = string;
 
-// Triggers and tiers are open-string for now — narrow once the paywall pitch
-// resolver lands and we know the exact set.
-type UpsellTrigger = "batch_initiated" | "high_cost_op" | "manual";
+// Mirrors PaywallTrigger / PitchTier from src/lib/segment/paywall.ts (kept in
+// sync so PaywallPitch can fire upsell_* with the resolver's own values).
+type UpsellTrigger = "tool-open" | "batch-initiated" | "high-cost-feature" | "post-download";
 type UpsellTier = "29" | "499" | "1999";
+
+type RejectReason = "too_large" | "wrong_type" | "decode_failed" | "too_many";
 
 type Segment = "operator" | "professional" | "individual-paying" | "aspirant" | "unknown";
 
@@ -62,6 +66,13 @@ export interface EventMap {
   search_zero_result: { query: string };
   search_result_click: { query: string; result_slug: ToolSlug; rank: number };
   search_deep_link: { query: string; target: string };
+
+  // --- Reliability + bug-surfacing (Phase A) ------------------------------
+  // No filenames / file contents — error_type and scrubbed context only.
+  client_error: { route: string; error_type: string; where: string };
+  file_rejected: { tool_id: ToolSlug; reason: RejectReason };
+  spec_missed: { tool_id: ToolSlug; preset?: string; reason: string };
+  process_retry: { tool_id: ToolSlug; after: "error" | "complete" };
 }
 
 export type EventName = keyof EventMap;
@@ -71,17 +82,28 @@ export type EventPayload<K extends EventName> = EventMap[K];
 
 declare global {
   interface Window {
-    umami?: {
-      track: (name: string, data?: Record<string, unknown>) => void;
-    };
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
   }
 }
 
 type Sink = <K extends EventName>(name: K, payload: EventPayload<K>) => void;
 
-const umamiSink: Sink = (name, payload) => {
+// GA4 event params accept only flat scalars — flatten array payload fields
+// (e.g. segment_resolved.signals_used) to a comma-joined string.
+function toGaParams(payload: Record<string, unknown>): Record<string, unknown> {
+  const params: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(payload)) {
+    params[key] = Array.isArray(value) ? value.join(",") : value;
+  }
+  return params;
+}
+
+const gaSink: Sink = (name, payload) => {
   if (typeof window === "undefined") return;
-  window.umami?.track(name, payload as Record<string, unknown>);
+  // Consent Mode v2 (set in layout.tsx) governs whether this sets cookies or
+  // sends a cookieless ping — the event always fires; consent gates storage.
+  window.gtag?.("event", name, toGaParams(payload as Record<string, unknown>));
 };
 
 const consoleSink: Sink = (name, payload) => {
@@ -110,7 +132,17 @@ if (process.env.NODE_ENV === "test") {
 } else if (process.env.NODE_ENV === "development") {
   activeSink = consoleSink;
 } else {
-  activeSink = umamiSink;
+  activeSink = gaSink;
+}
+
+// Additional sinks registered at runtime (client-only). PostHog registers
+// itself here via initPostHog() so posthog-js never enters the server bundle
+// or the always-on gaSink path. Each fired event reaches every extra sink.
+const extraSinks: Sink[] = [];
+
+/** Register an extra analytics sink (e.g. PostHog). Client-side, idempotent caller. */
+export function registerSink(sink: Sink): void {
+  extraSinks.push(sink);
 }
 
 // --- Public API ----------------------------------------------------------
@@ -132,6 +164,7 @@ const signalSubscribers = new Set<<K extends EventName>(name: K, payload: EventP
  */
 export function fire<K extends EventName>(name: K, payload: EventPayload<K>): void {
   activeSink(name, payload);
+  for (const sink of extraSinks) sink(name, payload);
   for (const sub of signalSubscribers) sub(name, payload);
 }
 

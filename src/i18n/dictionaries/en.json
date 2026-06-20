@@ -70,6 +70,7 @@
     "about": "About",
     "privacy": "Privacy",
     "terms": "Terms",
+    "analyticsPrefs": "Analytics preferences",
     "formGuides": "Form guides",
     "shilpSutra": "Shilp Sutra",
     "github": "GitHub",
@@ -365,5 +366,12 @@
       "high-cost-feature": "Unlock heavy processing — see plans.",
       "post-download": "Useful? See plans."
     }
+  },
+  "metrics": {
+    "ariaLabel": "Usage metrics notice",
+    "message": "BharatTools collects anonymous usage metrics to improve the tools — no cookies, no personal data, and your files are never tracked.",
+    "optOut": "Opt out",
+    "gotIt": "Got it",
+    "privacyLink": "Privacy policy"
   }
 }

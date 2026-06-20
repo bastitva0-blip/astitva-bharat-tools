@@ -41,6 +41,7 @@ export function PaywallPitch({ tool, trigger }: PaywallPitchProps) {
     setPitch(next);
     if (next) {
       fire("pitch_variant_shown", { variant: next.segment, tool_id: tool.slug });
+      fire("upsell_shown", { tool_id: tool.slug, trigger });
     }
   }, [tool, trigger]);
 
@@ -50,6 +51,7 @@ export function PaywallPitch({ tool, trigger }: PaywallPitchProps) {
 
   const onClick = () => {
     fire("pitch_variant_clicked", { variant: pitch.segment, tier: pitch.tier });
+    fire("upsell_clicked", { tool_id: tool.slug, tier: pitch.tier });
   };
 
   return (

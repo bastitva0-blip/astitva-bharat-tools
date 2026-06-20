@@ -193,6 +193,7 @@ export function CompressToTargetShell<TResult extends BaseResult>({
       toast.error(dict.shell.errors.noFile);
       return;
     }
+    if (result) fire("process_retry", { tool_id: tool.slug, after: "complete" });
     setSubmitting(true);
     if (result) URL.revokeObjectURL(result.url);
     setResult(null);

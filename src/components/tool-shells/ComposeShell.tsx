@@ -108,6 +108,7 @@ export function ComposeShell({
       const take = files.slice(0, slotsLeft);
       if (take.length === 0) {
         toast.error(`Maximum ${cap} items.`);
+        fire("file_rejected", { tool_id: tool.slug, reason: "too_many" });
         return;
       }
       const additions: ComposeItem[] = take.map((f) => ({
@@ -170,6 +171,7 @@ export function ComposeShell({
       toast.error(`Add at least ${minItems} item${minItems === 1 ? "" : "s"}.`);
       return;
     }
+    if (resultBlob) fire("process_retry", { tool_id: tool.slug, after: "complete" });
     setSubmitting(true);
     setResultBlob(null);
 
@@ -204,7 +206,7 @@ export function ComposeShell({
     } finally {
       setSubmitting(false);
     }
-  }, [items, minItems, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
+  }, [items, minItems, resultBlob, onProcess, tool.slug, setPipeline, outputFilename, outputType, dict.shell.errors]);
 
 
   return (
