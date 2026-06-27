@@ -53,7 +53,7 @@ const PLANS: Plan[] = [
       "Higher per-day limits on heavy jobs",
       "Personal licence, one device",
     ],
-    cta: { label: "Get individual access", href: "mailto:hi@bharattools.devalok.dev?subject=Individual%20plan", mailto: true },
+    cta: { label: "Get individual access", href: "mailto:mudit@devalok.in?subject=Individual%20plan", mailto: true },
   },
   {
     id: "operators",

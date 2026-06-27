@@ -84,10 +84,10 @@ export default function AboutPage() {
             <p>
               For privacy questions, feedback or bug reports, email{" "}
               <a
-                href="mailto:hi@bharattools.devalok.dev"
+                href="mailto:mudit@devalok.in"
                 className="text-accent-11 hover:text-accent-12"
               >
-                hi@bharattools.devalok.dev
+                mudit@devalok.in
               </a>
               .
             </p>
