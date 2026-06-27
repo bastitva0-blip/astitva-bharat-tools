@@ -7,7 +7,7 @@ interface LanderPricingProps {
 
 export function LanderPricing({ segment }: LanderPricingProps) {
   const planLabel = segment === "operator" ? "Operator plan" : "Professional plan";
-  const mailto = `mailto:hi@bharattools.devalok.dev?subject=${encodeURIComponent(planLabel)}`;
+  const mailto = `mailto:mudit@devalok.in?subject=${encodeURIComponent(planLabel)}`;
   return (
     <section id="pricing" className="mt-16 scroll-mt-24">
       <Card variant="outline">

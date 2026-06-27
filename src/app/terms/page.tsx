@@ -102,8 +102,8 @@ export default function TermsPage() {
         <Section title="Contact">
           <p>
             Questions about these terms:{" "}
-            <a href="mailto:hi@bharattools.devalok.dev" className="text-accent-11 hover:text-accent-12">
-              hi@bharattools.devalok.dev
+            <a href="mailto:mudit@devalok.in" className="text-accent-11 hover:text-accent-12">
+              mudit@devalok.in
             </a>
             .
           </p>
