@@ -3,6 +3,7 @@ import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
 import { LanguageToggle } from "@/components/language-toggle";
 import { NavMenu } from "@/components/nav-menu";
+import { NavSearch } from "@/components/nav-search";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 
@@ -28,6 +29,7 @@ export async function TopNav() {
         <NavMenu />
 
         <div className="ml-auto flex items-center gap-2">
+          <NavSearch />
           <a
             href={GITHUB_URL}
             target="_blank"

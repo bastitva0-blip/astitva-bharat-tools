@@ -35,14 +35,57 @@
     "homeAria": "BharatTools home",
     "languageAria": "Change language",
     "githubAria": "View source on GitHub",
-    "formGuides": "Form guides"
+    "formGuides": "Form guides",
+    "tools": "Tools",
+    "pricing": "Pricing",
+    "searchTrigger": "Search tools",
+    "searchEmpty": "Type to find a tool. Try UPSC, 50 KB, passport."
   },
   "home": {
-    "badge": "Browser-only · Files never uploaded",
-    "titleLead": "Har Sarkari form ka",
-    "titleAccent": "saathi",
-    "subtitleMain": "Photo to spec, signature merge, KB compression, print sheet - every step of submitting an Indian government form, in one place.",
-    "subtitleMuted": "All on-device. Your files never leave your browser.",
+    "badge": "Browser-only · Made in India",
+    "titleLead": "India's tools for India's documents.",
+    "titleAccent": "Privately.",
+    "titleTrail": "For free where it matters.",
+    "subtitleMain": "Photo to spec. PDF to size. Document to portal.",
+    "subtitleMuted": "Your files never leave your device.",
+    "gridHeading": "Pick a tool. Or search above.",
+    "uspCards": [
+      {
+        "title": "Files stay on your device",
+        "desc": "Browser-only by architecture. Verify it in your network tab."
+      },
+      {
+        "title": "Made for Indian portals",
+        "desc": "Exact specs for UPSC, SSC, NEET, IBPS, Aadhaar — every form that matters."
+      },
+      {
+        "title": "Free for aspirants. Always.",
+        "desc": "Seva. A commitment we hardcode into the product."
+      },
+      {
+        "title": "Built for slow internet",
+        "desc": "Works on budget Android. Works on 4G. Works in your language."
+      },
+      {
+        "title": "No signups, no ads, no tracking",
+        "desc": "Only the tool. Then you're gone."
+      }
+    ],
+    "howItWorks": {
+      "step1Title": "Open",
+      "step1Desc": "Open a tool.",
+      "step2Title": "Drop",
+      "step2Desc": "Drop your file.",
+      "step3Title": "Done",
+      "step3Desc": "Done. In your browser. On your device.",
+      "caption": "We don't see it. We don't store it. We don't need to."
+    },
+    "trustStrip": {
+      "hosted": "Hosted in Mumbai",
+      "made": "Made in India",
+      "builtByTemplate": "Built by {devalok}",
+      "devalokName": "Devalok"
+    },
     "guides": {
       "heading": "Form filling guides",
       "description": "Step-by-step walk-throughs for the exam and government forms Indians fill most. Each guide names the photo and signature spec, the upload rules, and the right tool for every step.",
@@ -58,7 +101,10 @@
     "closestHeading": "Closest tools for",
     "fuzzyHeading": "Did you mean",
     "deepLinkPrefix": "Quick open:",
-    "soon": "soon"
+    "soon": "soon",
+    "indexTitle": "All tools",
+    "indexSubtitle": "Every BharatTools workflow on one page. Search by problem, exam name, KB number or document type.",
+    "seeAll": "See all tools"
   },
   "categories": {
     "forms": "Sarkari forms",
@@ -75,7 +121,17 @@
     "shilpSutra": "Shilp Sutra",
     "github": "GitHub",
     "openSource": "Open source",
-    "builtBy": "Built by"
+    "builtBy": "Built by",
+    "forOperators": "For operators",
+    "forProfessionals": "For professionals",
+    "pricing": "Pricing",
+    "allTools": "All tools",
+    "headings": {
+      "tools": "Tools",
+      "plans": "Plans",
+      "company": "Company",
+      "resources": "Resources"
+    }
   },
   "pdfCompress": {
     "title": "PDF Compressor",

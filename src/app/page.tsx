@@ -3,8 +3,11 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { Footer } from "@/components/footer";
 import { HeroAurora } from "@/components/hero-aurora";
+import { HowItWorks } from "@/components/how-it-works";
 import { JsonLd } from "@/components/json-ld";
 import { ToolsBrowser } from "@/components/tools-browser";
+import { TrustStrip } from "@/components/trust-strip";
+import { UspStrip } from "@/components/usp-strip";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { formGuides } from "@/lib/form-guides";
 import { faqPageSchema, softwareAppSchema } from "@/lib/seo/schema";
@@ -101,8 +104,8 @@ export default async function HomePage() {
             {dict.home.titleLead}{" "}
             <span className="bg-linear-to-r from-accent-11 to-accent-9 bg-clip-text text-transparent">
               {dict.home.titleAccent}
-            </span>
-            .
+            </span>{" "}
+            {dict.home.titleTrail}
           </>
         }
         subtitle={
@@ -113,7 +116,12 @@ export default async function HomePage() {
         }
       />
       <main className="mx-auto w-full max-w-6xl px-page-x pb-20">
-        <ToolsBrowser />
+        <UspStrip dict={dict} />
+        <div className="mt-20">
+          <ToolsBrowser />
+        </div>
+
+        <HowItWorks dict={dict} />
 
         <section className="mt-20">
           <div className="flex items-end justify-between gap-4">
@@ -167,6 +175,7 @@ export default async function HomePage() {
           </div>
         </section>
       </main>
+      <TrustStrip dict={dict} />
       <Footer />
     </>
   );
