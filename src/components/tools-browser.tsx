@@ -131,11 +131,17 @@ export function ToolsBrowser() {
         </div>
       )}
 
-      {showFallbackHeading && (
+      {showFallbackHeading ? (
         <h2 className="mb-5 text-heading-sm font-semibold text-surface-fg">
           {outcome.mode === "fuzzy" ? dict.tools.fuzzyHeading : dict.tools.closestHeading}{" "}
           <span className="font-normal text-surface-fg-muted">“{trimmed}”</span>
         </h2>
+      ) : (
+        !trimmed && (
+          <h2 className="mb-6 text-heading-md font-semibold text-surface-fg">
+            {dict.home.gridHeading}
+          </h2>
+        )
       )}
 
       {grouped ? (

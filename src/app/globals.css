@@ -11,4 +11,15 @@
        Radix portals (toasts, dropdowns) keep working. */
     overflow-x: clip;
   }
+
+  /* shilp-sutra SearchInput wraps its clear button in a framer-motion <div>
+     with no class — that wrapper is the actual flex item inside the
+     endSection, and without explicit centering it sits a couple of pixels
+     above the input's vertical midline. Force the wrapper to be a flex
+     center so the X aligns with the input baseline. */
+  div:has(> button[aria-label="Clear search"]) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
