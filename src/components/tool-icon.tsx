@@ -4,6 +4,7 @@ import {
   Contrast,
   Crop,
   FileArchive,
+  FileImage,
   FileText,
   Gauge,
   IdCard,
@@ -12,6 +13,7 @@ import {
   Printer,
   QrCode,
   Repeat,
+  ScanLine,
   Send,
   type LucideIcon,
 } from "lucide-react";
@@ -47,6 +49,8 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "print-job-slip": ClipboardList,
   "image-format-convert": Repeat,
   "qr-generate": QrCode,
+  "qr-scan": ScanLine,
+  "heic-to-jpg": FileImage,
   "photo-grayscale": Contrast,
   "aadhaar-collage": Layers,
 };

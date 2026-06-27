@@ -11,6 +11,8 @@ export type ToolIconKind =
   | "quick-send"
   | "image-format-convert"
   | "qr-generate"
+  | "qr-scan"
+  | "heic-to-jpg"
   | "photo-grayscale"
   | "aadhaar-collage";
 
@@ -418,6 +420,61 @@ export const tools: Tool[] = [
     inputAccept: [],
     needsWorker: false,
     popularityScore: 0.85,
+  },
+  {
+    slug: "qr-scan",
+    href: "/qr-scan",
+    name: "QR Code Scanner",
+    tagline: "Scan a QR with your camera or from an image",
+    description:
+      "Decode any QR — UPI, URL, phone, plain text — using your camera or by dropping an image. Runs entirely in your browser.",
+    status: "live",
+    category: "utility",
+    iconKind: "qr-scan",
+    iconColor: "info",
+    type: "extract",
+    buildStatus: "shipped",
+    domain: "qr",
+    paywall: "always-free",
+    keywords: [
+      "qr code scanner", "scan qr code", "qr scanner", "scan qr", "qr decode",
+      "qr code read", "qr padhna", "qr scan karo", "qr code scan online",
+      "scan qr from image", "qr code reader",
+      "क्यूआर स्कैनर", "क्यूआर स्कैन", "क्यूआर पढ़ो",
+      "upi qr scan", "url qr scan", "qr code dekho",
+    ],
+    inputAccept: ["image/jpeg", "image/png", "image/webp"],
+    needsWorker: false,
+    popularityScore: 0.75,
+  },
+  {
+    slug: "heic-to-jpg",
+    href: "/heic-to-jpg",
+    name: "HEIC to JPG Converter",
+    tagline: "Turn iPhone HEIC photos into upload-ready JPG",
+    description:
+      "Indian government portals reject HEIC. Drop an iPhone photo here, get a JPG in seconds. Works on any browser — no upload, no app.",
+    status: "live",
+    category: "forms",
+    iconKind: "heic-to-jpg",
+    iconColor: "info",
+    type: "convert",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "heic to jpg", "heic to jpeg", "iphone photo to jpg", "convert heic",
+      "heic converter", "heif to jpg", "iphone foto jpg",
+      "heic ko jpg banao", "iphone photo convert",
+      "एचईआईसी", "आईफोन फोटो",
+      "portal heic", "sarkari form iphone photo",
+    ],
+    inputAccept: ["image/heic", "image/heif"],
+    needsWorker: false,
+    needsWasm: ["heic"],
+    decodedPixelCap: 16_000_000,
+    popularityScore: 0.7,
+    nextSteps: ["image-compress", "photo-resize", "jpg-to-pdf"],
   },
   {
     slug: "photo-grayscale",

@@ -204,6 +204,16 @@
     "subtitle": "Pair two devices with a QR or short code, then drop files in either direction. P2P · files never stored on a server.",
     "breadcrumb": "Quick Send"
   },
+  "qrScan": {
+    "title": "QR Code Scanner",
+    "subtitle": "Scan a QR with your camera or from an image. Decoded on your device.",
+    "breadcrumb": "QR Code Scanner"
+  },
+  "heicToJpg": {
+    "title": "HEIC to JPG Converter",
+    "subtitle": "iPhone photos → portal-ready JPG. Runs in your browser.",
+    "breadcrumb": "HEIC to JPG Converter"
+  },
   "forms": {
     "imageCompress": {
       "errors": {
@@ -376,6 +386,16 @@
       "name": "QR Code Generator",
       "tagline": "Make a QR for a URL, UPI ID or contact",
       "description": "Type the text — get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download."
+    },
+    "qr-scan": {
+      "name": "QR Code Scanner",
+      "tagline": "Scan a QR with your camera or from an image",
+      "description": "Decode any QR — UPI, URL, phone, plain text — using your camera or by dropping an image. Runs entirely in your browser."
+    },
+    "heic-to-jpg": {
+      "name": "HEIC to JPG Converter",
+      "tagline": "iPhone HEIC → portal-ready JPG",
+      "description": "Indian government portals reject HEIC. Drop an iPhone photo here, get a JPG in seconds. Works on any browser — no upload, no app."
     },
     "photo-grayscale": {
       "name": "Photo Grayscale Converter",

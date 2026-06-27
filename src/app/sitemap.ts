@@ -34,6 +34,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/quick-send",
     "/image-format-convert",
     "/qr-generate",
+    "/qr-scan",
+    "/heic-to-jpg",
     "/photo-grayscale",
     "/aadhaar-collage",
   ].map((p) => ({
