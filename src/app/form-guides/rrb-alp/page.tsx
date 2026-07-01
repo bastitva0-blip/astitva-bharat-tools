@@ -381,16 +381,16 @@ export default function RrbAlpGuidePage() {
                       />
 
                       <ToolCallout
-                        href="/image-compress/custom"
+                        href="/image-compress/50kb"
                         title="Signature: compress to 50 KB"
-                        reason="Set a custom KB target of 50 — binary-search JPEG that lands within ±5% of the cap, comfortably inside the 20–50 KB band."
+                        reason="One-click 50 KB preset — binary-search JPEG that lands within ±5% of the cap, comfortably inside the 20–50 KB band."
                         icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
                       />
 
                       <ToolCallout
-                        href="/image-compress/custom"
+                        href="/image-compress/100kb"
                         title="SC/ST certificate: compress to 100 KB"
-                        reason="Set a custom KB target of 100 to land inside the 50–100 KB band. Use only if applying under SC/ST with free rail travel."
+                        reason="One-click 100 KB preset — lands inside the 50–100 KB band. Use only if applying under SC/ST with free rail travel."
                         icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
                       />
 
@@ -490,9 +490,14 @@ export default function RrbAlpGuidePage() {
             description: "20–50 KB, white background. Done in one step.",
           },
           {
-            href: "/image-compress/custom",
-            title: "Custom KB Image Compressor",
-            description: "Hit any exact KB target with binary-search JPEG — 30, 50, 100, your call.",
+            href: "/image-compress/50kb",
+            title: "Image Compressor — 50 KB",
+            description: "Signature preset — binary-search JPEG that lands at or under 50 KB.",
+          },
+          {
+            href: "/image-compress/100kb",
+            title: "Image Compressor — 100 KB",
+            description: "SC/ST certificate preset — lands at or under 100 KB.",
           },
           {
             href: "/document-photo",
