@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRight,
   CheckCircle2,
   FileText,
   Image as ImageIcon,
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema, faqPageSchema, howToSchema } from "@/lib/seo/schema";
+import { ToolCallout } from "@/components/form-guides/tool-callout";
+import { ToolsUsedSection } from "@/components/form-guides/tools-used-section";
+import { FormGuideSteps } from "@/components/form-guides/form-guide-steps";
+import { FaqAccordion } from "@/components/form-guides/faq-accordion";
 
 const LAST_UPDATED = "2026-06-12";
 const LAST_UPDATED_LABEL = "Updated June 2026";
@@ -139,31 +141,6 @@ const FAQS: { question: string; answer: string }[] = [
       "No. Every BharatTools tool runs entirely in your browser. Your photo, signature, and certificate never leave your device — open DevTools Network tab while you compress and you'll see zero requests. We don't see your file. We don't store it. We don't need to.",
   },
 ];
-
-interface ToolCalloutProps {
-  href: string;
-  title: string;
-  reason: string;
-  icon?: React.ReactNode;
-}
-
-function ToolCallout({ href, title, reason, icon }: ToolCalloutProps) {
-  return (
-    <Link
-      href={href}
-      className="group flex items-center justify-between gap-3 rounded-md border-l-4 border-l-accent-9 border border-surface-border-subtle bg-surface-2 p-4 text-left transition hover:border-l-accent-11"
-    >
-      <div className="flex min-w-0 items-start gap-3">
-        {icon ?? <ArrowRight className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-        <div className="min-w-0">
-          <div className="truncate font-medium text-body-md">{title}</div>
-          <div className="text-body-sm text-surface-fg-muted">{reason}</div>
-        </div>
-      </div>
-      <ArrowRight className="size-4 shrink-0 opacity-50 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />
-    </Link>
-  );
-}
 
 export default function RrbAlpGuidePage() {
   return (
@@ -302,170 +279,233 @@ export default function RrbAlpGuidePage() {
         </div>
       </section>
 
-      {/* The six phases */}
-      <section className="mt-12 space-y-10">
+      {/* The six phases — one shown at a time via the stepper */}
+      <section className="mt-12">
         <h2 className="text-heading-md font-semibold">Six phases to submit the form</h2>
 
-        <article id="phase-1" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Phase 1 — Register on the centralized RRB portal</h3>
-          <p className="text-body-md">
-            Open <strong>rrbapply.gov.in</strong> and click <em>Apply</em> at the top right,
-            then <em>Create an Account</em>. Enter your demographics exactly as they appear
-            on your Class 10 certificate: nationality, full name (and whether your name has
-            been changed), date of birth, gender, father&apos;s name, and mother&apos;s name.
-            A mismatch with the Class 10 marksheet is the most common reason applications get
-            held up at document verification later.
-          </p>
-          <p className="text-body-md">
-            Enter your Aadhaar number and click <em>Verify Using Aadhaar</em> to complete
-            OTP-based KYC — RRB strongly recommends this because it speeds up biometric
-            authentication at the exam hall. Then enter your email and mobile, generate
-            separate OTPs for each, type them into the verification boxes, set a secure
-            password, and hit <em>Preview and Create Account</em>.
-          </p>
-          <div className="rounded-md border-l-4 border-l-warning-9 border border-surface-border-subtle bg-warning-3/30 p-4 text-body-sm">
-            <strong className="text-warning-12">Critical:</strong> once your account is created,
-            your <strong>name, date of birth, mobile number, and email ID cannot be changed</strong> —
-            not even during the correction window. Cross-check character-by-character before submit.
-          </div>
-        </article>
+        <div className="mt-6">
+          <FormGuideSteps
+            steps={[
+              {
+                label: "Phase 1",
+                description: "Register on the RRB portal",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Phase 1 — Register on the centralized RRB portal</h3>
+                    <p className="text-body-md">
+                      Open <strong>rrbapply.gov.in</strong> and click <em>Apply</em> at the top right,
+                      then <em>Create an Account</em>. Enter your demographics exactly as they appear
+                      on your Class 10 certificate: nationality, full name (and whether your name has
+                      been changed), date of birth, gender, father&apos;s name, and mother&apos;s name.
+                      A mismatch with the Class 10 marksheet is the most common reason applications get
+                      held up at document verification later.
+                    </p>
+                    <p className="text-body-md">
+                      Enter your Aadhaar number and click <em>Verify Using Aadhaar</em> to complete
+                      OTP-based KYC — RRB strongly recommends this because it speeds up biometric
+                      authentication at the exam hall. Then enter your email and mobile, generate
+                      separate OTPs for each, type them into the verification boxes, set a secure
+                      password, and hit <em>Preview and Create Account</em>.
+                    </p>
+                    <div className="rounded-md border-l-4 border-l-warning-9 border border-surface-border-subtle bg-warning-3/30 p-4 text-body-sm">
+                      <strong className="text-warning-12">Critical:</strong> once your account is created,
+                      your <strong>name, date of birth, mobile number, and email ID cannot be changed</strong> —
+                      not even during the correction window. Cross-check character-by-character before submit.
+                    </div>
+                  </>
+                ),
+              },
+              {
+                label: "Phase 2",
+                description: "Pick your RRB zone",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Phase 2 — Open the ALP form and pick an RRB zone</h3>
+                    <p className="text-body-md">
+                      Log back in with your mobile or email and password. Under the ongoing notifications
+                      panel, click <em>Apply Now</em> next to the Assistant Loco Pilot recruitment link.
+                      The first major choice is your <strong>RRB regional zone</strong> — Mumbai,
+                      Chandigarh, Bhopal, Secunderabad, and so on. You can apply to <strong>only one
+                      zone</strong>; submitting to multiple results in all applications being rejected.
+                      Pick the zone where you&apos;d most prefer to be posted before you click.
+                    </p>
+                    <p className="text-body-md">
+                      On the personal details page enter your category (UR, OBC, SC, ST, EWS), religion,
+                      marital status, mother tongue, and your present and permanent postal addresses.
+                      If the two addresses are the same, most portals offer a copy-down toggle — use it
+                      to avoid typos.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Phase 3",
+                description: "Education & CBT-2 trade",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Phase 3 — Fill education and CBT-2 trade</h3>
+                    <p className="text-body-md">
+                      Fill <strong>Matriculation (Class 10)</strong> first — board, roll number, year of
+                      passing — and click save. Then add your technical qualification from the dropdown:
+                      ITI trade, CCAA (Course Completed Act Apprenticeship), Diploma, or Engineering
+                      degree. Enter the college / institute name and click <em>Add</em>.
+                    </p>
+                    <p className="text-body-md">
+                      Finally select the <strong>CBT-2 Part B technical trade subject</strong> you want
+                      to be tested on for the second-stage exam. This choice flows from your ITI /
+                      Diploma / Degree stream — most candidates pick the trade closest to what they
+                      studied, because the syllabus depth assumes that background.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Phase 4",
+                description: "Upload photo, signature & certificate",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Phase 4 — Upload photo, signature, and certificate</h3>
+                    <p className="text-body-md">
+                      This is where most rejections happen. The portal enforces strict format and KB
+                      limits — wrong format, wrong size band, or missing white background and the
+                      upload bounces. Prepare each file using the right tool below — every tool runs
+                      in your browser, so your photo, signature, and certificate never leave your device.
+                    </p>
 
-        <article id="phase-2" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Phase 2 — Open the ALP form and pick an RRB zone</h3>
-          <p className="text-body-md">
-            Log back in with your mobile or email and password. Under the ongoing notifications
-            panel, click <em>Apply Now</em> next to the Assistant Loco Pilot recruitment link.
-            The first major choice is your <strong>RRB regional zone</strong> — Mumbai,
-            Chandigarh, Bhopal, Secunderabad, and so on. You can apply to <strong>only one
-            zone</strong>; submitting to multiple results in all applications being rejected.
-            Pick the zone where you&apos;d most prefer to be posted before you click.
-          </p>
-          <p className="text-body-md">
-            On the personal details page enter your category (UR, OBC, SC, ST, EWS), religion,
-            marital status, mother tongue, and your present and permanent postal addresses.
-            If the two addresses are the same, most portals offer a copy-down toggle — use it
-            to avoid typos.
-          </p>
-        </article>
+                    <div className="space-y-3">
+                      <ToolCallout
+                        href="/photo-resize/railway"
+                        title="Photo: resize to Railway/RRB spec (20–50 KB, white background)"
+                        reason="Crops to the right aspect, replaces the background with white, and lands inside the KB band — one upload, all three requirements."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-        <article id="phase-3" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Phase 3 — Fill education and CBT-2 trade</h3>
-          <p className="text-body-md">
-            Fill <strong>Matriculation (Class 10)</strong> first — board, roll number, year of
-            passing — and click save. Then add your technical qualification from the dropdown:
-            ITI trade, CCAA (Course Completed Act Apprenticeship), Diploma, or Engineering
-            degree. Enter the college / institute name and click <em>Add</em>.
-          </p>
-          <p className="text-body-md">
-            Finally select the <strong>CBT-2 Part B technical trade subject</strong> you want
-            to be tested on for the second-stage exam. This choice flows from your ITI /
-            Diploma / Degree stream — most candidates pick the trade closest to what they
-            studied, because the syllabus depth assumes that background.
-          </p>
-        </article>
+                      <ToolCallout
+                        href="/image-compress/custom"
+                        title="Signature: compress to 50 KB"
+                        reason="Set a custom KB target of 50 — binary-search JPEG that lands within ±5% of the cap, comfortably inside the 20–50 KB band."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-        <article id="phase-4" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Phase 4 — Upload photo, signature, and certificate</h3>
-          <p className="text-body-md">
-            This is where most rejections happen. The portal enforces strict format and KB
-            limits — wrong format, wrong size band, or missing white background and the
-            upload bounces. Prepare each file using the right tool below — every tool runs
-            in your browser, so your photo, signature, and certificate never leave your device.
-          </p>
+                      <ToolCallout
+                        href="/image-compress/custom"
+                        title="SC/ST certificate: compress to 100 KB"
+                        reason="Set a custom KB target of 100 to land inside the 50–100 KB band. Use only if applying under SC/ST with free rail travel."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-          <div className="space-y-3">
-            <ToolCallout
-              href="/photo-resize/railway"
-              title="Photo: resize to Railway/RRB spec (20–50 KB, white background)"
-              reason="Crops to the right aspect, replaces the background with white, and lands inside the KB band — one upload, all three requirements."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/document-photo"
+                        title="Need to fix background or remove a coloured studio backdrop?"
+                        reason="On-device background removal sets clean white behind the face — no upload, no waiting, no watermark."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
+                    </div>
 
-            <ToolCallout
-              href="/image-compress/custom"
-              title="Signature: compress to 50 KB"
-              reason="Set a custom KB target of 50 — binary-search JPEG that lands within ±5% of the cap, comfortably inside the 20–50 KB band."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-
-            <ToolCallout
-              href="/image-compress/custom"
-              title="SC/ST certificate: compress to 100 KB"
-              reason="Set a custom KB target of 100 to land inside the 50–100 KB band. Use only if applying under SC/ST with free rail travel."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-
-            <ToolCallout
-              href="/document-photo"
-              title="Need to fix background or remove a coloured studio backdrop?"
-              reason="On-device background removal sets clean white behind the face — no upload, no waiting, no watermark."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-          </div>
-
-          <p className="text-body-md">
-            A note on the signature: sign in running hand with a thicker black or blue pen on
-            plain white paper. Thin felt-tip strokes scan faintly and the upload tool often
-            reads them as a near-blank image. If you have to redo it, take the scan with even,
-            indirect lighting — no shadow across the page.
-          </p>
-        </article>
-
-        <article id="phase-5" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Phase 5 — Pay the fee (with refund setup)</h3>
-          <p className="text-body-md">
-            Enter your bank account holder name, account number, and IFSC before you pay —
-            this is the account RRB will refund into after you appear in CBT-1. Wrong details
-            delay the refund by months.
-          </p>
-          <div className="overflow-x-auto rounded-md border border-surface-border-subtle">
-            <table className="w-full text-body-sm">
-              <thead className="bg-surface-2">
-                <tr className="text-left">
-                  <th className="px-4 py-2 font-semibold">Category</th>
-                  <th className="px-4 py-2 font-semibold">Application fee</th>
-                  <th className="px-4 py-2 font-semibold">Refund after CBT-1</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-surface-border-subtle">
-                <tr>
-                  <td className="px-4 py-2 font-medium">General / OBC / EWS</td>
-                  <td className="px-4 py-2">₹500</td>
-                  <td className="px-4 py-2">₹400</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2 font-medium">SC / ST / Female / Ex-SM / Minority / EBC</td>
-                  <td className="px-4 py-2">₹250</td>
-                  <td className="px-4 py-2">₹250 (full)</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="text-body-md">
-            Pay via <strong>UPI</strong>, <strong>Net Banking</strong>, or
-            <strong> Debit/Credit Card</strong>. UPI is fastest and avoids 3-D-secure timeouts
-            common on Indian bank cards. Do not refresh or hit back until the page redirects
-            with a <em>Payment Successful</em> confirmation — refreshing mid-transaction
-            sometimes deducts money without registering payment on the portal, and recovery
-            takes a week.
-          </p>
-        </article>
-
-        <article id="phase-6" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Phase 6 — Final review and confirmation page</h3>
-          <p className="text-body-md">
-            The preview screen is the last chance to catch typos. <strong>Read every field</strong> —
-            name spelling, DOB, category, RRB zone, education board, trade — then tick the
-            declaration boxes confirming you meet the physical, A-1 medical (vision) and
-            educational standards. Click <em>Final Submit</em>.
-          </p>
-          <p className="text-body-md">
-            Download the <strong>Confirmation Page</strong> as PDF and keep a hard copy.
-            You&apos;ll need it for CBT-1 admit-card download, exam-hall verification, and the
-            document-verification round later.
-          </p>
-        </article>
+                    <p className="text-body-md">
+                      A note on the signature: sign in running hand with a thicker black or blue pen on
+                      plain white paper. Thin felt-tip strokes scan faintly and the upload tool often
+                      reads them as a near-blank image. If you have to redo it, take the scan with even,
+                      indirect lighting — no shadow across the page.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Phase 5",
+                description: "Pay the fee (refund setup)",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Phase 5 — Pay the fee (with refund setup)</h3>
+                    <p className="text-body-md">
+                      Enter your bank account holder name, account number, and IFSC before you pay —
+                      this is the account RRB will refund into after you appear in CBT-1. Wrong details
+                      delay the refund by months.
+                    </p>
+                    <div className="overflow-x-auto rounded-md border border-surface-border-subtle">
+                      <table className="w-full text-body-sm">
+                        <thead className="bg-surface-2">
+                          <tr className="text-left">
+                            <th className="px-4 py-2 font-semibold">Category</th>
+                            <th className="px-4 py-2 font-semibold">Application fee</th>
+                            <th className="px-4 py-2 font-semibold">Refund after CBT-1</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-surface-border-subtle">
+                          <tr>
+                            <td className="px-4 py-2 font-medium">General / OBC / EWS</td>
+                            <td className="px-4 py-2">₹500</td>
+                            <td className="px-4 py-2">₹400</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-2 font-medium">SC / ST / Female / Ex-SM / Minority / EBC</td>
+                            <td className="px-4 py-2">₹250</td>
+                            <td className="px-4 py-2">₹250 (full)</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="text-body-md">
+                      Pay via <strong>UPI</strong>, <strong>Net Banking</strong>, or
+                      <strong> Debit/Credit Card</strong>. UPI is fastest and avoids 3-D-secure timeouts
+                      common on Indian bank cards. Do not refresh or hit back until the page redirects
+                      with a <em>Payment Successful</em> confirmation — refreshing mid-transaction
+                      sometimes deducts money without registering payment on the portal, and recovery
+                      takes a week.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Phase 6",
+                description: "Final review & confirmation",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Phase 6 — Final review and confirmation page</h3>
+                    <p className="text-body-md">
+                      The preview screen is the last chance to catch typos. <strong>Read every field</strong> —
+                      name spelling, DOB, category, RRB zone, education board, trade — then tick the
+                      declaration boxes confirming you meet the physical, A-1 medical (vision) and
+                      educational standards. Click <em>Final Submit</em>.
+                    </p>
+                    <p className="text-body-md">
+                      Download the <strong>Confirmation Page</strong> as PDF and keep a hard copy.
+                      You&apos;ll need it for CBT-1 admit-card download, exam-hall verification, and the
+                      document-verification round later.
+                    </p>
+                  </>
+                ),
+              },
+            ]}
+          />
+        </div>
       </section>
+
+      {/* Tools used — consolidated, directly below the step wizard */}
+      <ToolsUsedSection
+        tools={[
+          {
+            href: "/photo-resize/railway",
+            title: "Railway / RRB Photo Resizer",
+            description: "20–50 KB, white background. Done in one step.",
+          },
+          {
+            href: "/image-compress/custom",
+            title: "Custom KB Image Compressor",
+            description: "Hit any exact KB target with binary-search JPEG — 30, 50, 100, your call.",
+          },
+          {
+            href: "/document-photo",
+            title: "Document Photo Maker",
+            description: "Removes background on-device and sets clean white for portal uploads.",
+          },
+          {
+            href: "/quick-send",
+            title: "Quick Send",
+            description: "Move prepared files between your phone and laptop peer-to-peer.",
+          },
+        ]}
+      />
 
       {/* Privacy nudge */}
       <section className="mt-12 rounded-md border-l-4 border-l-success-9 border border-surface-border-subtle bg-success-3/30 p-5">
@@ -485,45 +525,8 @@ export default function RrbAlpGuidePage() {
         </div>
       </section>
 
-      {/* Related tools section — internal linking for SEO */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Tools mentioned in this guide</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <RelatedToolCard
-            href="/photo-resize/railway"
-            title="Railway / RRB Photo Resizer"
-            description="20–50 KB, white background. Done in one step."
-          />
-          <RelatedToolCard
-            href="/image-compress/custom"
-            title="Custom KB Image Compressor"
-            description="Hit any exact KB target with binary-search JPEG — 30, 50, 100, your call."
-          />
-          <RelatedToolCard
-            href="/document-photo"
-            title="Document Photo Maker"
-            description="Removes background on-device and sets clean white for portal uploads."
-          />
-          <RelatedToolCard
-            href="/quick-send"
-            title="Quick Send"
-            description="Move prepared files between your phone and laptop peer-to-peer."
-          />
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Frequently asked questions</h2>
-        <dl className="mt-6 space-y-6">
-          {FAQS.map((faq) => (
-            <div key={faq.question}>
-              <dt className="text-body-md font-semibold">{faq.question}</dt>
-              <dd className="mt-2 text-body-md text-surface-fg-muted">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <FaqAccordion faqs={FAQS} />
 
       {/* Final nudge */}
       <section className="mt-12 rounded-md border border-surface-border-subtle p-6 text-center">
@@ -545,29 +548,6 @@ export default function RrbAlpGuidePage() {
         portion of the fee between cycles.
       </p>
     </main>
-  );
-}
-
-function RelatedToolCard({
-  href,
-  title,
-  description,
-}: {
-  href: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Link href={href} className="block">
-      <Card variant="outline" interactive className="h-full">
-        <CardHeader>
-          <CardTitle className="text-body-md">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-body-sm text-surface-fg-muted">{description}</p>
-        </CardContent>
-      </Card>
-    </Link>
   );
 }
 

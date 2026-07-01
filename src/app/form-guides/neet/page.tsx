@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRight,
   CheckCircle2,
   FileText,
   Fingerprint,
@@ -9,10 +8,13 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema, faqPageSchema, howToSchema } from "@/lib/seo/schema";
+import { ToolCallout } from "@/components/form-guides/tool-callout";
+import { ToolsUsedSection } from "@/components/form-guides/tools-used-section";
+import { FormGuideSteps } from "@/components/form-guides/form-guide-steps";
+import { FaqAccordion } from "@/components/form-guides/faq-accordion";
 
 const LAST_UPDATED_LABEL = "Updated June 2026";
 
@@ -132,31 +134,6 @@ const FAQS: { question: string; answer: string }[] = [
       "No. Every BharatTools tool runs entirely in your browser. Your photo, signature, thumb impressions, and PDFs never leave your device. Open DevTools and watch the Network tab while you compress — zero requests. We don't see your file. We don't store it. We don't need to.",
   },
 ];
-
-interface ToolCalloutProps {
-  href: string;
-  title: string;
-  reason: string;
-  icon?: React.ReactNode;
-}
-
-function ToolCallout({ href, title, reason, icon }: ToolCalloutProps) {
-  return (
-    <Link
-      href={href}
-      className="group flex items-center justify-between gap-3 rounded-md border-l-4 border-l-accent-9 border border-surface-border-subtle bg-surface-2 p-4 text-left transition hover:border-l-accent-11"
-    >
-      <div className="flex min-w-0 items-start gap-3">
-        {icon ?? <ArrowRight className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-        <div className="min-w-0">
-          <div className="truncate font-medium text-body-md">{title}</div>
-          <div className="text-body-sm text-surface-fg-muted">{reason}</div>
-        </div>
-      </div>
-      <ArrowRight className="size-4 shrink-0 opacity-50 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />
-    </Link>
-  );
-}
 
 export default function NeetGuidePage() {
   return (
@@ -316,137 +293,195 @@ export default function NeetGuidePage() {
         </div>
       </section>
 
-      {/* Steps */}
-      <section className="mt-12 space-y-10">
+      {/* Steps — one shown at a time via the stepper */}
+      <section className="mt-12">
         <h2 className="text-heading-md font-semibold">Five steps to submit the form</h2>
 
-        <article id="step-1" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 1 — Register on the NTA NEET portal</h3>
-          <p className="text-body-md">
-            Open the official portal at neet.nta.nic.in and click <em>New Registration</em>. Enter your name, date of birth, email, and mobile number — <strong>exactly as printed on your Class 10 certificate</strong>. A mismatch here is one of the top causes of late-stage rejection during document verification.
-          </p>
-          <p className="text-body-md">
-            Create a strong password, choose a security question, and complete OTP verification on both mobile and email. NTA emails and SMSes you an <strong>Application Number</strong> — note it down immediately. You&apos;ll need it for every step that follows and there is no smooth recovery if you lose it.
-          </p>
-        </article>
+        <div className="mt-6">
+          <FormGuideSteps
+            steps={[
+              {
+                label: "Step 1",
+                description: "Register on the NTA portal",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 1 — Register on the NTA NEET portal</h3>
+                    <p className="text-body-md">
+                      Open the official portal at neet.nta.nic.in and click <em>New Registration</em>. Enter your name, date of birth, email, and mobile number — <strong>exactly as printed on your Class 10 certificate</strong>. A mismatch here is one of the top causes of late-stage rejection during document verification.
+                    </p>
+                    <p className="text-body-md">
+                      Create a strong password, choose a security question, and complete OTP verification on both mobile and email. NTA emails and SMSes you an <strong>Application Number</strong> — note it down immediately. You&apos;ll need it for every step that follows and there is no smooth recovery if you lose it.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 2",
+                description: "Personal, exam-city & academic details",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 2 — Fill personal, exam-city, and academic details</h3>
+                    <p className="text-body-md">
+                      Log back in with the Application Number and password you just created. Fill personal information — gender, category, nationality, place of birth — then move into <strong>exam preferences</strong>:
+                    </p>
+                    <ul className="list-disc space-y-2 pl-6 text-body-md">
+                      <li>
+                        <strong>Question paper medium</strong>: NEET supports 13 languages — English, Hindi, Assamese, Bengali, Gujarati, Kannada, Malayalam, Marathi, Odia, Punjabi, Tamil, Telugu, Urdu. Pick the one you&apos;re strongest in for science vocabulary, not just spoken comfort.
+                      </li>
+                      <li>
+                        <strong>Exam cities</strong>: select up to two in order of preference. NTA allots based on availability — listing cities by travel time rather than preference often works better in practice.
+                      </li>
+                    </ul>
+                    <p className="text-body-md">
+                      Then enter academic details for <strong>Class 10, Class 11, and Class 12</strong> — roll numbers, board names, school names. If you&apos;re currently writing Class 12 boards, mark Class 12 as &lsquo;Appearing&rsquo; — you can update marks later in the qualification verification window.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 3",
+                description: "Upload scanned documents",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 3 — Upload scanned documents</h3>
+                    <p className="text-body-md">
+                      This is the rejection-heavy step. NEET wants more uploads than most other exams — passport photo, postcard photo, signature, four impression scans (left/right hand + thumbs), category certificate, and a unified address PDF. Each has its own size band. Prepare every file before you start uploading; the portal&apos;s &lsquo;previous&rsquo; button often loses unsaved changes.
+                    </p>
 
-        <article id="step-2" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 2 — Fill personal, exam-city, and academic details</h3>
-          <p className="text-body-md">
-            Log back in with the Application Number and password you just created. Fill personal information — gender, category, nationality, place of birth — then move into <strong>exam preferences</strong>:
-          </p>
-          <ul className="list-disc space-y-2 pl-6 text-body-md">
-            <li>
-              <strong>Question paper medium</strong>: NEET supports 13 languages — English, Hindi, Assamese, Bengali, Gujarati, Kannada, Malayalam, Marathi, Odia, Punjabi, Tamil, Telugu, Urdu. Pick the one you&apos;re strongest in for science vocabulary, not just spoken comfort.
-            </li>
-            <li>
-              <strong>Exam cities</strong>: select up to two in order of preference. NTA allots based on availability — listing cities by travel time rather than preference often works better in practice.
-            </li>
-          </ul>
-          <p className="text-body-md">
-            Then enter academic details for <strong>Class 10, Class 11, and Class 12</strong> — roll numbers, board names, school names. If you&apos;re currently writing Class 12 boards, mark Class 12 as &lsquo;Appearing&rsquo; — you can update marks later in the qualification verification window.
-          </p>
-        </article>
+                    <div className="space-y-3">
+                      <ToolCallout
+                        href="/photo-resize/neet"
+                        title="Passport photo: resize to NEET spec (10–200 KB, white background)"
+                        reason="Crops to the right aspect, replaces the background with white, and lands inside the 10–200 KB band — one pass."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-        <article id="step-3" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 3 — Upload scanned documents</h3>
-          <p className="text-body-md">
-            This is the rejection-heavy step. NEET wants more uploads than most other exams — passport photo, postcard photo, signature, four impression scans (left/right hand + thumbs), category certificate, and a unified address PDF. Each has its own size band. Prepare every file before you start uploading; the portal&apos;s &lsquo;previous&rsquo; button often loses unsaved changes.
-          </p>
+                      <ToolCallout
+                        href="/image-compress/200kb"
+                        title="Postcard photo: compress to 200 KB"
+                        reason="Standard postcard photo lands well under the 300 KB upper limit while staying sharp at 4×6 inches."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-          <div className="space-y-3">
-            <ToolCallout
-              href="/photo-resize/neet"
-              title="Passport photo: resize to NEET spec (10–200 KB, white background)"
-              reason="Crops to the right aspect, replaces the background with white, and lands inside the 10–200 KB band — one pass."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/image-compress/custom"
+                        title="Signature: compress to 30 KB"
+                        reason="Set a custom KB target of 30 — binary-search JPEG that comfortably fits NTA's 4–30 KB band."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-            <ToolCallout
-              href="/image-compress/200kb"
-              title="Postcard photo: compress to 200 KB"
-              reason="Standard postcard photo lands well under the 300 KB upper limit while staying sharp at 4×6 inches."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/image-compress/50kb"
+                        title="Finger and thumb impressions: compress each scan to 50 KB"
+                        reason="Four uploads — left fingers, right fingers, left thumb, right thumb — all in the 10–50 KB band."
+                        icon={<Fingerprint className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-            <ToolCallout
-              href="/image-compress/custom"
-              title="Signature: compress to 30 KB"
-              reason="Set a custom KB target of 30 — binary-search JPEG that comfortably fits NTA's 4–30 KB band."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/jpg-to-pdf"
+                        title="Address proof: combine present + permanent scans into one PDF"
+                        reason="Drop both scans (or pages), reorder if needed, download one PDF. Portal accepts a single unified file only."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-            <ToolCallout
-              href="/image-compress/50kb"
-              title="Finger and thumb impressions: compress each scan to 50 KB"
-              reason="Four uploads — left fingers, right fingers, left thumb, right thumb — all in the 10–50 KB band."
-              icon={<Fingerprint className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/pdf-compress"
+                        title="If your address PDF or category certificate is over the cap"
+                        reason="Re-encodes embedded photos and strips metadata to fit form-portal upload caps. Light / Recommended / Stronger."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
+                    </div>
 
-            <ToolCallout
-              href="/jpg-to-pdf"
-              title="Address proof: combine present + permanent scans into one PDF"
-              reason="Drop both scans (or pages), reorder if needed, download one PDF. Portal accepts a single unified file only."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-
-            <ToolCallout
-              href="/pdf-compress"
-              title="If your address PDF or category certificate is over the cap"
-              reason="Re-encodes embedded photos and strips metadata to fit form-portal upload caps. Light / Recommended / Stronger."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-          </div>
-
-          <p className="text-body-md">
-            Preview every file on the portal before you advance — blurry impressions or rotated photos are the most common cause of physical-verification day rejections. The portal&apos;s preview is small; cross-check by opening the file directly in your gallery too.
-          </p>
-        </article>
-
-        <article id="step-4" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 4 — Pay the application fee</h3>
-          <p className="text-body-md">
-            The verification page summarises every field. <strong>Read every line</strong> — spelling of name and parents&apos; names, DOB, category, exam city order. Once you click through to payment, most fields lock; corrections require waiting for NTA&apos;s separate correction window, and not every field is editable there.
-          </p>
-          <div className="overflow-x-auto rounded-md border border-surface-border-subtle">
-            <table className="w-full text-body-sm">
-              <thead className="bg-surface-2">
-                <tr className="text-left">
-                  <th className="px-4 py-2 font-semibold">Category</th>
-                  <th className="px-4 py-2 font-semibold">Fee</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-surface-border-subtle">
-                <tr>
-                  <td className="px-4 py-2">General</td>
-                  <td className="px-4 py-2 font-medium">₹1,700</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2">General-EWS / OBC-NCL</td>
-                  <td className="px-4 py-2 font-medium">₹1,600</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-2">SC / ST / PwBD / Third Gender</td>
-                  <td className="px-4 py-2 font-medium">₹1,000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="text-body-md">
-            Pay via UPI, Debit Card, Credit Card, or Net Banking. UPI is usually fastest and avoids 3-D-secure timeouts that some Indian bank cards hit on the NTA gateway.
-          </p>
-        </article>
-
-        <article id="step-5" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 5 — Download and save the Confirmation Page</h3>
-          <p className="text-body-md">
-            After the payment confirms, the portal auto-generates a <strong>Confirmation Page</strong>. Download it, download the fee receipt, and save both — multiple copies. Print one if you want a physical backup.
-          </p>
-          <div className="rounded-md border-l-4 border-l-warning-9 border border-surface-border-subtle bg-warning-3/30 p-4 text-body-sm">
-            <strong>Important:</strong> you are completely done once you download the Confirmation Page. You do <strong>not</strong> need to post or email a physical copy to NTA. Anyone telling you otherwise is operating on outdated information.
-          </div>
-        </article>
+                    <p className="text-body-md">
+                      Preview every file on the portal before you advance — blurry impressions or rotated photos are the most common cause of physical-verification day rejections. The portal&apos;s preview is small; cross-check by opening the file directly in your gallery too.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 4",
+                description: "Pay the application fee",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 4 — Pay the application fee</h3>
+                    <p className="text-body-md">
+                      The verification page summarises every field. <strong>Read every line</strong> — spelling of name and parents&apos; names, DOB, category, exam city order. Once you click through to payment, most fields lock; corrections require waiting for NTA&apos;s separate correction window, and not every field is editable there.
+                    </p>
+                    <div className="overflow-x-auto rounded-md border border-surface-border-subtle">
+                      <table className="w-full text-body-sm">
+                        <thead className="bg-surface-2">
+                          <tr className="text-left">
+                            <th className="px-4 py-2 font-semibold">Category</th>
+                            <th className="px-4 py-2 font-semibold">Fee</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-surface-border-subtle">
+                          <tr>
+                            <td className="px-4 py-2">General</td>
+                            <td className="px-4 py-2 font-medium">₹1,700</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-2">General-EWS / OBC-NCL</td>
+                            <td className="px-4 py-2 font-medium">₹1,600</td>
+                          </tr>
+                          <tr>
+                            <td className="px-4 py-2">SC / ST / PwBD / Third Gender</td>
+                            <td className="px-4 py-2 font-medium">₹1,000</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="text-body-md">
+                      Pay via UPI, Debit Card, Credit Card, or Net Banking. UPI is usually fastest and avoids 3-D-secure timeouts that some Indian bank cards hit on the NTA gateway.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 5",
+                description: "Download confirmation page",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 5 — Download and save the Confirmation Page</h3>
+                    <p className="text-body-md">
+                      After the payment confirms, the portal auto-generates a <strong>Confirmation Page</strong>. Download it, download the fee receipt, and save both — multiple copies. Print one if you want a physical backup.
+                    </p>
+                    <div className="rounded-md border-l-4 border-l-warning-9 border border-surface-border-subtle bg-warning-3/30 p-4 text-body-sm">
+                      <strong>Important:</strong> you are completely done once you download the Confirmation Page. You do <strong>not</strong> need to post or email a physical copy to NTA. Anyone telling you otherwise is operating on outdated information.
+                    </div>
+                  </>
+                ),
+              },
+            ]}
+          />
+        </div>
       </section>
+
+      {/* Tools used — consolidated, directly below the step wizard */}
+      <ToolsUsedSection
+        tools={[
+          {
+            href: "/photo-resize/neet",
+            title: "NEET Photo Resizer",
+            description: "10–200 KB, 200×230 px, white background. Done in one step.",
+          },
+          {
+            href: "/image-compress",
+            title: "Image Compressor",
+            description: "Hit any exact KB target — postcard photo, signature, impressions. Custom KB input.",
+          },
+          {
+            href: "/jpg-to-pdf",
+            title: "JPG / Image to PDF",
+            description: "Combine address proofs or scans into a single PDF. Reorder, rotate, A4 or Letter.",
+          },
+          {
+            href: "/pdf-compress",
+            title: "PDF Compressor",
+            description: "Shrink the address PDF or category certificate to fit upload caps.",
+          },
+        ]}
+      />
 
       {/* Privacy nudge */}
       <section className="mt-12 rounded-md border-l-4 border-l-success-9 border border-surface-border-subtle bg-success-3/30 p-5">
@@ -461,45 +496,8 @@ export default function NeetGuidePage() {
         </div>
       </section>
 
-      {/* Related tools */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Tools mentioned in this guide</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <RelatedToolCard
-            href="/photo-resize/neet"
-            title="NEET Photo Resizer"
-            description="10–200 KB, 200×230 px, white background. Done in one step."
-          />
-          <RelatedToolCard
-            href="/image-compress"
-            title="Image Compressor"
-            description="Hit any exact KB target — postcard photo, signature, impressions. Custom KB input."
-          />
-          <RelatedToolCard
-            href="/jpg-to-pdf"
-            title="JPG / Image to PDF"
-            description="Combine address proofs or scans into a single PDF. Reorder, rotate, A4 or Letter."
-          />
-          <RelatedToolCard
-            href="/pdf-compress"
-            title="PDF Compressor"
-            description="Shrink the address PDF or category certificate to fit upload caps."
-          />
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Frequently asked questions</h2>
-        <dl className="mt-6 space-y-6">
-          {FAQS.map((faq) => (
-            <div key={faq.question}>
-              <dt className="text-body-md font-semibold">{faq.question}</dt>
-              <dd className="mt-2 text-body-md text-surface-fg-muted">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <FaqAccordion faqs={FAQS} />
 
       {/* Final CTA */}
       <section className="mt-12 rounded-md border border-surface-border-subtle p-6 text-center">
@@ -518,28 +516,5 @@ export default function NeetGuidePage() {
         Specifications based on the NTA NEET UG 2026 information bulletin. {LAST_UPDATED_LABEL}. Always cross-check the current notification at neet.nta.nic.in before submitting — NTA occasionally revises file-size bands and fee amounts between sessions.
       </p>
     </main>
-  );
-}
-
-function RelatedToolCard({
-  href,
-  title,
-  description,
-}: {
-  href: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Link href={href} className="block">
-      <Card variant="outline" interactive className="h-full">
-        <CardHeader>
-          <CardTitle className="text-body-md">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-body-sm text-surface-fg-muted">{description}</p>
-        </CardContent>
-      </Card>
-    </Link>
   );
 }
