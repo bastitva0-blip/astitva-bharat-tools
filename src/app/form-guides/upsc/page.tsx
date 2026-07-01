@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AlertTriangle, ArrowRight, CheckCircle2, FileText, Image as ImageIcon, ShieldCheck } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FileText, Image as ImageIcon, ShieldCheck } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema, faqPageSchema, howToSchema } from "@/lib/seo/schema";
+import { ToolCallout } from "@/components/form-guides/tool-callout";
+import { ToolsUsedSection } from "@/components/form-guides/tools-used-section";
+import { FormGuideSteps } from "@/components/form-guides/form-guide-steps";
+import { FaqAccordion } from "@/components/form-guides/faq-accordion";
 
 const LAST_UPDATED = "2026-06-06";
 const LAST_UPDATED_LABEL = "Updated June 2026";
@@ -126,31 +129,6 @@ const FAQS: { question: string; answer: string }[] = [
       "Common reasons: (1) filename is not exactly photo.jpg — the URN portal is filename-strict; (2) outside the 20–200 KB band; (3) background not pure white, or visible shadows; (4) face less than 75% of the frame, or ear lobes hidden; (5) the live-photo step flagged a mismatch with your uploaded photo. The UPSC Photo Resizer fixes 1–3 in one pass; 4–5 need a fresh shot in better lighting.",
   },
 ];
-
-interface ToolCalloutProps {
-  href: string;
-  title: string;
-  reason: string;
-  icon?: React.ReactNode;
-}
-
-function ToolCallout({ href, title, reason, icon }: ToolCalloutProps) {
-  return (
-    <Link
-      href={href}
-      className="group flex items-center justify-between gap-3 rounded-md border-l-4 border-l-accent-9 border border-surface-border-subtle bg-surface-2 p-4 text-left transition hover:border-l-accent-11"
-    >
-      <div className="flex min-w-0 items-start gap-3">
-        {icon ?? <ArrowRight className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-        <div className="min-w-0">
-          <div className="truncate font-medium text-body-md">{title}</div>
-          <div className="text-body-sm text-surface-fg-muted">{reason}</div>
-        </div>
-      </div>
-      <ArrowRight className="size-4 shrink-0 opacity-50 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />
-    </Link>
-  );
-}
 
 export default function UpscGuidePage() {
   return (
@@ -311,103 +289,156 @@ export default function UpscGuidePage() {
         </div>
       </section>
 
-      {/* The four steps mirror the 4-card portal */}
-      <section className="mt-12 space-y-10">
+      {/* The four steps mirror the 4-card portal — one shown at a time via the stepper */}
+      <section className="mt-12">
         <h2 className="text-heading-md font-semibold">The 4-card portal walkthrough</h2>
 
-        <article id="card-1" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Card 1 — Account creation</h3>
-          <p className="text-body-md">
-            Go to <strong>upsconline.nic.in</strong>. You will see four distinct cards on the homepage — complete them in sequence. Click <em>Create Account</em>. Enter your active email ID, click <em>Send OTP</em>, retrieve the code from your inbox and confirm. Repeat for your mobile number using the separate SMS OTP. Set a password and answer the security prompt.
-          </p>
-          <p className="text-body-md">
-            Use credentials you will still have access to in five years — UPSC keeps your candidate record indefinitely against your URN, and password recovery routes back through this email and mobile.
-          </p>
-        </article>
+        <div className="mt-6">
+          <FormGuideSteps
+            steps={[
+              {
+                label: "Card 1",
+                description: "Account creation",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Card 1 — Account creation</h3>
+                    <p className="text-body-md">
+                      Go to <strong>upsconline.nic.in</strong>. You will see four distinct cards on the homepage — complete them in sequence. Click <em>Create Account</em>. Enter your active email ID, click <em>Send OTP</em>, retrieve the code from your inbox and confirm. Repeat for your mobile number using the separate SMS OTP. Set a password and answer the security prompt.
+                    </p>
+                    <p className="text-body-md">
+                      Use credentials you will still have access to in five years — UPSC keeps your candidate record indefinitely against your URN, and password recovery routes back through this email and mobile.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Card 2",
+                description: "Universal Registration Number (URN)",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Card 2 — Universal Registration Number (URN)</h3>
+                    <p className="text-body-md">
+                      Log in to the URN module. Enter your full name, gender, date of birth and your father&apos;s and mother&apos;s names <strong>exactly as they appear on your Class 10 certificate</strong>. Enter your Class 10 board roll number. Pick two distinct security questions (these are your password-reset lifeline — choose questions whose answers won&apos;t change over the years).
+                    </p>
+                    <p className="text-body-md">
+                      On the preview screen you can edit any field freely — that freedom ends at submit. Once you click submit, the system generates a permanent <strong>URN</strong> and emails it to you. From here, the URN is your identity across every UPSC exam — CSE, IFS, CDS, NDA, CAPF — and you only get <strong>one</strong> lifetime edit opportunity afterwards. Treat the preview screen like a final.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Card 3",
+                description: "Common Application Form (CAF)",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Card 3 — Common Application Form (CAF)</h3>
+                    <p className="text-body-md">
+                      The CAF is your master application record. Fill it once, link it to every UPSC exam you write later. You can save and return — it doesn&apos;t need to be finished in one sitting.
+                    </p>
+                    <ol className="ml-5 list-decimal space-y-2 text-body-md">
+                      <li><strong>Personal profile</strong> — Nationality, religion, mother tongue, state of domicile, marital status, place of birth (country/state/district).</li>
+                      <li><strong>Parents&apos; profile</strong> — Professions, educational background, contact details.</li>
+                      <li><strong>Social category</strong> — General, OBC, SC, ST, or EWS. If reserved, upload the caste/income certificate (PDF) and enter its number, issuing authority, and issue date.</li>
+                      <li><strong>Educational profile</strong> — Graduation/academic stream, university, year of passing, marks/CGPA. Final-year candidates select <em>Appeared/Appearing</em>.</li>
+                      <li><strong>Work experience &amp; prior attempts</strong> — Previous employment (if any) and explicit list of past UPSC CSE attempts with year and roll number.</li>
+                      <li><strong>Document upload</strong> — photo.jpg, signature.jpg, and the photo-ID PDF.</li>
+                      <li><strong>Live photo checkpoint</strong> — capture a fresh photo via webcam or by scanning the on-screen QR code with your phone. The portal&apos;s face authentication compares it to your uploaded photo.jpg.</li>
+                    </ol>
 
-        <article id="card-2" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Card 2 — Universal Registration Number (URN)</h3>
-          <p className="text-body-md">
-            Log in to the URN module. Enter your full name, gender, date of birth and your father&apos;s and mother&apos;s names <strong>exactly as they appear on your Class 10 certificate</strong>. Enter your Class 10 board roll number. Pick two distinct security questions (these are your password-reset lifeline — choose questions whose answers won&apos;t change over the years).
-          </p>
-          <p className="text-body-md">
-            On the preview screen you can edit any field freely — that freedom ends at submit. Once you click submit, the system generates a permanent <strong>URN</strong> and emails it to you. From here, the URN is your identity across every UPSC exam — CSE, IFS, CDS, NDA, CAPF — and you only get <strong>one</strong> lifetime edit opportunity afterwards. Treat the preview screen like a final.
-          </p>
-        </article>
+                    <p className="text-body-md mt-4">
+                      This is where most upload rejections happen. The portal enforces strict format, size and filename rules, and its error messages are terse. Prepare each file using the right tool below — every tool runs in your browser, so your documents never leave your device.
+                    </p>
 
-        <article id="card-3" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Card 3 — Common Application Form (CAF)</h3>
-          <p className="text-body-md">
-            The CAF is your master application record. Fill it once, link it to every UPSC exam you write later. You can save and return — it doesn&apos;t need to be finished in one sitting.
-          </p>
-          <ol className="ml-5 list-decimal space-y-2 text-body-md">
-            <li><strong>Personal profile</strong> — Nationality, religion, mother tongue, state of domicile, marital status, place of birth (country/state/district).</li>
-            <li><strong>Parents&apos; profile</strong> — Professions, educational background, contact details.</li>
-            <li><strong>Social category</strong> — General, OBC, SC, ST, or EWS. If reserved, upload the caste/income certificate (PDF) and enter its number, issuing authority, and issue date.</li>
-            <li><strong>Educational profile</strong> — Graduation/academic stream, university, year of passing, marks/CGPA. Final-year candidates select <em>Appeared/Appearing</em>.</li>
-            <li><strong>Work experience &amp; prior attempts</strong> — Previous employment (if any) and explicit list of past UPSC CSE attempts with year and roll number.</li>
-            <li><strong>Document upload</strong> — photo.jpg, signature.jpg, and the photo-ID PDF.</li>
-            <li><strong>Live photo checkpoint</strong> — capture a fresh photo via webcam or by scanning the on-screen QR code with your phone. The portal&apos;s face authentication compares it to your uploaded photo.jpg.</li>
-          </ol>
+                    <div className="space-y-3">
+                      <ToolCallout
+                        href="/photo-resize/upsc"
+                        title="Photo: resize to UPSC spec (face 75%, 20–200 KB, white background)"
+                        reason="Crops to a square so your face fills 75% of the frame, replaces the background with pure white, and lands inside the 20–200 KB band — output named photo.jpg."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-          <p className="text-body-md mt-4">
-            This is where most upload rejections happen. The portal enforces strict format, size and filename rules, and its error messages are terse. Prepare each file using the right tool below — every tool runs in your browser, so your documents never leave your device.
-          </p>
+                      <ToolCallout
+                        href="/image-compress/100kb"
+                        title="Triple signature: compress to 100 KB"
+                        reason="Scan the three vertical signatures together, drop the file here — binary-search JPEG that lands at or under 100 KB, comfortably inside UPSC's 20–100 KB band."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-          <div className="space-y-3">
-            <ToolCallout
-              href="/photo-resize/upsc"
-              title="Photo: resize to UPSC spec (face 75%, 20–200 KB, white background)"
-              reason="Crops to a square so your face fills 75% of the frame, replaces the background with pure white, and lands inside the 20–200 KB band — output named photo.jpg."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/jpg-to-pdf"
+                        title="ID proof: combine scans into a single PDF"
+                        reason="Drop your Aadhaar / PAN / Voter ID scans, reorder if needed, download one PDF. Use this before compressing if you have multiple JPGs."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-            <ToolCallout
-              href="/image-compress/100kb"
-              title="Triple signature: compress to 100 KB"
-              reason="Scan the three vertical signatures together, drop the file here — binary-search JPEG that lands at or under 100 KB, comfortably inside UPSC's 20–100 KB band."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/pdf-compress"
+                        title="ID PDF too large? Compress it under 300 KB"
+                        reason="Re-encodes embedded scan images and strips metadata to fit UPSC's 50–300 KB band. Recommended setting clears most Aadhaar/PAN scans in one pass."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
+                    </div>
 
-            <ToolCallout
-              href="/jpg-to-pdf"
-              title="ID proof: combine scans into a single PDF"
-              reason="Drop your Aadhaar / PAN / Voter ID scans, reorder if needed, download one PDF. Use this before compressing if you have multiple JPGs."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-
-            <ToolCallout
-              href="/pdf-compress"
-              title="ID PDF too large? Compress it under 300 KB"
-              reason="Re-encodes embedded scan images and strips metadata to fit UPSC's 50–300 KB band. Recommended setting clears most Aadhaar/PAN scans in one pass."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-          </div>
-
-          <p className="text-body-md">
-            <strong>About the live photo:</strong> the portal&apos;s AI flags visual mismatches against your uploaded photo.jpg — different person, very different lighting, heavy filters, glasses present in one but not the other. Sit in a well-lit space against a plain wall, eye-level camera, no filter. If you flagged glasses or a beard in your passport photo, wear them here too — the venue face-authentication check uses the same image.
-          </p>
-        </article>
-
-        <article id="card-4" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Card 4 — Exam-specific module (e.g. UPSC CSE)</h3>
-          <p className="text-body-md">
-            Card 4 binds your CAF to a live exam cycle. Select your target exam — Civil Services Examination, IFS, CDS, NDA, CAPF as published in the current notification.
-          </p>
-          <p className="text-body-md">
-            <strong>Centre allocation</strong> — pick your preferred Prelims and Mains centres. UPSC distributes centres on a <em>first-apply-first-allot</em> basis. Popular Tier-1 centres (Delhi, Bangalore, Hyderabad, Mumbai) freeze quickly once capacity hits. If you can submit within the first week of the form opening, you almost always get your first preference; closer to the deadline, expect to land your third or fourth choice.
-          </p>
-          <p className="text-body-md">
-            <strong>Fee payment</strong> — male candidates from General, OBC and EWS pay ₹100 via UPI, Net Banking, Credit/Debit Card, or by generating an offline SBI Cash Challan. Female, SC, ST and PwBD candidates are entirely exempt. UPI is the fastest path and avoids 3-D-secure timeouts that occasionally trip Indian banks.
-          </p>
-          <p className="text-body-md">
-            <strong>Final declaration</strong> — click <em>Preview Application</em>. The preview shows your uploaded photo, signature and ID inside their boxes — confirm they render clearly (a black square or a stretched image means the upload was malformed and needs to be redone). Scroll to the bottom, tick the declaration acknowledgement, and click <em>I Agree</em>. The application locks; you cannot edit after this click.
-          </p>
-          <p className="text-body-md">
-            UPSC instantly emails and SMSes you a final transaction and registration confirmation. <strong>Download the system-generated PDF copy</strong> — you may need it for centre slip download later in the cycle.
-          </p>
-        </article>
+                    <p className="text-body-md">
+                      <strong>About the live photo:</strong> the portal&apos;s AI flags visual mismatches against your uploaded photo.jpg — different person, very different lighting, heavy filters, glasses present in one but not the other. Sit in a well-lit space against a plain wall, eye-level camera, no filter. If you flagged glasses or a beard in your passport photo, wear them here too — the venue face-authentication check uses the same image.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Card 4",
+                description: "Exam module, centres & fee",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Card 4 — Exam-specific module (e.g. UPSC CSE)</h3>
+                    <p className="text-body-md">
+                      Card 4 binds your CAF to a live exam cycle. Select your target exam — Civil Services Examination, IFS, CDS, NDA, CAPF as published in the current notification.
+                    </p>
+                    <p className="text-body-md">
+                      <strong>Centre allocation</strong> — pick your preferred Prelims and Mains centres. UPSC distributes centres on a <em>first-apply-first-allot</em> basis. Popular Tier-1 centres (Delhi, Bangalore, Hyderabad, Mumbai) freeze quickly once capacity hits. If you can submit within the first week of the form opening, you almost always get your first preference; closer to the deadline, expect to land your third or fourth choice.
+                    </p>
+                    <p className="text-body-md">
+                      <strong>Fee payment</strong> — male candidates from General, OBC and EWS pay ₹100 via UPI, Net Banking, Credit/Debit Card, or by generating an offline SBI Cash Challan. Female, SC, ST and PwBD candidates are entirely exempt. UPI is the fastest path and avoids 3-D-secure timeouts that occasionally trip Indian banks.
+                    </p>
+                    <p className="text-body-md">
+                      <strong>Final declaration</strong> — click <em>Preview Application</em>. The preview shows your uploaded photo, signature and ID inside their boxes — confirm they render clearly (a black square or a stretched image means the upload was malformed and needs to be redone). Scroll to the bottom, tick the declaration acknowledgement, and click <em>I Agree</em>. The application locks; you cannot edit after this click.
+                    </p>
+                    <p className="text-body-md">
+                      UPSC instantly emails and SMSes you a final transaction and registration confirmation. <strong>Download the system-generated PDF copy</strong> — you may need it for centre slip download later in the cycle.
+                    </p>
+                  </>
+                ),
+              },
+            ]}
+          />
+        </div>
       </section>
+
+      {/* Tools used — consolidated, directly below the step wizard */}
+      <ToolsUsedSection
+        tools={[
+          {
+            href: "/photo-resize/upsc",
+            title: "UPSC Photo Resizer",
+            description: "Square crop, 20–200 KB JPG, pure white background. Outputs photo.jpg ready for the URN portal.",
+          },
+          {
+            href: "/image-compress/100kb",
+            title: "Image Compressor — 100 KB",
+            description: "Drop the triple-signature scan; binary-search JPEG lands at or under 100 KB.",
+          },
+          {
+            href: "/jpg-to-pdf",
+            title: "JPG / Image to PDF",
+            description: "Combine Aadhaar / PAN scans into one PDF. Reorder, rotate, A4 or Letter.",
+          },
+          {
+            href: "/pdf-compress",
+            title: "PDF Compressor",
+            description: "Shrink ID-proof PDFs under UPSC's 300 KB cap. Browser-only.",
+          },
+        ]}
+      />
 
       {/* Privacy nudge */}
       <section className="mt-12 rounded-md border-l-4 border-l-success-9 border border-surface-border-subtle bg-success-3/30 p-5">
@@ -422,45 +453,8 @@ export default function UpscGuidePage() {
         </div>
       </section>
 
-      {/* Related tools section — internal linking for SEO */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Tools mentioned in this guide</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <RelatedToolCard
-            href="/photo-resize/upsc"
-            title="UPSC Photo Resizer"
-            description="Square crop, 20–200 KB JPG, pure white background. Outputs photo.jpg ready for the URN portal."
-          />
-          <RelatedToolCard
-            href="/image-compress/100kb"
-            title="Image Compressor — 100 KB"
-            description="Drop the triple-signature scan; binary-search JPEG lands at or under 100 KB."
-          />
-          <RelatedToolCard
-            href="/jpg-to-pdf"
-            title="JPG / Image to PDF"
-            description="Combine Aadhaar / PAN scans into one PDF. Reorder, rotate, A4 or Letter."
-          />
-          <RelatedToolCard
-            href="/pdf-compress"
-            title="PDF Compressor"
-            description="Shrink ID-proof PDFs under UPSC's 300 KB cap. Browser-only."
-          />
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Frequently asked questions</h2>
-        <dl className="mt-6 space-y-6">
-          {FAQS.map((faq) => (
-            <div key={faq.question}>
-              <dt className="text-body-md font-semibold">{faq.question}</dt>
-              <dd className="mt-2 text-body-md text-surface-fg-muted">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <FaqAccordion faqs={FAQS} />
 
       {/* Final nudge */}
       <section className="mt-12 rounded-md border border-surface-border-subtle p-6 text-center">
@@ -479,29 +473,6 @@ export default function UpscGuidePage() {
         Specifications based on the UPSC URN portal notification (upsconline.nic.in) as of {LAST_UPDATED_LABEL}. Always cross-check the current exam notification at upsconline.nic.in before submitting — UPSC occasionally revises file-size bands and filename rules between cycles.
       </p>
     </main>
-  );
-}
-
-function RelatedToolCard({
-  href,
-  title,
-  description,
-}: {
-  href: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Link href={href} className="block">
-      <Card variant="outline" interactive className="h-full">
-        <CardHeader>
-          <CardTitle className="text-body-md">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-body-sm text-surface-fg-muted">{description}</p>
-        </CardContent>
-      </Card>
-    </Link>
   );
 }
 

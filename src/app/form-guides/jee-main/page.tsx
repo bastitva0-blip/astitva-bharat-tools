@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, FileText, Image as ImageIcon, ShieldCheck } from "lucide-react";
+import { CheckCircle2, FileText, Image as ImageIcon, ShieldCheck } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { JsonLd } from "@/components/json-ld";
 import { breadcrumbSchema, faqPageSchema, howToSchema } from "@/lib/seo/schema";
+import { ToolCallout } from "@/components/form-guides/tool-callout";
+import { ToolsUsedSection } from "@/components/form-guides/tools-used-section";
+import { FormGuideSteps } from "@/components/form-guides/form-guide-steps";
+import { FaqAccordion } from "@/components/form-guides/faq-accordion";
 
 const LAST_UPDATED = "2026-06-04";
 const LAST_UPDATED_LABEL = "Updated June 2026";
@@ -120,31 +123,6 @@ const FAQS: { question: string; answer: string }[] = [
       "Use BharatTools JPG to PDF: drop one or many scans, reorder pages, pick A4 or Letter, and download a single PDF. If the resulting PDF is over the portal's limit, follow it with PDF Compressor to shrink it without re-uploading anywhere.",
   },
 ];
-
-interface ToolCalloutProps {
-  href: string;
-  title: string;
-  reason: string;
-  icon?: React.ReactNode;
-}
-
-function ToolCallout({ href, title, reason, icon }: ToolCalloutProps) {
-  return (
-    <Link
-      href={href}
-      className="group flex items-center justify-between gap-3 rounded-md border-l-4 border-l-accent-9 border border-surface-border-subtle bg-surface-2 p-4 text-left transition hover:border-l-accent-11"
-    >
-      <div className="flex min-w-0 items-start gap-3">
-        {icon ?? <ArrowRight className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-        <div className="min-w-0">
-          <div className="truncate font-medium text-body-md">{title}</div>
-          <div className="text-body-sm text-surface-fg-muted">{reason}</div>
-        </div>
-      </div>
-      <ArrowRight className="size-4 shrink-0 opacity-50 transition group-hover:translate-x-0.5 group-hover:opacity-100" aria-hidden />
-    </Link>
-  );
-}
 
 export default function JeeMainGuidePage() {
   return (
@@ -268,81 +246,134 @@ export default function JeeMainGuidePage() {
         </div>
       </section>
 
-      {/* The four steps */}
-      <section className="mt-12 space-y-10">
+      {/* The four steps — one shown at a time via the stepper */}
+      <section className="mt-12">
         <h2 className="text-heading-md font-semibold">Four steps to submit the form</h2>
 
-        <article id="step-1" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 1 — Register on the NTA portal</h3>
-          <p className="text-body-md">
-            Open the official JEE Main portal at jeemain.nta.nic.in and click <em>New Registration</em>. Enter your full name, your father&apos;s and mother&apos;s names, your date of birth, and gender — <strong>exactly as they appear on your Class 10 marksheet</strong>. A mismatch here is the most common cause of late-stage rejection, so cross-check character-by-character before you submit.
-          </p>
-          <p className="text-body-md">
-            Verify your mobile number and email ID using the one-time passwords NTA sends. Create a secure password, answer the security question, and submit. NTA emails and SMSes you an <strong>Application Number</strong> — note it down immediately. You&apos;ll need it for every step that follows, and there is no smooth way to recover it if lost.
-          </p>
-        </article>
+        <div className="mt-6">
+          <FormGuideSteps
+            steps={[
+              {
+                label: "Step 1",
+                description: "Register on the NTA portal",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 1 — Register on the NTA portal</h3>
+                    <p className="text-body-md">
+                      Open the official JEE Main portal at jeemain.nta.nic.in and click <em>New Registration</em>. Enter your full name, your father&apos;s and mother&apos;s names, your date of birth, and gender — <strong>exactly as they appear on your Class 10 marksheet</strong>. A mismatch here is the most common cause of late-stage rejection, so cross-check character-by-character before you submit.
+                    </p>
+                    <p className="text-body-md">
+                      Verify your mobile number and email ID using the one-time passwords NTA sends. Create a secure password, answer the security question, and submit. NTA emails and SMSes you an <strong>Application Number</strong> — note it down immediately. You&apos;ll need it for every step that follows, and there is no smooth way to recover it if lost.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 2",
+                description: "Personal & academic details",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 2 — Fill personal and academic details</h3>
+                    <p className="text-body-md">
+                      Log back in with the Application Number and password you just created. Enter your category, nationality, state of eligibility, and PwD status. Choose which paper(s) you want to sit for — <strong>B.E./B.Tech</strong>, <strong>B.Arch</strong>, <strong>B.Planning</strong>, or a combination — and select the medium of the question paper (English, Hindi, or one of the regional languages NTA supports that session).
+                    </p>
+                    <p className="text-body-md">
+                      Pick up to four preferred exam cities. Tier-2 candidates often benefit from listing cities ranked by travel time rather than preference — NTA assigns based on availability, and you&apos;ll attend whichever city comes through. Finish by filling Class 10 and Class 12 academic details: board, roll number, year, and marks (or expected for current Class 12 students).
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 3",
+                description: "Upload photo, signature & documents",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 3 — Upload photo, signature, and documents</h3>
+                    <p className="text-body-md">
+                      This is where most rejections happen. The portal enforces strict format and size limits, and the upload page shows technical errors that don&apos;t always explain what&apos;s wrong. Prepare each file using the right tool below — every tool runs in your browser, so your photo and signature never leave your device.
+                    </p>
 
-        <article id="step-2" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 2 — Fill personal and academic details</h3>
-          <p className="text-body-md">
-            Log back in with the Application Number and password you just created. Enter your category, nationality, state of eligibility, and PwD status. Choose which paper(s) you want to sit for — <strong>B.E./B.Tech</strong>, <strong>B.Arch</strong>, <strong>B.Planning</strong>, or a combination — and select the medium of the question paper (English, Hindi, or one of the regional languages NTA supports that session).
-          </p>
-          <p className="text-body-md">
-            Pick up to four preferred exam cities. Tier-2 candidates often benefit from listing cities ranked by travel time rather than preference — NTA assigns based on availability, and you&apos;ll attend whichever city comes through. Finish by filling Class 10 and Class 12 academic details: board, roll number, year, and marks (or expected for current Class 12 students).
-          </p>
-        </article>
+                    <div className="space-y-3">
+                      <ToolCallout
+                        href="/photo-resize/jee"
+                        title="Photo: resize to JEE Main spec (200×230 px, 10–200 KB, white background)"
+                        reason="Crops to the right aspect, replaces the background with white, and lands inside the KB band — one upload, all three requirements."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-        <article id="step-3" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 3 — Upload photo, signature, and documents</h3>
-          <p className="text-body-md">
-            This is where most rejections happen. The portal enforces strict format and size limits, and the upload page shows technical errors that don&apos;t always explain what&apos;s wrong. Prepare each file using the right tool below — every tool runs in your browser, so your photo and signature never leave your device.
-          </p>
+                      <ToolCallout
+                        href="/image-compress/custom"
+                        title="Signature: compress to 30 KB"
+                        reason="Set a custom KB target of 30 — binary-search JPEG that lands within ±5% of the cap, comfortably inside NTA's 4–30 KB band."
+                        icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-          <div className="space-y-3">
-            <ToolCallout
-              href="/photo-resize/jee"
-              title="Photo: resize to JEE Main spec (200×230 px, 10–200 KB, white background)"
-              reason="Crops to the right aspect, replaces the background with white, and lands inside the KB band — one upload, all three requirements."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/jpg-to-pdf"
+                        title="Class 10 certificate / PwD docs: combine scans into one PDF"
+                        reason="Drop one or many JPG/PNG scans, reorder, and download a single PDF. Reuses the order you set; no quality loss."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
 
-            <ToolCallout
-              href="/image-compress/custom"
-              title="Signature: compress to 30 KB"
-              reason="Set a custom KB target of 30 — binary-search JPEG that lands within ±5% of the cap, comfortably inside NTA's 4–30 KB band."
-              icon={<ImageIcon className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
+                      <ToolCallout
+                        href="/pdf-compress"
+                        title="If your PDF is over the portal's limit: compress it"
+                        reason="Re-encodes embedded photos and strips metadata to fit form-portal upload caps. Light / Recommended / Stronger — your call."
+                        icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
+                      />
+                    </div>
 
-            <ToolCallout
-              href="/jpg-to-pdf"
-              title="Class 10 certificate / PwD docs: combine scans into one PDF"
-              reason="Drop one or many JPG/PNG scans, reorder, and download a single PDF. Reuses the order you set; no quality loss."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-
-            <ToolCallout
-              href="/pdf-compress"
-              title="If your PDF is over the portal's limit: compress it"
-              reason="Re-encodes embedded photos and strips metadata to fit form-portal upload caps. Light / Recommended / Stronger — your call."
-              icon={<FileText className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}
-            />
-          </div>
-
-          <p className="text-body-md">
-            A note on the signature: if you&apos;re signing on plain A4 with a thin black pen, the scan often comes out as a faint signature on a slightly off-white background. Some portals accept this; some don&apos;t. If yours bounces, take a clearer scan with better lighting, or use the Image Compressor at higher quality before resizing — readability beats file size.
-          </p>
-        </article>
-
-        <article id="step-4" className="space-y-4">
-          <h3 className="text-heading-sm font-semibold">Step 4 — Pay the fee and submit</h3>
-          <p className="text-body-md">
-            Before you pay, the portal shows a verification page summarising everything you&apos;ve entered. <strong>Read every field</strong>. Specific things to recheck: spelling of your name and parents&apos; names, date of birth, category, exam cities in the order you wanted them, and the paper(s) you chose. After Final Submit, most corrections require a separate correction window NTA opens later — and not every field is editable there.
-          </p>
-          <p className="text-body-md">
-            Pay via UPI, debit card, credit card, or net banking. UPI is usually fastest and avoids 3-D-secure timeouts on Indian banks. Once the payment is confirmed, download the <strong>Confirmation Page</strong> — this is the proof you submitted. Print one copy and save the PDF; you may need it for centre allotment slip download later.
-          </p>
-        </article>
+                    <p className="text-body-md">
+                      A note on the signature: if you&apos;re signing on plain A4 with a thin black pen, the scan often comes out as a faint signature on a slightly off-white background. Some portals accept this; some don&apos;t. If yours bounces, take a clearer scan with better lighting, or use the Image Compressor at higher quality before resizing — readability beats file size.
+                    </p>
+                  </>
+                ),
+              },
+              {
+                label: "Step 4",
+                description: "Pay the fee & submit",
+                content: (
+                  <>
+                    <h3 className="text-heading-sm font-semibold">Step 4 — Pay the fee and submit</h3>
+                    <p className="text-body-md">
+                      Before you pay, the portal shows a verification page summarising everything you&apos;ve entered. <strong>Read every field</strong>. Specific things to recheck: spelling of your name and parents&apos; names, date of birth, category, exam cities in the order you wanted them, and the paper(s) you chose. After Final Submit, most corrections require a separate correction window NTA opens later — and not every field is editable there.
+                    </p>
+                    <p className="text-body-md">
+                      Pay via UPI, debit card, credit card, or net banking. UPI is usually fastest and avoids 3-D-secure timeouts on Indian banks. Once the payment is confirmed, download the <strong>Confirmation Page</strong> — this is the proof you submitted. Print one copy and save the PDF; you may need it for centre allotment slip download later.
+                    </p>
+                  </>
+                ),
+              },
+            ]}
+          />
+        </div>
       </section>
+
+      {/* Tools used — consolidated, directly below the step wizard */}
+      <ToolsUsedSection
+        tools={[
+          {
+            href: "/photo-resize/jee",
+            title: "JEE Photo Resizer",
+            description: "200×230 px, 10–200 KB, white background. Done in one step.",
+          },
+          {
+            href: "/image-compress",
+            title: "Image Compressor",
+            description: "Hit any exact KB target with binary-search JPEG. Custom KB input or presets.",
+          },
+          {
+            href: "/jpg-to-pdf",
+            title: "JPG / Image to PDF",
+            description: "Combine many scans into one PDF. Reorder, rotate, A4 or Letter.",
+          },
+          {
+            href: "/pdf-compress",
+            title: "PDF Compressor",
+            description: "Shrink PDFs to fit form-portal upload caps. Browser-only.",
+          },
+        ]}
+      />
 
       {/* Privacy nudge */}
       <section className="mt-12 rounded-md border-l-4 border-l-success-9 border border-surface-border-subtle bg-success-3/30 p-5">
@@ -357,45 +388,8 @@ export default function JeeMainGuidePage() {
         </div>
       </section>
 
-      {/* Related tools section — internal linking for SEO */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Tools mentioned in this guide</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <RelatedToolCard
-            href="/photo-resize/jee"
-            title="JEE Photo Resizer"
-            description="200×230 px, 10–200 KB, white background. Done in one step."
-          />
-          <RelatedToolCard
-            href="/image-compress"
-            title="Image Compressor"
-            description="Hit any exact KB target with binary-search JPEG. Custom KB input or presets."
-          />
-          <RelatedToolCard
-            href="/jpg-to-pdf"
-            title="JPG / Image to PDF"
-            description="Combine many scans into one PDF. Reorder, rotate, A4 or Letter."
-          />
-          <RelatedToolCard
-            href="/pdf-compress"
-            title="PDF Compressor"
-            description="Shrink PDFs to fit form-portal upload caps. Browser-only."
-          />
-        </div>
-      </section>
-
       {/* FAQ */}
-      <section className="mt-12">
-        <h2 className="text-heading-md font-semibold">Frequently asked questions</h2>
-        <dl className="mt-6 space-y-6">
-          {FAQS.map((faq) => (
-            <div key={faq.question}>
-              <dt className="text-body-md font-semibold">{faq.question}</dt>
-              <dd className="mt-2 text-body-md text-surface-fg-muted">{faq.answer}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      <FaqAccordion faqs={FAQS} />
 
       {/* Final nudge */}
       <section className="mt-12 rounded-md border border-surface-border-subtle p-6 text-center">
@@ -414,29 +408,6 @@ export default function JeeMainGuidePage() {
         Specifications based on the NTA JEE Main 2026 information bulletin. {LAST_UPDATED_LABEL}. Always cross-check the current notification at jeemain.nta.nic.in before submitting — NTA occasionally revises file-size bands between sessions.
       </p>
     </main>
-  );
-}
-
-function RelatedToolCard({
-  href,
-  title,
-  description,
-}: {
-  href: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Link href={href} className="block">
-      <Card variant="outline" interactive className="h-full">
-        <CardHeader>
-          <CardTitle className="text-body-md">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-body-sm text-surface-fg-muted">{description}</p>
-        </CardContent>
-      </Card>
-    </Link>
   );
 }
 
