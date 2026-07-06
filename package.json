@@ -20,7 +20,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@devalok/shilp-sutra": "^0.45.1",
+    "@devalok/shilp-sutra": "^0.40.0",
     "@devalok/shilp-sutra-brand": "^0.6.2",
     "@imgly/background-removal": "^1.7.0",
     "@next/third-parties": "^16.2.9",
