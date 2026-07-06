@@ -103,6 +103,19 @@ export async function compressToTarget(
   };
 }
 
+// Minimum edge length we'll downscale to before giving up — keeps us from
+// shrinking a tiny thumbnail into a useless sliver chasing an unreachable
+// target (e.g. a 20 KB target on a source that's already mostly noise).
+const MIN_DOWNSCALE_EDGE_PX = 100;
+
+// Max downscale rounds. Each round shrinks by DOWNSCALE_FACTOR, so this
+// caps how far we chase an aggressive target (e.g. 20 KB) before accepting
+// the closest result we've found. Kept generous (vs. the old cap of 3) so
+// the loop — not the user re-uploading its own output — does the work of
+// repeatedly shrinking until we're actually under budget.
+const MAX_DOWNSCALE_ATTEMPTS = 12;
+const DOWNSCALE_FACTOR = 0.85;
+
 export async function compressWithDownscale(
   source: HTMLImageElement,
   crop: CropRegionPx,
@@ -114,19 +127,55 @@ export async function compressWithDownscale(
   let w = targetW;
   let h = targetH;
 
-  for (let attempt = 0; attempt < 3; attempt++) {
+  let best: (CompressResult & { width: number; height: number }) | null = null;
+
+  for (let attempt = 0; attempt < MAX_DOWNSCALE_ATTEMPTS; attempt++) {
     const canvas = cropAndResize(source, crop, w, h, background);
     const result = await compressToTarget(canvas, opts);
-    if (result.hitTarget || result.bytes <= opts.maxBytes || attempt === 2) {
+
+    // Track the best (smallest-over-target, else largest-under-target)
+    // result seen so far, so we always have a sane fallback even if we
+    // bail out early or never hit the band.
+    if (
+      !best ||
+      isBetterCompression(result.bytes, best.bytes, opts.minBytes, opts.maxBytes)
+    ) {
+      best = { ...result, width: w, height: h };
+    }
+
+    if (result.hitTarget || result.bytes <= opts.maxBytes) {
       return { ...result, width: w, height: h };
     }
-    w = Math.round(w * 0.9);
-    h = Math.round(h * 0.9);
+
+    const nextW = Math.round(w * DOWNSCALE_FACTOR);
+    const nextH = Math.round(h * DOWNSCALE_FACTOR);
+    // Stop shrinking once we'd cross the minimum useful edge length —
+    // further downscaling would produce a degenerate image without
+    // meaningfully helping hit the target.
+    if (Math.min(nextW, nextH) < MIN_DOWNSCALE_EDGE_PX) break;
+    w = nextW;
+    h = nextH;
   }
 
-  const fallbackCanvas = cropAndResize(source, crop, targetW, targetH, background);
-  const result = await compressToTarget(fallbackCanvas, opts);
-  return { ...result, width: targetW, height: targetH };
+  // Exhausted our downscale budget without landing under maxBytes — return
+  // the closest result we ever produced instead of silently accepting
+  // whatever the last binary search attempt happened to land on.
+  return best ?? { ...(await compressToTarget(cropAndResize(source, crop, targetW, targetH, background), opts)), width: targetW, height: targetH };
+}
+
+// True if `candidateBytes` is a strictly better fit for [minBytes, maxBytes]
+// than `currentBytes`: prefer being inside the band; among two out-of-band
+// sizes prefer the smaller "overage" (closer to maxBytes from above, or
+// closer to minBytes from below, either way minimizing distance to the band).
+function isBetterCompression(
+  candidateBytes: number,
+  currentBytes: number,
+  minBytes: number,
+  maxBytes: number,
+): boolean {
+  const dist = (bytes: number) =>
+    bytes > maxBytes ? bytes - maxBytes : bytes < minBytes ? minBytes - bytes : 0;
+  return dist(candidateBytes) < dist(currentBytes);
 }
 
 export function formatKb(bytes: number): string {
