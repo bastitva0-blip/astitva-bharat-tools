@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import type { ReactNode } from "react";
 
 const AuroraBloom = dynamic(
-  () => import("@/components/aurora-bloom").then((m) => m.AuroraBloom),
+  () => import("@devalok/shilp-sutra-brand/aurora").then((m) => m.AuroraBloom),
   { ssr: false },
 );
 
