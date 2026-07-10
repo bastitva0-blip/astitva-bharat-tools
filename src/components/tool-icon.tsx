@@ -15,6 +15,7 @@ import {
   Repeat,
   ScanLine,
   Send,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import type { ToolIconKind } from "@/lib/tools";
@@ -39,6 +40,7 @@ const ICON_PX = { sm: 18, md: 26, lg: 32 } as const;
 const ICONS: Record<ToolIconKind, LucideIcon> = {
   "photo-resize": Crop,
   "image-compress": Gauge,
+  "video-compress": Video,
   "document-photo": IdCard,
   "photo-signature-joiner": PenLine,
   "print-sheet": Printer,

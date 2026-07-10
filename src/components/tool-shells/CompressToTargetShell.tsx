@@ -64,6 +64,13 @@ interface CompressToTargetShellProps<TResult extends BaseResult> {
   /** Per-tool result preview (e.g. <img>, <iframe>). */
   renderPreview: (result: PreviewableResult & TResult) => React.ReactNode;
 
+  /**
+   * Per-tool source thumbnail (e.g. <video> for non-image inputs). Falls
+   * back to DropZone's default <img> thumbnail when omitted, which only
+   * works for image sources.
+   */
+  renderSourcePreview?: (previewUrl: string) => React.ReactNode;
+
   /** Per-tool stats panel (e.g. dimensions, target band). */
   renderStats: (result: TResult, source: { bytes: number }) => React.ReactNode;
 
@@ -110,6 +117,7 @@ export function CompressToTargetShell<TResult extends BaseResult>({
   configSlot,
   submitLabel,
   renderPreview,
+  renderSourcePreview,
   renderStats,
   emptyState,
   outputFilename,
@@ -256,6 +264,11 @@ export function CompressToTargetShell<TResult extends BaseResult>({
               dropLabel={dropLabel}
               dropSublabel={dropSublabel}
               previewUrl={previewUrl}
+              renderPreview={
+                renderSourcePreview && previewUrl
+                  ? () => renderSourcePreview(previewUrl)
+                  : undefined
+              }
             />
 
             {configSlot}

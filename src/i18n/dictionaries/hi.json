@@ -174,6 +174,20 @@
       "breadcrumb": "कस्टम KB"
     }
   },
+  "videoCompress": {
+    "title": "वीडियो कंप्रेसर",
+    "subtitle": "टारगेट फ़ाइल साइज़ तक पहुँचें - WhatsApp, ईमेल अटैचमेंट या किसी भी अपलोड लिमिट के लिए। कंप्रेस करने के लिए कुछ भी अपलोड नहीं होता।",
+    "breadcrumb": "वीडियो कंप्रेसर",
+    "variant": {
+      "titleTemplate": "वीडियो को {label} पर कंप्रेस करें",
+      "subtitleTemplate": "{label} या उससे कम तक पहुँचें। MP4 आउटपुट, ब्राउज़र में ही।"
+    },
+    "custom": {
+      "title": "वीडियो को कस्टम MB पर कंप्रेस करें",
+      "subtitle": "कोई भी MB टारगेट डालें - हम उसके बराबर या उससे कम तक पहुँचेंगे। MP4 आउटपुट, ब्राउज़र में ही।",
+      "breadcrumb": "कस्टम MB"
+    }
+  },
   "documentPhoto": {
     "title": "डॉक्युमेंट फ़ोटो मेकर",
     "subtitle": "दस्तावेज़ चुनें। हम सटीक पिक्सेल साइज़, KB टारगेट और सफ़ेद बैकग्राउंड लगा देते हैं।",
@@ -251,6 +265,42 @@
         "underTarget": "टारगेट से नीचे · अपलोड के लिए सुरक्षित",
         "fromTemplate": "{size} से",
         "reductionTemplate": " - {pct}% छोटा"
+      }
+    },
+    "videoCompress": {
+      "errors": {
+        "noFile": "पहले एक वीडियो अपलोड करें।",
+        "targetTooSmall": "टारगेट कम से कम 1 MB होना चाहिए।",
+        "compressFailed": "वीडियो कंप्रेस नहीं हो सकी।",
+        "missedTargetTemplate": "{target} से नीचे नहीं पहुँच सके - सबसे क़रीब {result} रहा।"
+      },
+      "toasts": {
+        "compressedTemplate": "{size} पर कंप्रेस हुआ।"
+      },
+      "card1Title": "1. स्रोत वीडियो",
+      "card2Title": "2. परिणाम",
+      "source": {
+        "dropLabel": "यहाँ वीडियो डालें",
+        "dropSublabel": "MP4, WebM, MOV या MKV",
+        "previewAlt": "स्रोत प्रीव्यू"
+      },
+      "target": {
+        "label": "टारगेट साइज़ (MB)",
+        "fixedLabel": "टारगेट"
+      },
+      "submitTemplate": "{target} पर कंप्रेस करें",
+      "result": {
+        "downloadCta": "MP4 डाउनलोड करें",
+        "emptyState": "वीडियो कंप्रेस करें, परिणाम यहाँ दिखेगा।",
+        "withinTarget": "टारगेट पर या उससे नीचे",
+        "overLimitTemplate": "{mb} MB सीमा से ऊपर",
+        "fromTemplate": "{size} से",
+        "reductionTemplate": " - {pct}% छोटा"
+      },
+      "unsupportedBrowser": {
+        "title": "यह ब्राउज़र अभी वीडियो कंप्रेस नहीं कर सकता",
+        "body": "वीडियो कंप्रेसर को WebCodecs सपोर्ट वाले ब्राउज़र (हाल का Chrome, Edge, Opera या Brave) की ज़रूरत है। कुछ भी अपलोड नहीं हुआ - यह जाँच फ़ाइल डिवाइस से बाहर जाने से पहले होती है।",
+        "cta": "अपडेटेड Chrome या Edge में फिर से कोशिश करें।"
       }
     },
     "photoSignatureJoiner": {
