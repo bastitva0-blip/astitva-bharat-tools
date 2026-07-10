@@ -38,6 +38,13 @@ export default async function PhotoResizeHubPage() {
         breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.photoResize.breadcrumb }]}
       />
 
+      <p className="mt-4 text-body-sm text-surface-fg-muted">
+        {dict.photoResize.disambiguation}{" "}
+        <Link href="/image-compress" className="font-medium text-accent-11 underline underline-offset-2">
+          Go to Image Compressor →
+        </Link>
+      </p>
+
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {examPresets.map((p) => (
           <Link key={p.slug} href={`/photo-resize/${p.slug}`} className="block">

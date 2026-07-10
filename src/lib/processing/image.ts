@@ -116,6 +116,59 @@ const MIN_DOWNSCALE_EDGE_PX = 100;
 const MAX_DOWNSCALE_ATTEMPTS = 12;
 const DOWNSCALE_FACTOR = 0.85;
 
+// Amplitudes (max per-channel jitter) tried, in order, when a photo
+// compresses below the minimum KB even at the highest JPEG quality — e.g. a
+// plain/low-detail crop. Escalates until the encoder can no longer discard
+// the added detail away, which pushes the file size up into the required band.
+const NOISE_AMPLITUDES = [4, 8, 14, 22, 32, 46];
+
+function clampByte(v: number): number {
+  return v < 0 ? 0 : v > 255 ? 255 : v;
+}
+
+// Subtle per-pixel luminance jitter — imperceptible at normal viewing sizes —
+// that adds high-frequency detail a JPEG encoder can't compress away, so we
+// can climb a too-small file back up into the required KB band instead of
+// handing back a result that would get rejected by the portal.
+function withNoise(canvas: HTMLCanvasElement, amplitude: number): HTMLCanvasElement {
+  const out = document.createElement("canvas");
+  out.width = canvas.width;
+  out.height = canvas.height;
+  const ctx = out.getContext("2d", { alpha: false });
+  if (!ctx) throw new Error("Canvas 2D context unavailable");
+  ctx.drawImage(canvas, 0, 0);
+  const imageData = ctx.getImageData(0, 0, out.width, out.height);
+  const data = imageData.data;
+  for (let i = 0; i < data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 2 * amplitude;
+    data[i] = clampByte(data[i] + n);
+    data[i + 1] = clampByte(data[i + 1] + n);
+    data[i + 2] = clampByte(data[i + 2] + n);
+  }
+  ctx.putImageData(imageData, 0, 0);
+  return out;
+}
+
+// Called only when `result` undershot the minimum KB at max JPEG quality.
+// Escalates noise amplitude until the result lands in [minBytes, maxBytes],
+// stopping the moment we'd overshoot the maximum instead of the minimum.
+async function boostAboveMinimum(
+  canvas: HTMLCanvasElement,
+  result: CompressResult,
+  opts: CompressToTargetOptions,
+): Promise<CompressResult> {
+  let best = result;
+  for (const amplitude of NOISE_AMPLITUDES) {
+    const attempt = await compressToTarget(withNoise(canvas, amplitude), { ...opts, qualityHigh: 1 });
+    if (isBetterCompression(attempt.bytes, best.bytes, opts.minBytes, opts.maxBytes)) {
+      best = attempt;
+    }
+    if (attempt.hitTarget) return attempt;
+    if (attempt.bytes > opts.maxBytes) break; // more noise only grows the file further — stop escalating
+  }
+  return best;
+}
+
 export async function compressWithDownscale(
   source: HTMLImageElement,
   crop: CropRegionPx,
@@ -131,7 +184,14 @@ export async function compressWithDownscale(
 
   for (let attempt = 0; attempt < MAX_DOWNSCALE_ATTEMPTS; attempt++) {
     const canvas = cropAndResize(source, crop, w, h, background);
-    const result = await compressToTarget(canvas, opts);
+    let result = await compressToTarget(canvas, opts);
+
+    // A too-small result is not a usable success — it would get rejected
+    // by the portal just like an over-max one. Try to climb into the band
+    // before accepting it.
+    if (!result.hitTarget && result.bytes < opts.minBytes) {
+      result = await boostAboveMinimum(canvas, result, opts);
+    }
 
     // Track the best (smallest-over-target, else largest-under-target)
     // result seen so far, so we always have a sane fallback even if we
