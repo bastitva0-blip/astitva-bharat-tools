@@ -1,6 +1,7 @@
 export type ToolIconKind =
   | "photo-resize"
   | "image-compress"
+  | "video-compress"
   | "document-photo"
   | "photo-signature-joiner"
   | "print-sheet"
@@ -47,7 +48,7 @@ export type ToolBuildStatus = "shipped" | "next" | "later" | "skip";
 
 // Domain taxonomy used by search, sitemap, and segment ranking. Distinct from
 // `category` (the UI grouping in the homepage tool grid).
-export type ToolDomain = "image" | "pdf" | "sarkari" | "ocr" | "qr" | "utility";
+export type ToolDomain = "image" | "video" | "pdf" | "sarkari" | "ocr" | "qr" | "utility";
 
 export type Paywall = "always-free" | "batch-gated" | "high-cost";
 
@@ -176,6 +177,36 @@ export const tools: Tool[] = [
       values: ["10kb", "20kb", "50kb", "100kb", "200kb", "500kb"],
     },
     nextSteps: ["jpg-to-pdf", "photo-signature-joiner"],
+  },
+  {
+    slug: "video-compress",
+    href: "/video-compress",
+    name: "Video Compressor",
+    tagline: "Hit an exact MB target",
+    description:
+      "Compress any video to under a target size - 10 MB, 25 MB, 50 MB or any custom target. Runs entirely in your browser, nothing uploaded.",
+    status: "live",
+    category: "sharing",
+    iconKind: "video-compress",
+    iconColor: "info",
+    type: "compress-to-target",
+    buildStatus: "shipped",
+    domain: "video",
+    paywall: "always-free",
+    keywords: [
+      "video compressor", "compress video", "reduce video size", "shrink video", "video size reducer",
+      "video ka size kam karna", "video chota karo", "video compress karo", "video size ghatao",
+      "वीडियो कम्प्रेस", "वीडियो साइज़ कम",
+      "10mb video", "25mb video", "50mb video", "100mb video",
+      "whatsapp video size", "email video attachment size", "video under 25mb", "video under 16mb",
+    ],
+    inputAccept: ["video/mp4", "video/webm", "video/quicktime", "video/x-matroska"],
+    needsWorker: true,
+    variants: {
+      param: "size",
+      values: ["10mb", "25mb", "50mb", "100mb"],
+    },
+    nextSteps: ["quick-send"],
   },
   {
     slug: "document-photo",
