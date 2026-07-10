@@ -5,8 +5,8 @@
     "": {
       "name": "bharattools-frontend",
       "dependencies": {
-        "@devalok/shilp-sutra": "^0.40.0",
-        "@devalok/shilp-sutra-brand": "^0.8.0",
+        "@devalok/shilp-sutra": "^0.46.0",
+        "@devalok/shilp-sutra-brand": "^0.6.2",
         "@imgly/background-removal": "^1.7.0",
         "@next/third-parties": "^16.2.9",
         "@paper-design/shaders-react": "^0.0.76",
@@ -79,9 +79,9 @@
 
     "@babel/types": ["@babel/types@7.29.0", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.28.5" } }, "sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A=="],
 
-    "@devalok/shilp-sutra": ["@devalok/shilp-sutra@0.40.0", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "tw-animate-css": "^1.4.0", "use-sync-external-store": "^1.5.0" }, "peerDependencies": { "@emoji-mart/data": "^1.0.0", "@emoji-mart/react": "^1.0.0", "@tabler/icons-react": "^3.0.0", "@tanstack/react-table": "^8.0.0", "@tanstack/react-virtual": "^3.0.0", "d3-array": "^3.0.0", "d3-axis": "^3.0.0", "d3-format": "^3.0.0", "d3-interpolate": "^3.0.0", "d3-scale": "^4.0.0", "d3-selection": "^3.0.0", "d3-shape": "^3.0.0", "d3-time-format": "^4.0.0", "d3-transition": "^3.0.0", "date-fns": "^4.0.0", "framer-motion": "^12.0.0", "input-otp": "^1.0.0", "react": "^18 || ^19", "react-dom": "^18 || ^19", "react-markdown": "^10.0.0", "react-pdf": "^10.0.0", "react-syntax-highlighter": "^15.0.0 || ^16.0.0", "react-zoom-pan-pinch": "^3.0.0 || ^4.0.0", "remark-gfm": "^4.0.0", "sonner": "^2.0.0", "tailwindcss": "^4.0.0" }, "optionalPeers": ["@emoji-mart/data", "@emoji-mart/react", "@tanstack/react-table", "@tanstack/react-virtual", "d3-array", "d3-axis", "d3-format", "d3-interpolate", "d3-scale", "d3-selection", "d3-shape", "d3-time-format", "d3-transition", "date-fns", "input-otp", "react-markdown", "react-pdf", "react-syntax-highlighter", "react-zoom-pan-pinch", "remark-gfm", "sonner", "tailwindcss"] }, "sha512-62Is0d2fd1W4jDGD/x2/XSOCgewoyoVdiJfrKBGWZVHqweixAVG8N0Z8pg44CqKL9WcIPr5YmylvmUhbPbj2CA=="],
+    "@devalok/shilp-sutra": ["@devalok/shilp-sutra@0.46.0", "", { "dependencies": { "class-variance-authority": "^0.7.1", "clsx": "^2.1.1", "tw-animate-css": "^1.4.0", "use-sync-external-store": "^1.5.0" }, "peerDependencies": { "@emoji-mart/data": "^1.0.0", "@emoji-mart/react": "^1.0.0", "@tabler/icons-react": "^3.0.0", "@tanstack/react-table": "^8.0.0", "@tanstack/react-virtual": "^3.0.0", "d3-array": "^3.0.0", "d3-axis": "^3.0.0", "d3-format": "^3.0.0", "d3-interpolate": "^3.0.0", "d3-scale": "^4.0.0", "d3-selection": "^3.0.0", "d3-shape": "^3.0.0", "d3-time-format": "^4.0.0", "d3-transition": "^3.0.0", "date-fns": "^4.0.0", "framer-motion": "^12.0.0", "input-otp": "^1.0.0", "react": "^18 || ^19", "react-dom": "^18 || ^19", "react-markdown": "^10.0.0", "react-pdf": "^10.0.0", "react-syntax-highlighter": "^15.0.0 || ^16.0.0", "react-zoom-pan-pinch": "^3.0.0 || ^4.0.0", "remark-gfm": "^4.0.0", "sonner": "^2.0.0", "tailwindcss": "^4.0.0" }, "optionalPeers": ["@emoji-mart/data", "@emoji-mart/react", "@tanstack/react-table", "@tanstack/react-virtual", "d3-array", "d3-axis", "d3-format", "d3-interpolate", "d3-scale", "d3-selection", "d3-shape", "d3-time-format", "d3-transition", "date-fns", "input-otp", "react-markdown", "react-pdf", "react-syntax-highlighter", "react-zoom-pan-pinch", "remark-gfm", "sonner", "tailwindcss"] }, "sha512-5gXJEhlJ+o1DX4jRwvApPrtLlJ7cEG5H7xk5aURxIn8jmqnLIOIHeTILV9EcFqMv6Rbc8ZPs96CwDskWQGUIYg=="],
 
-    "@devalok/shilp-sutra-brand": ["@devalok/shilp-sutra-brand@0.8.0", "", { "peerDependencies": { "@paper-design/shaders-react": "^0.0.76", "react": "^18 || ^19", "react-dom": "^18 || ^19" }, "optionalPeers": ["@paper-design/shaders-react"] }, "sha512-L+RuQflxdB47NL0HurcinpGecm9sK9PryPeoPQR/Spb6hV58RBSM1t3Mq88Nhk/PbyT/y6WN5MbX2izfYdn+Xg=="],
+    "@devalok/shilp-sutra-brand": ["@devalok/shilp-sutra-brand@0.6.2", "", { "peerDependencies": { "react": "^18 || ^19", "react-dom": "^18 || ^19" } }, "sha512-MWU8G0j5EdiX8uHM4RZ7Y/ofSrMH0fSOacAnx2AVPV6bqMH162OhoYWK9oVjGkqUf94tf2I4tFYwEvLt/Se93w=="],
 
     "@emnapi/core": ["@emnapi/core@1.10.0", "", { "dependencies": { "@emnapi/wasi-threads": "1.2.1", "tslib": "^2.4.0" } }, "sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw=="],
 
