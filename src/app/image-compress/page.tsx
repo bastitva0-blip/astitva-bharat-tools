@@ -42,6 +42,13 @@ export default async function ImageCompressHubPage() {
         breadcrumbs={[{ label: dict.common.home, href: "/" }, { label: dict.imageCompress.breadcrumb }]}
       />
 
+      <p className="mt-4 text-body-sm text-surface-fg-muted">
+        {dict.imageCompress.disambiguation}{" "}
+        <Link href="/photo-resize" className="font-medium text-accent-11 underline underline-offset-2">
+          Go to Exam Photo Resizer →
+        </Link>
+      </p>
+
       <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {compressPresets.map((p) => (
           <Link key={p.slug} href={`/image-compress/${p.slug}`} className="block">

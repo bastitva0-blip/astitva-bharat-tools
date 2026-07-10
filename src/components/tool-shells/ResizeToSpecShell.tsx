@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import ReactCrop, {
   centerCrop,
+  convertToPixelCrop,
   makeAspectCrop,
   type Crop,
   type PixelCrop,
@@ -118,6 +119,10 @@ export function ResizeToSpecShell({
       height,
     );
     setCrop(initial);
+    // ReactCrop's onComplete only fires after a user drag/resize/nudge, so
+    // without this the initial auto-generated crop never becomes a
+    // completedCrop — Generate stays disabled until the user nudges the box.
+    setCompletedCrop(convertToPixelCrop(initial, width, height));
   };
 
   const submit = useCallback(async () => {
@@ -168,13 +173,19 @@ export function ResizeToSpecShell({
       });
 
       const max = preset.kbRange.max * 1024;
+      const min = preset.kbRange.min * 1024;
       if (r.hitTarget) {
         toast.success(`Saved at ${formatKb(r.bytes)}.`);
-      } else if (r.bytes <= max) {
-        toast.success(`Saved at ${formatKb(r.bytes)} (under upper limit).`);
-      } else {
+      } else if (r.bytes > max) {
         toast.error(`Could not hit the KB target — closest was ${formatKb(r.bytes)}.`);
         fire("spec_missed", { tool_id: tool.slug, preset: preset.slug, reason: "kb_over_target" });
+      } else if (min > 0 && r.bytes < min) {
+        toast.error(
+          `Saved at ${formatKb(r.bytes)} — that's below the ${preset.kbRange.min} KB minimum and may be rejected.`,
+        );
+        fire("spec_missed", { tool_id: tool.slug, preset: preset.slug, reason: "kb_under_target" });
+      } else {
+        toast.success(`Saved at ${formatKb(r.bytes)} (under upper limit).`);
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : dict.shell.errors.processFailed;
@@ -186,7 +197,7 @@ export function ResizeToSpecShell({
     } finally {
       setSubmitting(false);
     }
-  }, [completedCrop, resultBlob, onProcess, tool.slug, preset.slug, preset.kbRange.max, dict.shell.errors, setPipeline, outputFilename, file]);
+  }, [completedCrop, resultBlob, onProcess, tool.slug, preset.slug, preset.kbRange.max, preset.kbRange.min, dict.shell.errors, setPipeline, outputFilename, file]);
 
   const onEditAgain = () => {
     setResultBlob(null);
@@ -344,9 +355,13 @@ function resolveResizeCompliance(
   preset: PhotoSpec,
 ): { status: ComplianceStatus; label: string } {
   const max = preset.kbRange.max * 1024;
+  const min = preset.kbRange.min * 1024;
   if (result.hitTarget) return { status: "pass", label: "Within KB target" };
   if (result.bytes > max) {
     return { status: "fail", label: `Over upper limit (${preset.kbRange.max} KB)` };
+  }
+  if (min > 0 && result.bytes < min) {
+    return { status: "fail", label: `Below minimum (${preset.kbRange.min} KB) — may be rejected` };
   }
   if (preset.kbRange.min === 0) return { status: "pass", label: "Saved · safe to upload" };
   return { status: "pass", label: "Under upper limit · safe to upload" };

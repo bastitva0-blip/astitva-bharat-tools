@@ -152,6 +152,7 @@
     "title": "Exam Photo Resizer",
     "subtitle": "Pick the exam your form is for. We apply the exact pixel size, KB range and white background it needs.",
     "breadcrumb": "Exam Photo Resizer",
+    "disambiguation": "Need to hit a KB number for something that isn't an exam form (or isn't listed below)?",
     "variant": {
       "titleTemplate": "{name} Photo Resizer",
       "subtitleTemplate": "Upload a photo and get a ready-to-upload {dimensions} px JPG ({kbRange} KB).",
@@ -162,6 +163,7 @@
     "title": "Image Compressor",
     "subtitle": "Hit an exact KB target. Government portals reject anything over the limit, so 'approximate' won't do.",
     "breadcrumb": "Image Compressor",
+    "disambiguation": "Uploading for a specific exam (UPSC, SSC, NEET...)? That tool also crops to the exact pixel size your portal needs.",
     "variant": {
       "titleTemplate": "Compress Image to {label}",
       "subtitleTemplate": "Hit {label} within ±{tolerance} KB. JPG output, runs in your browser."
