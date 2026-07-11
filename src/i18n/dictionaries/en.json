@@ -164,6 +164,7 @@
     "subtitle": "Hit an exact KB target. Government portals reject anything over the limit, so 'approximate' won't do.",
     "breadcrumb": "Image Compressor",
     "disambiguation": "Uploading for a specific exam (UPSC, SSC, NEET...)? That tool also crops to the exact pixel size your portal needs.",
+    "toleranceHint": "The compressed file will land somewhere in this range below your target - never over it, since compression can't hit an exact byte count.",
     "variant": {
       "titleTemplate": "Compress Image to {label}",
       "subtitleTemplate": "Hit {label} within ±{tolerance} KB. JPG output, runs in your browser."
