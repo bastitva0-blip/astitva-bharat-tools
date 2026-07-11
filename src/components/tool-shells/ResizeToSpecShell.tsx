@@ -260,7 +260,13 @@ export function ResizeToSpecShell({
                     src={fileUrl}
                     alt="Source"
                     onLoad={onImageLoad}
-                    className="mx-auto block max-h-[60vh] max-w-full w-auto"
+                    className="mx-auto block max-w-full w-auto"
+                    // react-image-crop's own stylesheet sets `.ReactCrop__child-wrapper > img
+                    // { max-height: inherit }`, which outranks a max-h-* utility class here and
+                    // resolves to "none" (nothing up the chain sets it) — so a tall portrait photo
+                    // rendered at full height, blowing past the viewport. Inline style beats that
+                    // stylesheet rule since it isn't !important.
+                    style={{ maxHeight: "60vh" }}
                   />
                 </ReactCrop>
                 <p className="mt-3 text-body-xs text-surface-fg-muted">
