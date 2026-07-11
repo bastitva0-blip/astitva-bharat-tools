@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { Info } from "lucide-react";
 import { Label } from "@devalok/shilp-sutra/ui/label";
 import { NumberInput } from "@devalok/shilp-sutra/ui/number-input";
+import { SimpleTooltip } from "@devalok/shilp-sutra/composed/simple-tooltip";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { CompressToTargetShell } from "@/components/tool-shells";
 import { fire } from "@/lib/analytics";
@@ -104,8 +106,14 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
                 max={5000}
                 step={1}
               />
-              <p className="mt-1 text-body-xs text-surface-fg-muted">
+              <p className="mt-1 flex items-center gap-1 text-body-xs text-surface-fg-muted">
                 {fmt(t.target.toleranceTemplate, { kb: activeTolerance })}
+                <SimpleTooltip content={dict.imageCompress.toleranceHint}>
+                  <span tabIndex={0} className="inline-flex">
+                    <Info className="size-3.5" aria-hidden />
+                    <span className="sr-only">What does tolerance mean?</span>
+                  </span>
+                </SimpleTooltip>
               </p>
             </div>
           )}
@@ -114,8 +122,14 @@ export function ImageCompressForm({ targetKb, toleranceKb, targetLabel, slug }: 
               <span className="font-semibold">
                 {t.target.fixedLabel}: {activeLabel}
               </span>
-              <span className="text-surface-fg-muted">
+              <span className="inline-flex items-center gap-1 text-surface-fg-muted">
                 {fmt(t.target.fixedToleranceTemplate, { kb: activeTolerance })}
+                <SimpleTooltip content={dict.imageCompress.toleranceHint}>
+                  <span tabIndex={0} className="inline-flex">
+                    <Info className="size-3.5" aria-hidden />
+                    <span className="sr-only">What does tolerance mean?</span>
+                  </span>
+                </SimpleTooltip>
               </span>
             </div>
           )}

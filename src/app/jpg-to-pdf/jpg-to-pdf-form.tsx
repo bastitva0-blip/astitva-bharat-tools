@@ -16,6 +16,7 @@ import {
   type Orientation,
   type PageSize,
 } from "@/lib/processing/images-to-pdf";
+import { DownloadBar } from "@/components/tool-shells/primitives";
 
 const TOOL = "jpg-to-pdf";
 
@@ -265,15 +266,14 @@ export function JpgToPdfForm() {
                 src={resultUrl}
                 className="h-[70vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
-              <Button asChild variant="solid" fullWidth size="lg">
-                <a
-                  href={resultUrl}
-                  download="bharattools-images.pdf"
-                  onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
-                >
-                  Download PDF
-                </a>
-              </Button>
+              <DownloadBar
+                url={resultUrl}
+                filename="bharattools-images.pdf"
+                toolSlug={TOOL}
+                outputType="application/pdf"
+                label="Download PDF"
+                fullWidth
+              />
             </div>
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">

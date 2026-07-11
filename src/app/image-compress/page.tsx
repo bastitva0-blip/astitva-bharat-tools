@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { Info } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
+import { SimpleTooltip } from "@devalok/shilp-sutra/composed/simple-tooltip";
 import { JsonLd } from "@/components/json-ld";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { compressPresets } from "@/lib/presets/compress-sizes";
@@ -55,7 +57,15 @@ export default async function ImageCompressHubPage() {
             <Card variant="outline" interactive className="h-full">
               <CardHeader>
                 <CardTitle>{p.label}</CardTitle>
-                <CardDescription>Tolerance ±{p.toleranceKb} KB</CardDescription>
+                <CardDescription className="flex items-center gap-1">
+                  Tolerance ±{p.toleranceKb} KB
+                  <SimpleTooltip content={dict.imageCompress.toleranceHint}>
+                    <span tabIndex={0} className="inline-flex">
+                      <Info className="size-3.5 text-surface-fg-muted" aria-hidden />
+                      <span className="sr-only">What does tolerance mean?</span>
+                    </span>
+                  </SimpleTooltip>
+                </CardDescription>
               </CardHeader>
             </Card>
           </Link>

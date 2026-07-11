@@ -16,6 +16,7 @@ interface DownloadBarProps {
   label?: string;
   secondaryActions?: ReactNode;
   fullWidth?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
 // Standardised primary-download CTA used by every tool shell
@@ -30,6 +31,7 @@ export function DownloadBar({
   label,
   secondaryActions,
   fullWidth = false,
+  size = "lg",
 }: DownloadBarProps) {
   const dict = useT();
   const text = label ?? dict.common.download;
@@ -54,7 +56,7 @@ export function DownloadBar({
 
   return (
     <div className="flex flex-wrap gap-3">
-      <Button asChild variant="solid" size="lg" fullWidth={fullWidth}>
+      <Button asChild variant="solid" size={size} fullWidth={fullWidth}>
         <a href={url} download={filename} onClick={onClick}>
           {downloaded ? (
             <>
