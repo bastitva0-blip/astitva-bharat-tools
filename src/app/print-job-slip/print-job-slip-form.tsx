@@ -22,6 +22,7 @@ import {
   type PrintJobItem,
   type Sides,
 } from "@/lib/processing/print-job-slip";
+import { DownloadBar } from "@/components/tool-shells/primitives";
 
 const TOOL = "print-job-slip";
 
@@ -461,26 +462,24 @@ export function PrintJobSlipForm() {
                 src={result.url}
                 className="h-[60vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
-              <div className="flex flex-col gap-2 sm:flex-row">
-                <Button asChild variant="solid" size="lg" className="flex-1">
-                  <a
-                    href={result.url}
-                    download="bharattools-print-job.pdf"
-                    onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
-                  >
-                    Download · {formatKb(result.bytes)}
-                  </a>
-                </Button>
-                <Button asChild variant="soft" size="lg" className="flex-1">
-                  <Link
-                    href="/quick-send"
-                    onClick={() => fire("cross_tool_click", { from_tool: TOOL, to_tool: "quick-send" })}
-                  >
-                    <Send size={16} />
-                    Send via Quick Send
-                  </Link>
-                </Button>
-              </div>
+              <DownloadBar
+                url={result.url}
+                filename="bharattools-print-job.pdf"
+                toolSlug={TOOL}
+                outputType="application/pdf"
+                label={`Download · ${formatKb(result.bytes)}`}
+                secondaryActions={
+                  <Button asChild variant="soft" size="lg">
+                    <Link
+                      href="/quick-send"
+                      onClick={() => fire("cross_tool_click", { from_tool: TOOL, to_tool: "quick-send" })}
+                    >
+                      <Send size={16} />
+                      Send via Quick Send
+                    </Link>
+                  </Button>
+                }
+              />
             </div>
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">

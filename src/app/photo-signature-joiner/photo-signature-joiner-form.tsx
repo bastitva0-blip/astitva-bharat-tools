@@ -16,6 +16,7 @@ import { useConsumePipelineFile } from "@/lib/pipeline";
 import { joinerPresets, type JoinerLayout } from "@/lib/presets/joiner";
 import { joinPhotoAndSignature } from "@/lib/processing/joiner";
 import { formatKb } from "@/lib/processing/image";
+import { DownloadBar } from "@/components/tool-shells/primitives";
 
 const TOOL = "photo-signature-joiner";
 
@@ -285,15 +286,14 @@ export function PhotoSignatureJoinerForm() {
                 </span>
                 <span className="text-surface-fg-muted">{formatKb(result.bytes)}</span>
               </div>
-              <Button asChild variant="solid" fullWidth size="lg">
-                <a
-                  href={result.url}
-                  download="bharattools-photo-signature.jpg"
-                  onClick={() => fire("download_click", { tool_id: TOOL, output_type: "image/jpeg" })}
-                >
-                  {t.result.downloadCta}
-                </a>
-              </Button>
+              <DownloadBar
+                url={result.url}
+                filename="bharattools-photo-signature.jpg"
+                toolSlug={TOOL}
+                outputType="image/jpeg"
+                label={t.result.downloadCta}
+                fullWidth
+              />
             </div>
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">

@@ -12,6 +12,7 @@ import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { durationBucket, fire, sizeBucket, useToolAnalytics } from "@/lib/analytics";
 import { fitGrid, photoSizePresets, sheetPresets } from "@/lib/presets/print-sheet";
 import { buildPrintSheetPdf } from "@/lib/processing/print-sheet";
+import { DownloadBar } from "@/components/tool-shells/primitives";
 
 const TOOL = "print-sheet";
 
@@ -285,11 +286,14 @@ export function PrintSheetForm() {
                 src={resultUrl}
                 className="h-[70vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
-              <Button asChild variant="solid" fullWidth size="lg">
-                <a href={resultUrl} download="print-sheet.pdf">
-                  Download PDF
-                </a>
-              </Button>
+              <DownloadBar
+                url={resultUrl}
+                filename="print-sheet.pdf"
+                toolSlug={TOOL}
+                outputType="application/pdf"
+                label="Download PDF"
+                fullWidth
+              />
               <p className="text-body-sm text-surface-fg-muted">
                 Print at <span className="font-semibold">100% / Actual size</span> - do not "fit to page" - so dimensions stay accurate.
               </p>

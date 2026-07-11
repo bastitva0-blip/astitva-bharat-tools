@@ -19,6 +19,7 @@ import {
   splitPdfEveryPage,
   type SplitResult,
 } from "@/lib/processing/pdf-merge-split";
+import { DownloadBar } from "@/components/tool-shells/primitives";
 
 const TOOL = "pdf-merge-split";
 
@@ -223,15 +224,14 @@ function MergePanel() {
                 src={output.url}
                 className="h-[60vh] w-full rounded-md border border-surface-fg bg-surface-2"
               />
-              <Button asChild variant="solid" fullWidth size="lg">
-                <a
-                  href={output.url}
-                  download="bharattools-merged.pdf"
-                  onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
-                >
-                  Download merged PDF · {formatKb(output.bytes)}
-                </a>
-              </Button>
+              <DownloadBar
+                url={output.url}
+                filename="bharattools-merged.pdf"
+                toolSlug={TOOL}
+                outputType="application/pdf"
+                label={`Download merged PDF · ${formatKb(output.bytes)}`}
+                fullWidth
+              />
             </div>
           ) : (
             <div className="flex h-full min-h-[280px] items-center justify-center rounded-md border border-dashed border-surface-border-subtle text-body-sm text-surface-fg-muted">
@@ -421,15 +421,14 @@ function SplitPanel() {
                     <div className="truncate font-medium">{`${baseName}-${o.label}.pdf`}</div>
                     <div className="text-body-xs text-surface-fg-muted">{formatKb(o.bytes)}</div>
                   </div>
-                  <Button asChild variant="solid" size="sm">
-                    <a
-                      href={o.url}
-                      download={`${baseName}-${o.label}.pdf`}
-                      onClick={() => fire("download_click", { tool_id: TOOL, output_type: "application/pdf" })}
-                    >
-                      Download
-                    </a>
-                  </Button>
+                  <DownloadBar
+                    url={o.url}
+                    filename={`${baseName}-${o.label}.pdf`}
+                    toolSlug={TOOL}
+                    outputType="application/pdf"
+                    label="Download"
+                    size="sm"
+                  />
                 </li>
               ))}
             </ul>
