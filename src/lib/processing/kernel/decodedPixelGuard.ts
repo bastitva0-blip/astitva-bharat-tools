@@ -36,7 +36,17 @@ export async function loadImageBoundedBySize(
   // decode. `createImageBitmap` here uses the browser's progressive decode
   // path; the returned bitmap may still be large, but on most engines the
   // initial decode is cheaper than a manual canvas paint.
-  const probe = await createImageBitmap(source);
+  let probe: ImageBitmap;
+  try {
+    probe = await createImageBitmap(source);
+  } catch {
+    // The browser's own message here is a raw DOMException ("The source
+    // image cannot be decoded" or similar) — not something a user can act
+    // on. Surface what actually matters: the file itself is the problem.
+    throw new Error(
+      "This file couldn't be read. It may be corrupted, password-protected, or in a format your browser can't decode.",
+    );
+  }
   const originalWidth = probe.width;
   const originalHeight = probe.height;
   const originalPixels = originalWidth * originalHeight;

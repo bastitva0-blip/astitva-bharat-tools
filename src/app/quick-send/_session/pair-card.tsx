@@ -62,7 +62,7 @@ export function PairCard({ roomId }: PairCardProps) {
             <div className="space-y-3">
               <p className="text-body-sm text-surface-fg-muted">
                 On the other device, type this short code into the address bar
-                after <code className="rounded bg-surface-2 px-1 py-0.5">bharattools.app/s/</code>
+                after <code className="rounded bg-surface-2 px-1 py-0.5">bharattools.app/quick-send/s/</code>
               </p>
               <button
                 type="button"

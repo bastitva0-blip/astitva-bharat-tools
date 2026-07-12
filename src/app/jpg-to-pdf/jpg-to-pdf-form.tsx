@@ -73,6 +73,7 @@ export function JpgToPdfForm() {
   useConsumePipelineFile({
     accept: "image/*",
     onFile: (file) => addFiles([file]),
+    hasFile: items.length > 0,
   });
 
   const remove = (id: string) => {

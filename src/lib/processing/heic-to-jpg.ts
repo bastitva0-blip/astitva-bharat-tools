@@ -20,9 +20,24 @@ export async function convertHeicToJpg(
   source: Blob,
   options: HeicConvertOptions = {},
 ): Promise<HeicConvertResult> {
-  const { default: heic2any } = await import("heic2any");
+  let heic2any: typeof import("heic2any").default;
+  try {
+    ({ default: heic2any } = await import("heic2any"));
+  } catch {
+    throw new Error(
+      "Couldn't load the HEIC converter. Check your internet connection and try again.",
+    );
+  }
+
   const quality = options.quality ?? 0.92;
-  const out = await heic2any({ blob: source, toType: "image/jpeg", quality });
+  let out: Blob | Blob[];
+  try {
+    out = await heic2any({ blob: source, toType: "image/jpeg", quality });
+  } catch {
+    throw new Error(
+      "This HEIC photo couldn't be converted — it may be corrupted or an unusual variant. Try re-exporting it as JPG from your phone's Photos app.",
+    );
+  }
   const blob = Array.isArray(out) ? out[0] : out;
   return { blob, bytes: blob.size };
 }
