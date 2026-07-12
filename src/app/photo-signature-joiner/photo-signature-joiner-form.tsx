@@ -55,6 +55,7 @@ export function PhotoSignatureJoinerForm() {
       setPhoto(file);
       fireFileAdded(file);
     },
+    hasFile: photo !== null,
   });
 
   const isCustom = presetId === "custom";

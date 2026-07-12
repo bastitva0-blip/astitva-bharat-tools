@@ -27,6 +27,15 @@ interface UseConsumePipelineFileArgs {
   accept: string;
   /** Called once when a matching entry is consumed from the pipeline. */
   onFile: (file: File) => void;
+  /**
+   * True once the shell already has a local file/result. Guards against a
+   * shell re-adopting the very entry it just wrote via `setPipeline` after a
+   * successful process — without this, the entry change triggers this same
+   * hook's effect and the shell "eats its own tail": the freshly generated
+   * output gets fed back in as a new input file, silently reverting a
+   * just-finished result back to the picker/crop state.
+   */
+  hasFile: boolean;
 }
 
 function matchesAccept(mime: string, name: string, accept: string): boolean {
@@ -47,7 +56,7 @@ function matchesAccept(mime: string, name: string, accept: string): boolean {
   return false;
 }
 
-export function useConsumePipelineFile({ accept, onFile }: UseConsumePipelineFileArgs): void {
+export function useConsumePipelineFile({ accept, onFile, hasFile }: UseConsumePipelineFileArgs): void {
   const { entry, hydrate } = usePipeline();
   const consumedRef = useRef(false);
   // Keep latest callback in a ref so the consumption effect doesn't depend on
@@ -62,7 +71,7 @@ export function useConsumePipelineFile({ accept, onFile }: UseConsumePipelineFil
   }, [hydrate]);
 
   useEffect(() => {
-    if (consumedRef.current || !entry) return;
+    if (consumedRef.current || !entry || hasFile) return;
     if (!matchesAccept(entry.meta.type, entry.meta.name, accept)) {
       consumedRef.current = true;
       return;
@@ -70,5 +79,5 @@ export function useConsumePipelineFile({ accept, onFile }: UseConsumePipelineFil
     consumedRef.current = true;
     const file = new File([entry.blob], entry.meta.name, { type: entry.meta.type });
     onFileRef.current(file);
-  }, [entry, accept]);
+  }, [entry, accept, hasFile]);
 }

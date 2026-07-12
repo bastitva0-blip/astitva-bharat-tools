@@ -86,7 +86,7 @@ export function EnhanceShell({
     [tool.slug],
   );
 
-  useConsumePipelineFile({ accept, onFile: adoptFile });
+  useConsumePipelineFile({ accept, onFile: adoptFile, hasFile: file !== null });
 
   const submit = useCallback(async () => {
     if (!file) {

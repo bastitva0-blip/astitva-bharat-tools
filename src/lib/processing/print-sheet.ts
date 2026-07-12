@@ -76,7 +76,7 @@ async function renderTileJpeg(image: Blob, tilePxW: number, tilePxH: number): Pr
     canvas.width = tilePxW;
     canvas.height = tilePxH;
     const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) throw new Error("Canvas 2D context unavailable");
+    if (!ctx) throw new Error("Your browser couldn't create the image canvas needed to build this sheet. Try updating your browser or switching devices.");
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     ctx.fillStyle = "#ffffff";

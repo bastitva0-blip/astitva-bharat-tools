@@ -10,7 +10,7 @@ export async function loadImage(src: string): Promise<HTMLImageElement> {
     const img = new Image();
     img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Could not load image"));
+    img.onerror = () => reject(new Error("This photo couldn't be loaded. It may be corrupted or in an unsupported format."));
     img.src = src;
   });
 }
@@ -26,7 +26,7 @@ export function cropAndResize(
   canvas.width = targetW;
   canvas.height = targetH;
   const ctx = canvas.getContext("2d", { alpha: false });
-  if (!ctx) throw new Error("Canvas 2D context unavailable");
+  if (!ctx) throw new Error("Your browser couldn't create the image canvas needed for this. Try updating your browser or switching devices.");
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   ctx.fillStyle = background;
@@ -38,7 +38,10 @@ export function cropAndResize(
 export function canvasToBlob(canvas: HTMLCanvasElement, type: string, quality?: number): Promise<Blob> {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error("Encoding failed"))),
+      (blob) =>
+        blob
+          ? resolve(blob)
+          : reject(new Error("Couldn't save the processed image. Try a different photo or format.")),
       type,
       quality,
     );

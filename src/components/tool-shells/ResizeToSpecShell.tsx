@@ -109,6 +109,7 @@ export function ResizeToSpecShell({
   useConsumePipelineFile({
     accept: "image/*",
     onFile: adoptFile,
+    hasFile: file !== null,
   });
 
   const onImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {

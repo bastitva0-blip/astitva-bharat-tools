@@ -88,6 +88,8 @@ export interface EventMap {
   // Dynamic import() of a heavy lib failed (chunk/network/WASM). Static
   // imports surface as process_error instead.
   library_load_error: { lib: string };
+  // User saw the "this downloads a ~50 MB model" confirm and backed out.
+  bg_download_declined: { tool_id: ToolSlug };
   // External link click — `target` is the destination hostname only.
   outbound_click: { target: string };
 

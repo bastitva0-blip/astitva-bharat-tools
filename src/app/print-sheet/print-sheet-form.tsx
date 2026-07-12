@@ -15,6 +15,25 @@ import { buildPrintSheetPdf } from "@/lib/processing/print-sheet";
 import { DownloadBar } from "@/components/tool-shells/primitives";
 
 const TOOL = "print-sheet";
+const BG_MODEL_DOWNLOADED_KEY = "bg-removal-model-downloaded";
+
+function hasBgModelDownloaded(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    return window.localStorage.getItem(BG_MODEL_DOWNLOADED_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markBgModelDownloaded(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(BG_MODEL_DOWNLOADED_KEY, "1");
+  } catch {
+    // Storage full / blocked — we'll just ask again next time.
+  }
+}
 
 export function PrintSheetForm() {
   useToolAnalytics(TOOL);
@@ -70,6 +89,16 @@ export function PrintSheetForm() {
       toast.error("Photo doesn't fit on this sheet - pick a smaller size.");
       return;
     }
+    if (removeBg && !hasBgModelDownloaded()) {
+      const proceed = window.confirm(
+        "Background removal downloads a ~50 MB AI model to your device the first time you use it. " +
+          "This can take a while on a slow connection. Continue?",
+      );
+      if (!proceed) {
+        fire("bg_download_declined", { tool_id: TOOL });
+        return;
+      }
+    }
     setSubmitting(true);
     if (resultUrl) URL.revokeObjectURL(resultUrl);
     setResultUrl(null);
@@ -91,9 +120,18 @@ export function PrintSheetForm() {
             mod = await import("@imgly/background-removal");
           } catch (loadErr) {
             fire("library_load_error", { lib: "background-removal" });
-            throw loadErr;
+            throw new Error(
+              "Couldn't download the background-removal model. Check your internet connection and try again.",
+            );
           }
-          image = await mod.removeBackground(file);
+          try {
+            image = await mod.removeBackground(file);
+          } catch {
+            throw new Error(
+              "Background removal failed on this photo. Try a photo with a plainer background, or turn the option off.",
+            );
+          }
+          markBgModelDownloaded();
           fire("bg_process_complete", {
             tool_id: TOOL,
             duration_bucket: durationBucket(performance.now() - bgT0),

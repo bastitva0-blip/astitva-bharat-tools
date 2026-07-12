@@ -34,7 +34,7 @@ export async function convertImageFormat(
   const ctx = canvas.getContext("2d", { alpha: options.mime !== "image/jpeg" });
   if (!ctx) {
     bitmap.close();
-    throw new Error("Canvas 2D context unavailable");
+    throw new Error("Your browser couldn't create the image canvas needed to convert this file. Try updating your browser or switching devices.");
   }
   // JPG has no alpha — paint the background first so transparency flattens
   // predictably (no black halos).
@@ -48,7 +48,14 @@ export async function convertImageFormat(
   const quality = options.mime === "image/png" ? undefined : options.quality ?? 0.92;
   const blob = await new Promise<Blob>((resolve, reject) => {
     canvas.toBlob(
-      (b) => (b ? resolve(b) : reject(new Error("Encoding failed"))),
+      (b) =>
+        b
+          ? resolve(b)
+          : reject(
+              new Error(
+                `Couldn't save this as ${options.mime.replace("image/", "").toUpperCase()}. Try a different output format.`,
+              ),
+            ),
       options.mime,
       quality,
     );

@@ -132,6 +132,7 @@ export function ComposeShell({
   useConsumePipelineFile({
     accept,
     onFile: (f) => addFiles([f]),
+    hasFile: items.length > 0,
   });
 
   const remove = (id: string) => {
