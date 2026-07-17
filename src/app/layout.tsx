@@ -35,7 +35,7 @@ const ANALYTICS_INIT_SCRIPT = `window.dataLayer=window.dataLayer||[];function gt
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "BharatTools — Sarkari form photo, PDF & print tools (free, no upload)",
+    default: "BharatTools · Sarkari form photo, PDF & print tools (free, no upload)",
     template: "%s · BharatTools",
   },
   description: SITE_DESCRIPTION,
@@ -59,12 +59,12 @@ export const metadata: Metadata = {
     locale: "en_IN",
     alternateLocale: ["hi_IN"],
     url: SITE_URL,
-    title: "BharatTools — Sarkari form photo, PDF & print tools",
+    title: "BharatTools · Sarkari form photo, PDF & print tools",
     description: SITE_DESCRIPTION,
   },
   twitter: {
     card: "summary_large_image",
-    title: "BharatTools — Sarkari form photo, PDF & print tools",
+    title: "BharatTools · Sarkari form photo, PDF & print tools",
     description: SITE_DESCRIPTION,
   },
   robots: {

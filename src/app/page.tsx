@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
+import { BharatHero } from "@/components/landing/bharat-hero";
 import { Footer } from "@/components/footer";
-import { HeroAurora } from "@/components/hero-aurora";
 import { HowItWorks } from "@/components/how-it-works";
 import { JsonLd } from "@/components/json-ld";
 import { ToolsBrowser } from "@/components/tools-browser";
 import { TrustStrip } from "@/components/trust-strip";
 import { UspStrip } from "@/components/usp-strip";
+import { devanagari } from "@/lib/fonts";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { formGuides } from "@/lib/form-guides";
 import { faqPageSchema, softwareAppSchema } from "@/lib/seo/schema";
@@ -69,8 +70,9 @@ const HOME_FAQS = [
 export default async function HomePage() {
   const locale = await getCurrentLocale();
   const dict = getDictionary(locale);
+  const langClass = locale === "hi" ? `bt-hi ${devanagari.variable}` : "";
   return (
-    <>
+    <div className={`bt-landing ${langClass}`}>
       <JsonLd
         data={[
           softwareAppSchema({
@@ -97,29 +99,15 @@ export default async function HomePage() {
           faqPageSchema(HOME_FAQS),
         ]}
       />
-      <HeroAurora
-        eyebrow={dict.home.badge}
-        title={
-          <>
-            {dict.home.titleLead}{" "}
-            <span className="bg-linear-to-r from-accent-11 to-accent-9 bg-clip-text text-transparent">
-              {dict.home.titleAccent}
-            </span>{" "}
-            {dict.home.titleTrail}
-          </>
-        }
-        subtitle={
-          <>
-            {dict.home.subtitleMain}{" "}
-            <span className="text-surface-fg-subtle">{dict.home.subtitleMuted}</span>
-          </>
-        }
-      />
+      <BharatHero dict={dict} />
       <main className="mx-auto w-full max-w-6xl px-page-x pb-20">
-        <UspStrip dict={dict} />
-        <div className="mt-20">
-          <ToolsBrowser />
+        <div className="mt-16">
+          <UspStrip dict={dict} />
         </div>
+
+        <section id="tools" className="mt-20 scroll-mt-24">
+          <ToolsBrowser />
+        </section>
 
         <HowItWorks dict={dict} />
 
@@ -127,7 +115,7 @@ export default async function HomePage() {
           <div className="flex items-end justify-between gap-4">
             <div>
               <h2 className="inline-flex items-center gap-2 text-heading-md font-semibold">
-                <BookOpen className="size-5 text-accent-11" aria-hidden />
+                <BookOpen className="size-5 text-[var(--bt-saffron-ink)]" aria-hidden />
                 {dict.home.guides.heading}
               </h2>
               <p className="mt-2 max-w-2xl text-body-md text-surface-fg-muted">
@@ -177,6 +165,6 @@ export default async function HomePage() {
       </main>
       <TrustStrip dict={dict} />
       <Footer />
-    </>
+    </div>
   );
 }

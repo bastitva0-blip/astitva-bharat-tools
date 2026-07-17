@@ -434,7 +434,7 @@ export const tools: Tool[] = [
     name: "QR Code Generator",
     tagline: "Make a QR for a URL, UPI ID or contact",
     description:
-      "Type the text — get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download.",
+      "Type the text and get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download.",
     status: "live",
     category: "utility",
     iconKind: "qr-generate",
@@ -459,7 +459,7 @@ export const tools: Tool[] = [
     name: "QR Code Scanner",
     tagline: "Scan a QR with your camera or from an image",
     description:
-      "Decode any QR — UPI, URL, phone, plain text — using your camera or by dropping an image. Runs entirely in your browser.",
+      "Decode any QR (UPI, URL, phone, plain text) using your camera or by dropping an image. Runs entirely in your browser.",
     status: "live",
     category: "utility",
     iconKind: "qr-scan",
@@ -485,7 +485,7 @@ export const tools: Tool[] = [
     name: "Image to Text (OCR)",
     tagline: "Extract typed text from a photo or scan",
     description:
-      "Pull selectable, copyable text out of an image — screenshots, scanned pages, notices. Supports English and Hindi. Runs on your device, nothing uploaded.",
+      "Pull selectable, copyable text out of an image: screenshots, scanned pages, notices. Supports English and Hindi. Runs on your device, nothing uploaded.",
     status: "live",
     category: "utility",
     iconKind: "image-to-text",
@@ -515,7 +515,7 @@ export const tools: Tool[] = [
     name: "HEIC to JPG Converter",
     tagline: "Turn iPhone HEIC photos into upload-ready JPG",
     description:
-      "Indian government portals reject HEIC. Drop an iPhone photo here, get a JPG in seconds. Works on any browser — no upload, no app.",
+      "Indian government portals reject HEIC. Drop an iPhone photo here, get a JPG in seconds. Works on any browser. No upload, no app.",
     status: "live",
     category: "forms",
     iconKind: "heic-to-jpg",
@@ -570,7 +570,7 @@ export const tools: Tool[] = [
     name: "Aadhaar Front + Back Collage",
     tagline: "Combine both sides on a single A4 sheet",
     description:
-      "Stack front and back of an Aadhaar card on one A4 page — ready for portals that ask for both sides as a single upload.",
+      "Stack front and back of an Aadhaar card on one A4 page, ready for portals that ask for both sides as a single upload.",
     status: "live",
     category: "forms",
     iconKind: "aadhaar-collage",
