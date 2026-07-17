@@ -15,7 +15,8 @@ export type ToolIconKind =
   | "qr-scan"
   | "heic-to-jpg"
   | "photo-grayscale"
-  | "aadhaar-collage";
+  | "aadhaar-collage"
+  | "image-to-text";
 
 export type ToolCategory = "forms" | "sharing" | "utility";
 
@@ -477,6 +478,36 @@ export const tools: Tool[] = [
     inputAccept: ["image/jpeg", "image/png", "image/webp"],
     needsWorker: false,
     popularityScore: 0.75,
+  },
+  {
+    slug: "image-to-text",
+    href: "/image-to-text",
+    name: "Image to Text (OCR)",
+    tagline: "Extract typed text from a photo or scan",
+    description:
+      "Pull selectable, copyable text out of an image — screenshots, scanned pages, notices. Supports English and Hindi. Runs on your device, nothing uploaded.",
+    status: "live",
+    category: "utility",
+    iconKind: "image-to-text",
+    iconColor: "accent",
+    type: "extract",
+    buildStatus: "shipped",
+    domain: "ocr",
+    paywall: "always-free",
+    keywords: [
+      "image to text", "photo to text", "ocr", "extract text from image", "text from photo",
+      "picture to text", "screenshot to text", "scan to text", "read text from image",
+      "photo se text", "image se text nikalo", "text kaise nikale", "photo ka text",
+      "इमेज से टेक्स्ट", "फोटो से टेक्स्ट", "ओसीआर", "टेक्स्ट निकालो",
+      "hindi ocr", "english ocr", "copy text from image", "image text extractor",
+      "handwriting to text", "document to text", "notice text extract",
+    ],
+    inputAccept: ["image/jpeg", "image/png", "image/webp"],
+    needsWorker: true,
+    needsWasm: ["tesseract"],
+    decodedPixelCap: 16_000_000,
+    popularityScore: 0.65,
+    nextSteps: ["jpg-to-pdf"],
   },
   {
     slug: "heic-to-jpg",
