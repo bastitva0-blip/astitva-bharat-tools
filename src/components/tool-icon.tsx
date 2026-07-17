@@ -14,6 +14,7 @@ import {
   QrCode,
   Repeat,
   ScanLine,
+  ScanText,
   Send,
   Video,
   type LucideIcon,
@@ -55,6 +56,7 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "heic-to-jpg": FileImage,
   "photo-grayscale": Contrast,
   "aadhaar-collage": Layers,
+  "image-to-text": ScanText,
 };
 
 export function ToolIcon({
