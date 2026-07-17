@@ -14,7 +14,7 @@ import { toolCategories, tools, type Tool } from "@/lib/tools";
 
 const EMPTY_OUTCOME: SearchOutcome = { results: tools, mode: "all" };
 
-export function ToolsBrowser() {
+export function ToolsBrowser({ showDefaultHeading = true }: { showDefaultHeading?: boolean } = {}) {
   const dict = useT();
   const [query, setQuery] = useState("");
   const [outcome, setOutcome] = useState<SearchOutcome>(EMPTY_OUTCOME);
@@ -137,7 +137,8 @@ export function ToolsBrowser() {
           <span className="font-normal text-surface-fg-muted">“{trimmed}”</span>
         </h2>
       ) : (
-        !trimmed && (
+        !trimmed &&
+        showDefaultHeading && (
           <h2 className="mb-6 text-heading-md font-semibold text-surface-fg">
             {dict.home.gridHeading}
           </h2>

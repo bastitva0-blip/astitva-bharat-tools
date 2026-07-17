@@ -43,6 +43,18 @@
   },
   "home": {
     "badge": "Browser-only · Made in India",
+    "hero": {
+      "title": "Every sarkari form, sorted on your phone.",
+      "subtitle": "Photo to spec. PDF to size. Ready for the portal.",
+      "browse": "Browse all tools",
+      "tasks": ["Resize photo", "Compress to 50 KB", "Photo + sign", "Images to PDF", "Image to text"],
+      "card": {
+        "label": "Passport photo · Exam",
+        "bg": "White background",
+        "ready": "Ready to upload",
+        "seal": "READY"
+      }
+    },
     "titleLead": "India's tools for India's documents.",
     "titleAccent": "Privately.",
     "titleTrail": "For free where it matters.",
@@ -56,7 +68,7 @@
       },
       {
         "title": "Made for Indian portals",
-        "desc": "Exact specs for UPSC, SSC, NEET, IBPS, Aadhaar — every form that matters."
+        "desc": "Exact specs for UPSC, SSC, NEET, IBPS, Aadhaar. Every form that matters."
       },
       {
         "title": "Free for aspirants. Always.",
@@ -438,17 +450,17 @@
     "qr-generate": {
       "name": "QR Code Generator",
       "tagline": "Make a QR for a URL, UPI ID or contact",
-      "description": "Type the text — get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download."
+      "description": "Type the text and get a clean, downloadable QR code. Works for URLs, UPI IDs, phone numbers, plain text. PNG download."
     },
     "qr-scan": {
       "name": "QR Code Scanner",
       "tagline": "Scan a QR with your camera or from an image",
-      "description": "Decode any QR — UPI, URL, phone, plain text — using your camera or by dropping an image. Runs entirely in your browser."
+      "description": "Decode any QR (UPI, URL, phone, plain text) using your camera or by dropping an image. Runs entirely in your browser."
     },
     "heic-to-jpg": {
       "name": "HEIC to JPG Converter",
       "tagline": "iPhone HEIC → portal-ready JPG",
-      "description": "Indian government portals reject HEIC. Drop an iPhone photo here, get a JPG in seconds. Works on any browser — no upload, no app."
+      "description": "Indian government portals reject HEIC. Drop an iPhone photo here, get a JPG in seconds. Works on any browser. No upload, no app."
     },
     "photo-grayscale": {
       "name": "Photo Grayscale Converter",
@@ -458,7 +470,7 @@
     "aadhaar-collage": {
       "name": "Aadhaar Front + Back Collage",
       "tagline": "Combine both sides on a single A4 sheet",
-      "description": "Stack front and back of an Aadhaar card on one A4 page — ready for portals that ask for both sides as a single upload."
+      "description": "Stack front and back of an Aadhaar card on one A4 page, ready for portals that ask for both sides as a single upload."
     },
     "quick-send": {
       "name": "Quick Send",
@@ -498,7 +510,7 @@
   },
   "metrics": {
     "ariaLabel": "Usage metrics notice",
-    "message": "BharatTools collects anonymous usage metrics to improve the tools — no cookies, no personal data, and your files are never tracked.",
+    "message": "BharatTools collects anonymous usage metrics to improve the tools. No cookies, no personal data, and your files are never tracked.",
     "optOut": "Opt out",
     "gotIt": "Got it",
     "privacyLink": "Privacy policy"
