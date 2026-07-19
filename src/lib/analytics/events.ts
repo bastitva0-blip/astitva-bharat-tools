@@ -8,8 +8,9 @@
 //
 // Sink behavior:
 //   prod  — GA4 via window.gtag (gtag.js in layout.tsx, Consent Mode v2) PLUS
-//           any registered extra sink. PostHog registers itself (cookieless)
-//           through registerSink() in initPostHog() — see ./posthog.ts.
+//           any registered extra sink. Sankhya registers itself (cookieless,
+//           self-hosted) through registerSink() in initSankhya() — see
+//           ./sankhya.ts.
 //   dev   — console.info, no network
 //   test  — also captured in a ring buffer (testSinkEvents) for assertions
 //
@@ -166,12 +167,12 @@ if (process.env.NODE_ENV === "test") {
   activeSink = gaSink;
 }
 
-// Additional sinks registered at runtime (client-only). PostHog registers
-// itself here via initPostHog() so posthog-js never enters the server bundle
-// or the always-on gaSink path. Each fired event reaches every extra sink.
+// Additional sinks registered at runtime (client-only). Sankhya registers
+// itself here via initSankhya() so its beacon code stays out of the server
+// bundle and the always-on gaSink path. Each fired event reaches every extra sink.
 const extraSinks: Sink[] = [];
 
-/** Register an extra analytics sink (e.g. PostHog). Client-side, idempotent caller. */
+/** Register an extra analytics sink (e.g. Sankhya). Client-side, idempotent caller. */
 export function registerSink(sink: Sink): void {
   extraSinks.push(sink);
 }

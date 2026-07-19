@@ -3,7 +3,7 @@ import Script from "next/script";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { MetricsNotice } from "@/components/metrics-notice";
-import { PostHogProvider } from "@/components/posthog-provider";
+import { AnalyticsProvider } from "@/components/analytics-provider";
 import { JsonLd } from "@/components/json-ld";
 import { Providers } from "@/components/providers";
 import { SegmentBootstrap } from "@/components/segment-bootstrap";
@@ -131,7 +131,7 @@ export default async function RootLayout({
             {ANALYTICS_INIT_SCRIPT}
           </Script>
           <GoogleAnalytics gaId={GA_ID} />
-          <PostHogProvider />
+          <AnalyticsProvider />
         </>
       )}
     </html>

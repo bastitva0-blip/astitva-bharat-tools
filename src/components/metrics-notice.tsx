@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useT } from "@/i18n/provider";
-import { posthogOptIn, posthogOptOut } from "@/lib/analytics/posthog";
+import { sankhyaOptIn, sankhyaOptOut } from "@/lib/analytics/sankhya";
 
 // Footer "Analytics preferences" dispatches this to re-open the notice so a
 // visitor can change their earlier choice.
@@ -39,7 +39,7 @@ export function MetricsNotice() {
     }
     if (stored === "off") {
       disableGa();
-      posthogOptOut();
+      sankhyaOptOut();
     } else if (stored !== "on") {
       // First visit — show the notice once. Metrics are already collecting
       // (cookieless); the notice informs and offers opt-out, it does not gate.
@@ -59,7 +59,7 @@ export function MetricsNotice() {
       // Persistence failed — still disable for this session.
     }
     disableGa();
-    posthogOptOut();
+    sankhyaOptOut();
     setVisible(false);
   }
 
@@ -70,10 +70,10 @@ export function MetricsNotice() {
       // Persistence failed — notice reappears next load, harmless.
     }
     // Re-enable in case this is a reopened notice from a prior opt-out. GA
-    // resumes immediately (kill switch cleared); PostHog resumes now if it was
-    // started this session, otherwise on next load (provider re-inits).
+    // resumes immediately (kill switch cleared); Sankhya resumes sending
+    // immediately (the sink's opt-out flag is cleared).
     enableGa();
-    posthogOptIn();
+    sankhyaOptIn();
     setVisible(false);
   }
 
