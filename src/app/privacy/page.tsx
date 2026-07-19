@@ -10,7 +10,7 @@ export const metadata = {
   alternates: { canonical: "/privacy" },
 };
 
-const LAST_UPDATED = "20 June 2026";
+const LAST_UPDATED = "19 July 2026";
 
 export default function PrivacyPage() {
   return (
@@ -62,8 +62,8 @@ export default function PrivacyPage() {
             succeeded or failed, and <em>bucketed</em> file sizes (e.g.
             &ldquo;100KB&ndash;1MB&rdquo;, never the exact bytes or the file itself).
             They carry no identifier that can single you out, set no cookies, and are
-            sent to Google Analytics 4 and PostHog (both configured cookieless and
-            anonymous). You can opt out at any time.
+            sent to Google Analytics 4 and Sankhya &mdash; our own self-hosted,
+            cookieless analytics (both anonymous). You can opt out at any time.
           </p>
           <p>
             <strong>Search terms.</strong> Words you type into the tool search box are
@@ -87,16 +87,12 @@ export default function PrivacyPage() {
         <Section title="Analytics and your choices">
           <p>
             We use two analytics tools - <strong>Google Analytics 4</strong> and{" "}
-            <strong>PostHog</strong> - both configured to be cookieless and anonymous:
-            they set no cookies, build no persistent profile, and collect no personal
-            data or file contents. We use them only to improve the product - finding
-            drop-off points and bugs.
-          </p>
-          <p>
-            This includes <strong>aggregate heatmaps</strong> - where on a page people
-            click and how far they scroll - captured as anonymous coordinates, with no
-            recording of your screen and no cookies. It tells us which buttons get
-            missed and where layouts confuse, nothing about who you are.
+            <strong>Sankhya</strong>, our own self-hosted analytics - both configured to
+            be cookieless and anonymous: they set no cookies, build no persistent
+            profile, and collect no personal data or file contents. Sankhya runs on our
+            own infrastructure, so these product events stay with us and are not shared
+            with a third-party analytics vendor. We use them only to improve the
+            product - finding drop-off points and bugs.
           </p>
           <p>
             A notice tells you on your first visit. You can opt out at any time - from

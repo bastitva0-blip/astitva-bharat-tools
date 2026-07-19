@@ -2,19 +2,19 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   transpilePackages: ["@devalok/shilp-sutra", "@devalok/shilp-sutra-brand"],
-  // PostHog reverse-proxy (EU): serve analytics ingestion first-party via
-  // /ingest so adblockers that block posthog.com don't drop our cookieless
-  // product events. posthog.ts points api_host at "/ingest".
+  // Sankhya reverse-proxy: serve analytics ingestion first-party via /ingest so
+  // adblockers that block third-party analytics don't drop our cookieless
+  // product events. sankhya.ts beacons to "/ingest/collect", which maps to the
+  // collector's /api/collect. The client IP (used only for the daily,
+  // never-stored visitor hash) is carried through in x-forwarded-for.
   skipTrailingSlashRedirect: true,
   async rewrites() {
+    const host =
+      process.env.SANKHYA_HOST || "https://sankhya-production.up.railway.app";
     return [
       {
-        source: "/ingest/static/:path*",
-        destination: "https://eu-assets.i.posthog.com/static/:path*",
-      },
-      {
         source: "/ingest/:path*",
-        destination: "https://eu.i.posthog.com/:path*",
+        destination: `${host}/api/:path*`,
       },
     ];
   },

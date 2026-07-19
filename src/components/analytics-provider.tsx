@@ -1,27 +1,37 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { fire } from "@/lib/analytics";
-import { initPostHog } from "@/lib/analytics/posthog";
+import { initSankhya, sankhyaOptOut, trackPageview } from "@/lib/analytics/sankhya";
 
-// Mounts PostHog (cookieless). Mounted prod-only from layout.tsx alongside GA.
-// Respects the stored opt-out (`bt-analytics === off`) by never initialising
-// PostHog. Pageviews are captured by PostHog itself (capture_pageview:
-// "history_change") — no manual tracker to race against init. Also bridges
-// uncaught errors into the typed event bus so GA + the signal collector see
-// them (PostHog captures its own $exception via capture_exceptions).
+// Mounts Sankhya (cookieless, self-hosted) alongside GA. Mounted prod-only from
+// layout.tsx. Respects the stored opt-out (`bt-analytics === off`) by never
+// sending. Pageviews are fired here on App Router route changes (usePathname).
+// Also bridges uncaught errors + outbound-link clicks into the typed event bus
+// so GA + Sankhya + the signal collector all see them.
 const OPTOUT_KEY = "bt-analytics";
 
-export function PostHogProvider() {
+export function AnalyticsProvider() {
+  const pathname = usePathname();
+
+  // One-time init: honor stored opt-out, then register the Sankhya sink.
   useEffect(() => {
-    let optedOut = false;
     try {
-      optedOut = localStorage.getItem(OPTOUT_KEY) === "off";
+      if (localStorage.getItem(OPTOUT_KEY) === "off") sankhyaOptOut();
     } catch {
       // localStorage blocked — proceed (cookieless, no PII).
     }
-    if (!optedOut) initPostHog();
+    initSankhya();
+  }, []);
 
+  // Fire a pageview on initial mount and on every client route change.
+  useEffect(() => {
+    trackPageview(pathname);
+  }, [pathname]);
+
+  // Error + interaction bridges (unchanged from the previous provider).
+  useEffect(() => {
     // GA-parity error bridge. Message text is deliberately NOT sent — only the
     // error name + route, so no user data leaks into the bus.
     const onError = (e: ErrorEvent) => {
