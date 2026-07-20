@@ -110,8 +110,8 @@ export function SessionPanel({
                           <Progress
                             value={pct}
                             size="sm"
-                            color={o.done ? "success" : "default"}
-                            showLabel
+                            color={o.done ? "success" : "accent"}
+                            showValue
                           />
                         </div>
                       </li>
@@ -188,8 +188,8 @@ export function SessionPanel({
                       <Progress
                         value={pct}
                         size="sm"
-                        color={fileReady ? "success" : "default"}
-                        showLabel
+                        color={fileReady ? "success" : "accent"}
+                        showValue
                       />
                     </div>
                   </li>
