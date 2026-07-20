@@ -79,7 +79,7 @@ export function initSankhya(): void {
   registerSink((name, payload) => send(name, payload as Record<string, unknown>));
 }
 
-/** Stop capturing for this session (paired with the GA kill switch on opt-out). */
+/** Stop capturing for this session (set on visitor opt-out). */
 export function sankhyaOptOut(): void {
   optedOut = true;
 }

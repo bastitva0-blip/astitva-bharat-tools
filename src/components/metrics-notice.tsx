@@ -9,22 +9,12 @@ import { sankhyaOptIn, sankhyaOptOut } from "@/lib/analytics/sankhya";
 // visitor can change their earlier choice.
 export const OPEN_PREFS_EVENT = "bt:open-analytics-prefs";
 
-// Notice + opt-out for aggregate improvement metrics. GA runs in cookieless
-// mode (analytics_storage stays `denied` — set in layout.tsx) so no cookies or
-// Client ID are used and no personal data is processed. That is what makes
-// collecting by default lawful under a notice + opt-out model (cookie-based
-// tracking would instead require prior opt-in). Opting out flips GA's official
-// kill switch (window['ga-disable-<id>']) and persists the choice.
+// Notice + opt-out for aggregate improvement metrics. Analytics is Sankhya only
+// (cookieless, self-hosted) — no cookies, no Client ID, no personal data. That
+// makes collecting by default lawful under a notice + opt-out model (cookie-based
+// tracking would instead require prior opt-in). Opting out sets Sankhya's
+// session flag and persists the choice.
 const OPTOUT_KEY = "bt-analytics";
-const GA_ID = "G-Q0JW1FJMKT";
-
-function disableGa() {
-  (window as unknown as Record<string, boolean>)[`ga-disable-${GA_ID}`] = true;
-}
-
-function enableGa() {
-  (window as unknown as Record<string, boolean>)[`ga-disable-${GA_ID}`] = false;
-}
 
 export function MetricsNotice() {
   const t = useT();
@@ -38,7 +28,6 @@ export function MetricsNotice() {
       // localStorage blocked — show the notice; metrics stay cookieless.
     }
     if (stored === "off") {
-      disableGa();
       sankhyaOptOut();
     } else if (stored !== "on") {
       // First visit — show the notice once. Metrics are already collecting
@@ -58,7 +47,6 @@ export function MetricsNotice() {
     } catch {
       // Persistence failed — still disable for this session.
     }
-    disableGa();
     sankhyaOptOut();
     setVisible(false);
   }
@@ -69,10 +57,8 @@ export function MetricsNotice() {
     } catch {
       // Persistence failed — notice reappears next load, harmless.
     }
-    // Re-enable in case this is a reopened notice from a prior opt-out. GA
-    // resumes immediately (kill switch cleared); Sankhya resumes sending
-    // immediately (the sink's opt-out flag is cleared).
-    enableGa();
+    // Re-enable in case this is a reopened notice from a prior opt-out —
+    // Sankhya resumes sending immediately (the sink's opt-out flag is cleared).
     sankhyaOptIn();
     setVisible(false);
   }
