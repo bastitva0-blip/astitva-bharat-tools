@@ -62,8 +62,8 @@ export default function PrivacyPage() {
             succeeded or failed, and <em>bucketed</em> file sizes (e.g.
             &ldquo;100KB&ndash;1MB&rdquo;, never the exact bytes or the file itself).
             They carry no identifier that can single you out, set no cookies, and are
-            sent to Google Analytics 4 and Sankhya &mdash; our own self-hosted,
-            cookieless analytics (both anonymous). You can opt out at any time.
+            sent only to Sankhya &mdash; our own self-hosted, cookieless analytics
+            (anonymous). You can opt out at any time.
           </p>
           <p>
             <strong>Search terms.</strong> Words you type into the tool search box are
@@ -86,13 +86,12 @@ export default function PrivacyPage() {
 
         <Section title="Analytics and your choices">
           <p>
-            We use two analytics tools - <strong>Google Analytics 4</strong> and{" "}
-            <strong>Sankhya</strong>, our own self-hosted analytics - both configured to
-            be cookieless and anonymous: they set no cookies, build no persistent
-            profile, and collect no personal data or file contents. Sankhya runs on our
-            own infrastructure, so these product events stay with us and are not shared
-            with a third-party analytics vendor. We use them only to improve the
-            product - finding drop-off points and bugs.
+            We use one analytics tool - <strong>Sankhya</strong>, our own self-hosted
+            analytics - configured to be cookieless and anonymous: it sets no cookies,
+            builds no persistent profile, and collects no personal data or file contents.
+            Sankhya runs on our own infrastructure, so these product events stay with us
+            and are not shared with any third-party analytics vendor. We use it only to
+            improve the product - finding drop-off points and bugs.
           </p>
           <p>
             A notice tells you on your first visit. You can opt out at any time - from

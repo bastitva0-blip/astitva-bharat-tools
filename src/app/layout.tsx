@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Script from "next/script";
-import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import { MetricsNotice } from "@/components/metrics-notice";
 import { AnalyticsProvider } from "@/components/analytics-provider";
@@ -17,20 +15,9 @@ const GOOGLE_VERIFICATION = process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION;
 const BING_VERIFICATION = process.env.NEXT_PUBLIC_BING_VERIFICATION;
 const YANDEX_VERIFICATION = process.env.NEXT_PUBLIC_YANDEX_VERIFICATION;
 
-const GA_ID = "G-Q0JW1FJMKT";
-// GA + Consent Mode load in production only — keeps dev/preview out of the
-// property and avoids polluting real metrics.
-const GA_ENABLED = process.env.NODE_ENV === "production";
-
-const ANALYTICS_OPTOUT_KEY = "bt-analytics"; // localStorage "off" => opted out
-
-// Consent Mode v2 stays in `denied` for storage, so GA runs cookieless — no
-// cookies, no Client ID, no personal data. That keeps improvement metrics
-// aggregate and makes a notice + opt-out model lawful (cookie-based tracking
-// would instead require prior opt-in). This MUST run before gtag.js
-// (beforeInteractive). It also honours a stored opt-out by setting GA's
-// official kill switch before any data is sent.
-const ANALYTICS_INIT_SCRIPT = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied'});try{if(localStorage.getItem('${ANALYTICS_OPTOUT_KEY}')==='off'){window['ga-disable-${GA_ID}']=true;}}catch(e){}`;
+// Analytics = Sankhya only (cookieless, self-hosted; see components/analytics-provider.tsx).
+// Mounted always — the beacon is prod-safe and honours the stored opt-out itself.
+const ANALYTICS_ENABLED = process.env.NODE_ENV === "production";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -124,16 +111,8 @@ export default async function RootLayout({
           <MetricsNotice />
         </LocaleProvider>
         <SegmentBootstrap />
+        {ANALYTICS_ENABLED && <AnalyticsProvider />}
       </body>
-      {GA_ENABLED && (
-        <>
-          <Script id="ga-init" strategy="beforeInteractive">
-            {ANALYTICS_INIT_SCRIPT}
-          </Script>
-          <GoogleAnalytics gaId={GA_ID} />
-          <AnalyticsProvider />
-        </>
-      )}
     </html>
   );
 }

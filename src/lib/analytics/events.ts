@@ -1,16 +1,15 @@
 // Typed analytics event bus (base-infrastructure-plan §6.1).
 //
 // Every event is declared in EventMap with a fixed payload shape. Tools call
-// `fire("process_complete", { tool_id, ... })` — never `gtag(...)`
-// directly. Because payloads are typed, fields like `email`/`phone`/`name`
+// `fire("process_complete", { tool_id, ... })` — never a sink directly.
+// Because payloads are typed, fields like `email`/`phone`/`name`
 // are structurally rejected at compile time (they aren't in any payload
 // type, so the type system refuses them).
 //
 // Sink behavior:
-//   prod  — GA4 via window.gtag (gtag.js in layout.tsx, Consent Mode v2) PLUS
-//           any registered extra sink. Sankhya registers itself (cookieless,
-//           self-hosted) through registerSink() in initSankhya() — see
-//           ./sankhya.ts.
+//   prod  — Sankhya (cookieless, self-hosted) via registerSink() in
+//           initSankhya() — see ./sankhya.ts. The base sink is a no-op; all
+//           real sending happens through the registered extra sink(s).
 //   dev   — console.info, no network
 //   test  — also captured in a ring buffer (testSinkEvents) for assertions
 //
@@ -112,31 +111,12 @@ export type EventPayload<K extends EventName> = EventMap[K];
 
 // --- Sinks ---------------------------------------------------------------
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
-  }
-}
-
 type Sink = <K extends EventName>(name: K, payload: EventPayload<K>) => void;
 
-// GA4 event params accept only flat scalars — flatten array payload fields
-// (e.g. segment_resolved.signals_used) to a comma-joined string.
-function toGaParams(payload: Record<string, unknown>): Record<string, unknown> {
-  const params: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(payload)) {
-    params[key] = Array.isArray(value) ? value.join(",") : value;
-  }
-  return params;
-}
-
-const gaSink: Sink = (name, payload) => {
-  if (typeof window === "undefined") return;
-  // Consent Mode v2 (set in layout.tsx) governs whether this sets cookies or
-  // sends a cookieless ping — the event always fires; consent gates storage.
-  window.gtag?.("event", name, toGaParams(payload as Record<string, unknown>));
-};
+// Prod base sink: a no-op. Real sending is done by Sankhya, registered as an
+// extra sink via initSankhya() (see ./sankhya.ts) — this keeps the beacon code
+// out of the server bundle and off the base path.
+const noopSink: Sink = () => {};
 
 const consoleSink: Sink = (name, payload) => {
   console.info(`[analytics] ${name}`, payload);
@@ -164,12 +144,12 @@ if (process.env.NODE_ENV === "test") {
 } else if (process.env.NODE_ENV === "development") {
   activeSink = consoleSink;
 } else {
-  activeSink = gaSink;
+  activeSink = noopSink;
 }
 
 // Additional sinks registered at runtime (client-only). Sankhya registers
 // itself here via initSankhya() so its beacon code stays out of the server
-// bundle and the always-on gaSink path. Each fired event reaches every extra sink.
+// bundle. Each fired event reaches every extra sink.
 const extraSinks: Sink[] = [];
 
 /** Register an extra analytics sink (e.g. Sankhya). Client-side, idempotent caller. */

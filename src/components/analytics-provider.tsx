@@ -5,11 +5,11 @@ import { usePathname } from "next/navigation";
 import { fire } from "@/lib/analytics";
 import { initSankhya, sankhyaOptOut, trackPageview } from "@/lib/analytics/sankhya";
 
-// Mounts Sankhya (cookieless, self-hosted) alongside GA. Mounted prod-only from
-// layout.tsx. Respects the stored opt-out (`bt-analytics === off`) by never
-// sending. Pageviews are fired here on App Router route changes (usePathname).
-// Also bridges uncaught errors + outbound-link clicks into the typed event bus
-// so GA + Sankhya + the signal collector all see them.
+// Mounts Sankhya (cookieless, self-hosted) — the only analytics sink. Mounted
+// prod-only from layout.tsx. Respects the stored opt-out (`bt-analytics === off`)
+// by never sending. Pageviews are fired here on App Router route changes
+// (usePathname). Also bridges uncaught errors + outbound-link clicks into the
+// typed event bus so Sankhya + the signal collector see them.
 const OPTOUT_KEY = "bt-analytics";
 
 export function AnalyticsProvider() {
