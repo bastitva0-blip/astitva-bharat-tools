@@ -44,13 +44,13 @@ export function QrScanForm() {
     <div className="space-y-ds-05">
       <SegmentedControl
         size="md"
-        variant="default"
+        variant="soft"
         options={[
           { id: "camera", text: "Camera" },
           { id: "image", text: "From image" },
         ]}
-        selectedId={mode}
-        onSelect={(id) => {
+        value={mode}
+        onValueChange={(id) => {
           setMode(id as Mode);
           setDecoded(null);
         }}

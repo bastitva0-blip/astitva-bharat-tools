@@ -90,10 +90,10 @@ export function ImageToTextForm() {
         <p className="text-body-sm font-medium text-surface-fg">Language</p>
         <SegmentedControl
           size="md"
-          variant="default"
+          variant="soft"
           options={LANGUAGE_OPTIONS.map((o) => ({ id: o.id, text: o.text }))}
-          selectedId={language}
-          onSelect={(id) => setLanguage(id as OcrLanguage)}
+          value={language}
+          onValueChange={(id) => setLanguage(id as OcrLanguage)}
         />
       </div>
 

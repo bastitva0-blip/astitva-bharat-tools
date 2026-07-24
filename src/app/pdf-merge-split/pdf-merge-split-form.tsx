@@ -50,13 +50,13 @@ export function PdfMergeSplitForm() {
     <div className="space-y-6">
       <SegmentedControl
         size="lg"
-        variant="default"
+        variant="soft"
         options={[
           { id: "merge", text: "Merge PDFs" },
           { id: "split", text: "Split PDF" },
         ]}
-        selectedId={mode}
-        onSelect={(id) => {
+        value={mode}
+        onValueChange={(id) => {
           setMode(id as Mode);
           fire("preset_selected", { tool_id: TOOL, preset_id: id });
         }}
@@ -366,13 +366,13 @@ function SplitPanel() {
             <Label className="block">Split mode</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "ranges", text: "Page ranges" },
                 { id: "every", text: "Every page" },
               ]}
-              selectedId={splitMode}
-              onSelect={(id) => setSplitMode(id as SplitMode)}
+              value={splitMode}
+              onValueChange={(id) => setSplitMode(id as SplitMode)}
             />
           </div>
 

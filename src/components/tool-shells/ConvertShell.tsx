@@ -213,10 +213,10 @@ export function ConvertShell({
               </div>
               <SegmentedControl
                 size="md"
-                variant="default"
+                variant="soft"
                 options={targets.map((t) => ({ id: t.id, text: t.label }))}
-                selectedId={targetId}
-                onSelect={selectTarget}
+                value={targetId}
+                onValueChange={selectTarget}
               />
               {target?.sub && (
                 <p className="mt-2 text-body-xs text-surface-fg-muted">{target.sub}</p>

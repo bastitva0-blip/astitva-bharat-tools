@@ -73,10 +73,10 @@ export function QrGenerateForm() {
               <Label className="block mb-2">Content type</Label>
               <SegmentedControl
                 size="md"
-                variant="default"
+                variant="soft"
                 options={CONTENT_OPTIONS.map((o) => ({ id: o.id, text: o.text }))}
-                selectedId={config.contentType}
-                onSelect={(id) => {
+                value={config.contentType}
+                onValueChange={(id) => {
                   setConfig({ ...config, contentType: id as QrContent, value: "" });
                   fire("preset_selected", { tool_id: tool.slug, preset_id: id });
                 }}
@@ -115,15 +115,15 @@ export function QrGenerateForm() {
               <Label className="block mb-2">Error correction</Label>
               <SegmentedControl
                 size="sm"
-                variant="default"
+                variant="soft"
                 options={[
                   { id: "L", text: "L (low)" },
                   { id: "M", text: "M" },
                   { id: "Q", text: "Q" },
                   { id: "H", text: "H (high)" },
                 ]}
-                selectedId={config.errorLevel}
-                onSelect={(id) =>
+                value={config.errorLevel}
+                onValueChange={(id) =>
                   setConfig({ ...config, errorLevel: id as "L" | "M" | "Q" | "H" })
                 }
               />

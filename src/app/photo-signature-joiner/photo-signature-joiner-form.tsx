@@ -202,13 +202,13 @@ export function PhotoSignatureJoinerForm() {
             <Label className="block">{t.size.label}</Label>
             <SegmentedControl
               size="sm"
-              variant="default"
+              variant="soft"
               options={[
                 ...joinerPresets.map((p) => ({ id: p.id, text: p.label })),
                 { id: "custom", text: t.size.custom },
               ]}
-              selectedId={presetId}
-              onSelect={setPresetId}
+              value={presetId}
+              onValueChange={setPresetId}
             />
           </div>
 
@@ -233,13 +233,13 @@ export function PhotoSignatureJoinerForm() {
             <Label className="block">{t.layout.label}</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "side-by-side", text: t.layout.sideBySide },
                 { id: "stacked", text: t.layout.stacked },
               ]}
-              selectedId={layout}
-              onSelect={(id) => setLayout(id as JoinerLayout)}
+              value={layout}
+              onValueChange={(id) => setLayout(id as JoinerLayout)}
             />
           </div>
 
