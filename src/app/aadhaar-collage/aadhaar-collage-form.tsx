@@ -59,26 +59,26 @@ export function AadhaarCollageForm() {
             <Label className="block">Page size</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "a4", text: "A4" },
                 { id: "letter", text: "Letter" },
               ]}
-              selectedId={pageSize}
-              onSelect={(id) => setPageSize(id as CollagePageSize)}
+              value={pageSize}
+              onValueChange={(id) => setPageSize(id as CollagePageSize)}
             />
           </div>
           <div className="space-y-2">
             <Label className="block">Layout</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "vertical", text: "Stacked" },
                 { id: "horizontal", text: "Side by side" },
               ]}
-              selectedId={layout}
-              onSelect={(id) => setLayout(id as CollageLayout)}
+              value={layout}
+              onValueChange={(id) => setLayout(id as CollageLayout)}
             />
           </div>
         </div>

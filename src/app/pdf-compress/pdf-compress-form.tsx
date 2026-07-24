@@ -68,14 +68,14 @@ export function PdfCompressForm() {
           <Label className="block">{t.strength.label}</Label>
           <SegmentedControl
             size="md"
-            variant="default"
+            variant="soft"
             options={[
               { id: "light", text: t.strength.light },
               { id: "recommended", text: t.strength.recommended },
               { id: "stronger", text: t.strength.stronger },
             ]}
-            selectedId={preset}
-            onSelect={(id) => {
+            value={preset}
+            onValueChange={(id) => {
               setPreset(id as CompressPreset);
               fire("preset_selected", { tool_id: tool.slug, preset_id: id });
             }}

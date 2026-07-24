@@ -218,10 +218,10 @@ export function PrintSheetForm() {
             <Label className="block">Sheet size</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={sheetPresets.map((s) => ({ id: s.id, text: s.label }))}
-              selectedId={sheetId}
-              onSelect={setSheetId}
+              value={sheetId}
+              onValueChange={setSheetId}
             />
           </div>
 
@@ -229,15 +229,15 @@ export function PrintSheetForm() {
             <Label className="block">Photo size</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "passport", text: "Passport" },
                 { id: "aadhaar", text: "Aadhaar" },
                 { id: "2x2", text: "2×2 in" },
                 { id: "custom", text: "Custom" },
               ]}
-              selectedId={photoId}
-              onSelect={setPhotoId}
+              value={photoId}
+              onValueChange={setPhotoId}
             />
             <p className="text-body-xs text-surface-fg-muted">
               {isCustom

@@ -219,13 +219,13 @@ export function JpgToPdfForm() {
             <Label className="block">Page size</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "a4", text: "A4" },
                 { id: "letter", text: "Letter" },
               ]}
-              selectedId={pageSize}
-              onSelect={(id) => setPageSize(id as PageSize)}
+              value={pageSize}
+              onValueChange={(id) => setPageSize(id as PageSize)}
             />
           </div>
 
@@ -233,13 +233,13 @@ export function JpgToPdfForm() {
             <Label className="block">Orientation</Label>
             <SegmentedControl
               size="md"
-              variant="default"
+              variant="soft"
               options={[
                 { id: "portrait", text: "Portrait" },
                 { id: "landscape", text: "Landscape" },
               ]}
-              selectedId={orientation}
-              onSelect={(id) => setOrientation(id as Orientation)}
+              value={orientation}
+              onValueChange={(id) => setOrientation(id as Orientation)}
             />
           </div>
 

@@ -347,13 +347,13 @@ export function PrintJobSlipForm() {
                             <Label className="block text-body-xs mb-1">Color</Label>
                             <SegmentedControl
                               size="sm"
-                              variant="default"
+                              variant="soft"
                               options={[
                                 { id: "bw", text: "B&W" },
                                 { id: "color", text: "Color" },
                               ]}
-                              selectedId={r.colorMode}
-                              onSelect={(id) =>
+                              value={r.colorMode}
+                              onValueChange={(id) =>
                                 updateRow(f.id, r.id, { colorMode: id as ColorMode })
                               }
                             />
@@ -362,28 +362,28 @@ export function PrintJobSlipForm() {
                             <Label className="block text-body-xs mb-1">Sides</Label>
                             <SegmentedControl
                               size="sm"
-                              variant="default"
+                              variant="soft"
                               options={[
                                 { id: "single", text: "Single" },
                                 { id: "double", text: "Double" },
                               ]}
-                              selectedId={r.sides}
-                              onSelect={(id) => updateRow(f.id, r.id, { sides: id as Sides })}
+                              value={r.sides}
+                              onValueChange={(id) => updateRow(f.id, r.id, { sides: id as Sides })}
                             />
                           </div>
                           <div>
                             <Label className="block text-body-xs mb-1">Paper</Label>
                             <SegmentedControl
                               size="sm"
-                              variant="default"
+                              variant="soft"
                               options={[
                                 { id: "a4", text: "A4" },
                                 { id: "a3", text: "A3" },
                                 { id: "letter", text: "Letter" },
                                 { id: "legal", text: "Legal" },
                               ]}
-                              selectedId={r.paperSize}
-                              onSelect={(id) =>
+                              value={r.paperSize}
+                              onValueChange={(id) =>
                                 updateRow(f.id, r.id, { paperSize: id as PaperSize })
                               }
                             />
