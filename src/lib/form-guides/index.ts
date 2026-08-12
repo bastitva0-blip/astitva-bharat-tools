@@ -71,6 +71,28 @@ export const formGuides: FormGuide[] = [
     authority: { name: "RRB", url: "https://www.rrbapply.gov.in/" },
     order: 4,
   },
+  {
+    slug: "ssc-cgl",
+    examName: "SSC CGL",
+    fullName: "Staff Selection Commission — Combined Graduate Level Examination",
+    description:
+      "Walkthrough of ssc.gov.in — One Time Registration, Aadhaar authentication and what it protects you from, the live photo capture that replaced photo upload, the 10–20 KB signature, post preferences and the ₹100 fee.",
+    specSummary: "Photo captured live · Signature 10–20 KB · ₹100 fee",
+    lastUpdatedAt: "2026-08-12",
+    authority: { name: "SSC", url: "https://ssc.gov.in/" },
+    order: 5,
+  },
+  {
+    slug: "cuet-ug",
+    examName: "CUET UG",
+    fullName: "Common University Entrance Test (Undergraduate)",
+    description:
+      "Five-step guide to the NTA CUET portal — registration, Aadhaar/DigiLocker verification, choosing universities and up to five test subjects, uploads screened by NTA's automatic validator, and category-wise fee payment.",
+    specSummary: "Photo 10–200 KB · Signature 10–50 KB · UDID PDF 50–300 KB",
+    lastUpdatedAt: "2026-08-12",
+    authority: { name: "NTA", url: "https://cuet.nta.nic.in/" },
+    order: 6,
+  },
 ];
 
 export function getFormGuide(slug: string): FormGuide | undefined {

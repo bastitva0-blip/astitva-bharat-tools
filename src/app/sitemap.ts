@@ -39,6 +39,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/heic-to-jpg",
     "/photo-grayscale",
     "/aadhaar-collage",
+    "/pdf-to-jpg",
+    "/pdf-rotate",
+    "/signature-maker",
+    "/image-crop",
+    "/image-rotate",
   ].map((p) => ({
     url: url(p),
     lastModified: now,

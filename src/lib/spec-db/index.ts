@@ -20,6 +20,7 @@ import jee from "./data/photo/jee.json";
 import statePsc from "./data/photo/state-psc.json";
 import police from "./data/photo/police.json";
 import sbi from "./data/photo/sbi.json";
+import cuet from "./data/photo/cuet.json";
 
 import aadhaar from "./data/document/aadhaar.json";
 import pan from "./data/document/pan.json";
@@ -29,7 +30,7 @@ import oci from "./data/document/oci.json";
 
 import versionData from "./version.json";
 
-const photoRaw: unknown[] = [upsc, ssc, neet, ibps, railway, jee, statePsc, police, sbi];
+const photoRaw: unknown[] = [upsc, ssc, neet, ibps, railway, jee, statePsc, police, sbi, cuet];
 const documentRaw: unknown[] = [aadhaar, pan, passport, voterId, oci];
 
 function loadAll(raw: unknown[], dir: string): PhotoSpec[] {

@@ -8,9 +8,11 @@
   "format": "jpg",
   "background": "white",
   "notes": [
-    "Plain white background.",
-    "Recent passport-style photo, no cap or sunglasses."
+    "SSC's application module on ssc.gov.in now captures the photograph LIVE through your webcam or phone camera - a stored photo cannot be uploaded, and doing so is grounds for rejection.",
+    "These dimensions remain useful for offline needs (admit-card printouts, document sets, other commissions), not for the SSC upload itself.",
+    "The signature is still a separate upload: JPEG, 10-20 KB, black ink on white paper.",
+    "Recent passport-style photo, no cap, mask or spectacles."
   ],
-  "portalUrl": "https://ssc.nic.in/",
-  "lastVerifiedAt": "2026-04-15"
+  "portalUrl": "https://ssc.gov.in/",
+  "lastVerifiedAt": "2026-08-12"
 }
