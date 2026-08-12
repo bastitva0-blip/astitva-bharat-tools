@@ -25,6 +25,134 @@
 }
 
 /* ==========================================================================
+   Chrome & feedback — app-wide interaction craft.
+
+   Three things live here that the design system doesn't own:
+     1. the floating top bar's material and its scroll edge,
+     2. an instant press affordance for hand-built interactive surfaces,
+     3. the accessibility opt-outs for translucency, contrast and motion.
+   ========================================================================== */
+@layer components {
+  /* Floating bar. Mostly-opaque on purpose: the homepage hero is a shader, and
+     at the 30% this replaced the nav text lost against it. 72% keeps the frost
+     legible as chrome first and translucent second. `position: relative`
+     anchors the ::after edge below — the `sticky` utility on the header still
+     wins, because Tailwind puts `utilities` after `components`. */
+  .bt-chrome {
+    position: relative;
+    background: color-mix(in oklch, var(--color-surface-base) 72%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    /* Transparent, so the bar's box keeps the 1px the visible edge occupies. */
+    border-bottom: 1px solid transparent;
+  }
+
+  /* Scroll edge effect: at the top of the page there is nothing underneath
+     the bar, so a divider there is a line drawn for no reason. Fade the edge
+     in only once content actually passes beneath it.
+
+     The edge is a pseudo-element and only its `opacity` animates. Driving
+     `border-bottom-color` / `box-shadow` off the scroll timeline instead would
+     repaint this full-width backdrop-filtered layer on the main thread on
+     every scroll tick — the one thing not to do on the low-end Android this
+     product is built for. Opacity is composited. */
+  .bt-chrome::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    pointer-events: none;
+    background: var(--color-surface-border-subtle);
+    box-shadow: 0 1px 14px -8px color-mix(in oklch, var(--color-surface-fg) 45%, transparent);
+  }
+
+  /* Browsers without scroll-driven animations keep the edge above — the same
+     thing, just always on. */
+  @supports (animation-timeline: scroll()) {
+    .bt-chrome::after {
+      opacity: 0;
+      animation: bt-chrome-edge linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0 4rem;
+    }
+  }
+
+  @keyframes bt-chrome-edge {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Press affordance for surfaces we build by hand (cards, callouts, tiles).
+     Feedback belongs on pointer-down, not on release — the transition is
+     deliberately shorter on the way in than on the way out, so the press
+     registers instantly and the release settles. Buttons from the design
+     system already do this; this is for links and cards that don't.
+
+     No `will-change`: this is on every callout, related-tool card and step
+     button, and will-change would leave each of them on its own compositing
+     layer permanently to buy a 90ms scale nothing. */
+  .bt-pressable {
+    transition:
+      transform 180ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      border-color 180ms ease-out;
+  }
+  .bt-pressable:active {
+    transform: scale(0.985);
+    transition-duration: 90ms;
+  }
+
+  /* ------------------------------------------------------------------------
+     Accessibility opt-outs. These MUST stay in this layer, after the rules
+     they override. Tailwind declares `@layer theme, base, components,
+     utilities`, so an identical-specificity `.bt-chrome` rule in `@layer base`
+     loses to the one above and the opt-out silently does nothing.
+     ------------------------------------------------------------------------ */
+
+  /* Translucency is decoration; legibility isn't. When the user asks for less
+     of it, drop the blur and go solid rather than thinning the material. */
+  @media (prefers-reduced-transparency: reduce) {
+    .bt-chrome {
+      background: var(--color-surface-base);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
+  /* High contrast: solid ground, and an edge that is always defined. */
+  @media (prefers-contrast: more) {
+    .bt-chrome {
+      background: var(--color-surface-base);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+    .bt-chrome::after {
+      opacity: 1;
+      animation: none;
+      background: var(--color-surface-border-strong);
+      box-shadow: none;
+    }
+  }
+
+  /* Reduced motion keeps the feedback, drops the movement — a press still
+     reads, it just reads as a colour change rather than a scale. The scroll
+     edge is left alone: it is a user-driven opacity fade, not autonomous
+     movement. */
+  @media (prefers-reduced-motion: reduce) {
+    .bt-pressable {
+      transition: border-color 120ms ease-out;
+    }
+    .bt-pressable:active {
+      transform: none;
+    }
+  }
+}
+
+/* ==========================================================================
    Landing (homepage) — "Sarkari-seva" warm scope.
    Aliases the design system's shipped amber / orange / teal / green primitives
    so the homepage reads warm and Indian at a glance while staying on the

@@ -47,7 +47,7 @@ export function ContinueEditingPanel({ fromTool }: ContinueEditingPanelProps) {
                 onClick={() =>
                   fire("cross_tool_click", { from_tool: fromTool.slug, to_tool: target.slug })
                 }
-                className="group flex items-center justify-between gap-3 rounded-md border border-surface-border-subtle p-3 hover:border-surface-fg"
+                className="bt-pressable group flex items-center justify-between gap-3 rounded-md border border-surface-border-subtle p-3 hover:border-surface-fg"
               >
                 <div className="min-w-0">
                   <div className="truncate text-body-sm font-medium">{text.name}</div>
