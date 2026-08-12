@@ -25,20 +25,49 @@ function StepIndicator({
   activeStep: number;
   onSelect: (index: number) => void;
 }) {
+  const stripRef = useRef<HTMLElement | null>(null);
   const activeRef = useRef<HTMLButtonElement | null>(null);
+  const mountedRef = useRef(false);
 
   // Six steps of labelled circles do not fit on a phone. Rather than truncate
   // or wrap them into an unreadable grid, the strip scrolls sideways and the
   // current step is kept centred — so "where am I in this?" stays answerable
   // at any width.
+  //
+  // Deliberately not `scrollIntoView`: that walks every scrollable ancestor
+  // including the document, so it would move the whole page — on mount (the
+  // stepper sits well below the fold on a guide page, so a refresh would yank
+  // the viewport) and against the `panelRef.focus()` in `goTo`, which has
+  // already scrolled the panel into view. Setting `scrollLeft` on the strip
+  // touches nothing outside it. Rects rather than `offsetLeft` because the
+  // strip is not the button's offsetParent.
   useEffect(() => {
-    activeRef.current?.scrollIntoView({ inline: "center", block: "nearest" });
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      return;
+    }
+    const strip = stripRef.current;
+    const step = activeRef.current;
+    if (!strip || !step) return;
+
+    const stripBox = strip.getBoundingClientRect();
+    const stepBox = step.getBoundingClientRect();
+    const offCentre =
+      stepBox.left + stepBox.width / 2 - (stripBox.left + stripBox.width / 2);
+
+    strip.scrollTo({
+      left: strip.scrollLeft + offCentre,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth",
+    });
   }, [activeStep]);
 
   return (
-    <div
+    <nav
+      ref={stripRef}
+      aria-label="Guide steps"
       className="-mx-page-x flex flex-row items-center gap-ds-02 overflow-x-auto px-page-x pb-ds-02"
-      role="list"
     >
       {steps.map((step, index) => {
         const state = index < activeStep ? "completed" : index === activeStep ? "active" : "pending";
@@ -48,13 +77,18 @@ function StepIndicator({
                 reference material, not a wizard with validation — someone who
                 already has their photo sorted should be able to jump straight
                 to the fee step. A numbered circle that looks pressable and
-                isn't is the worst of both. */}
+                isn't is the worst of both.
+
+                No `role="listitem"` here, and no `role="list"` on the strip: an
+                explicit role replaces the element's implicit one, so it would
+                announce "Step 3: Fee, upcoming" as a list item with no hint
+                that it does anything. The <nav> label carries the grouping
+                instead. */}
             <button
               type="button"
               ref={index === activeStep ? activeRef : undefined}
               onClick={() => onSelect(index)}
               className="bt-pressable flex shrink-0 items-center gap-ds-03 rounded-md p-ds-01 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
-              role="listitem"
               aria-current={state === "active" ? "step" : undefined}
               aria-label={`Step ${index + 1}: ${step.label}, ${
                 state === "completed" ? "completed" : state === "active" ? "current" : "upcoming"
@@ -103,7 +137,7 @@ function StepIndicator({
           </div>
         );
       })}
-    </div>
+    </nav>
   );
 }
 
