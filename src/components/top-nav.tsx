@@ -12,8 +12,12 @@ const GITHUB_URL = "https://github.com/devalok-design/bharattools-frontend";
 export async function TopNav() {
   const locale = await getCurrentLocale();
   const dict = getDictionary(locale);
+  // Material, scroll edge and the reduced-transparency/contrast opt-outs all
+  // live in the .bt-chrome rule — see globals.css. The inline border this
+  // replaced was `border-white/10`: a white hairline on a light surface, which
+  // is to say no visible edge at all in the theme most visitors are in.
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/10 bg-surface-base/30 backdrop-blur-xl supports-[backdrop-filter]:bg-surface-base/30">
+    <header className="bt-chrome sticky top-0 z-40 w-full">
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center gap-6 px-page-x">
         <Link
           href="/"

@@ -9,7 +9,7 @@ export interface RelatedTool {
 
 export function RelatedToolCard({ href, title, description }: RelatedTool) {
   return (
-    <Link href={href} className="block">
+    <Link href={href} className="bt-pressable block rounded-md">
       <Card variant="outline" interactive className="h-full">
         <CardHeader>
           <CardTitle className="text-body-md">{title}</CardTitle>

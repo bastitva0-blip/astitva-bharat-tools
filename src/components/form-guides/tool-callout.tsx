@@ -12,7 +12,7 @@ export function ToolCallout({ href, title, reason, icon }: ToolCalloutProps) {
   return (
     <Link
       href={href}
-      className="group flex items-center justify-between gap-3 rounded-md border-l-4 border-l-accent-9 border border-surface-border-subtle bg-surface-2 p-4 text-left transition hover:border-l-accent-11"
+      className="bt-pressable group flex items-center justify-between gap-3 rounded-md border-l-4 border-l-accent-9 border border-surface-border-subtle bg-surface-2 p-4 text-left hover:border-l-accent-11"
     >
       <div className="flex min-w-0 items-start gap-3">
         {icon ?? <ArrowRight className="mt-0.5 size-4 shrink-0 text-accent-11" aria-hidden />}

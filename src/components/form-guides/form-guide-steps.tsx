@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 
@@ -16,22 +16,51 @@ export interface FormGuideStep {
 // which reads as lag on slow connections. This reimplements the same visual
 // (same design tokens/colors) with plain Tailwind + CSS transitions only —
 // no animation library, no per-step JS work.
-function StepIndicator({ steps, activeStep }: { steps: FormGuideStep[]; activeStep: number }) {
+function StepIndicator({
+  steps,
+  activeStep,
+  onSelect,
+}: {
+  steps: FormGuideStep[];
+  activeStep: number;
+  onSelect: (index: number) => void;
+}) {
+  const activeRef = useRef<HTMLButtonElement | null>(null);
+
+  // Six steps of labelled circles do not fit on a phone. Rather than truncate
+  // or wrap them into an unreadable grid, the strip scrolls sideways and the
+  // current step is kept centred — so "where am I in this?" stays answerable
+  // at any width.
+  useEffect(() => {
+    activeRef.current?.scrollIntoView({ inline: "center", block: "nearest" });
+  }, [activeStep]);
+
   return (
-    <div className="flex flex-row items-center gap-ds-02" role="list">
+    <div
+      className="-mx-page-x flex flex-row items-center gap-ds-02 overflow-x-auto px-page-x pb-ds-02"
+      role="list"
+    >
       {steps.map((step, index) => {
         const state = index < activeStep ? "completed" : index === activeStep ? "active" : "pending";
         return (
           <div key={step.label} className="contents">
-            <div
-              className="flex items-center gap-ds-03"
+            {/* Every step is reachable, not just the next one. This is
+                reference material, not a wizard with validation — someone who
+                already has their photo sorted should be able to jump straight
+                to the fee step. A numbered circle that looks pressable and
+                isn't is the worst of both. */}
+            <button
+              type="button"
+              ref={index === activeStep ? activeRef : undefined}
+              onClick={() => onSelect(index)}
+              className="bt-pressable flex shrink-0 items-center gap-ds-03 rounded-md p-ds-01 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
               role="listitem"
               aria-current={state === "active" ? "step" : undefined}
               aria-label={`Step ${index + 1}: ${step.label}, ${
                 state === "completed" ? "completed" : state === "active" ? "current" : "upcoming"
               }`}
             >
-              <div
+              <span
                 className={`flex h-ds-sm w-ds-sm shrink-0 items-center justify-center rounded-pill text-ds-sm font-semibold transition-colors duration-moderate-01 ease-productive-standard ${
                   state === "pending"
                     ? "border border-surface-border-strong bg-surface-raised text-surface-fg-subtle"
@@ -43,8 +72,8 @@ function StepIndicator({ steps, activeStep }: { steps: FormGuideStep[]; activeSt
                 ) : (
                   index + 1
                 )}
-              </div>
-              <div className="flex flex-col">
+              </span>
+              <span className="flex flex-col">
                 <span
                   className={`text-ds-md font-medium leading-ds-snug ${
                     state === "pending" ? "text-surface-fg-subtle" : "text-surface-fg"
@@ -57,8 +86,8 @@ function StepIndicator({ steps, activeStep }: { steps: FormGuideStep[]; activeSt
                     {step.description}
                   </span>
                 )}
-              </div>
-            </div>
+              </span>
+            </button>
 
             {index < steps.length - 1 && (
               <div
@@ -91,7 +120,7 @@ export function FormGuideSteps({ steps }: { steps: FormGuideStep[] }) {
 
   return (
     <div>
-      <StepIndicator steps={steps} activeStep={activeStep} />
+      <StepIndicator steps={steps} activeStep={activeStep} onSelect={goTo} />
 
       <div ref={panelRef} tabIndex={-1} className="mt-8 focus:outline-none">
         <div key={steps[activeStep].label} className="space-y-4">

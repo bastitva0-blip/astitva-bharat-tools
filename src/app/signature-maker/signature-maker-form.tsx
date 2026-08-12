@@ -305,15 +305,18 @@ function SignaturePad({
 
   // Converts a pointer position to pad units. Using the element's own box
   // rather than a fixed pixel size keeps the drawing correct at any width,
-  // including after an orientation change on a phone.
+  // including after an orientation change on a phone. Points are clamped to
+  // the pad because capture lets the pointer wander outside it — the stroke
+  // should ride the edge, not fly off into negative space.
   const toPadPoint = (clientX: number, clientY: number): StrokePoint | null => {
     const el = svgRef.current;
     if (!el) return null;
     const rect = el.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return null;
+    const clamp = (value: number, max: number) => Math.min(max, Math.max(0, value));
     return {
-      x: ((clientX - rect.left) / rect.width) * PAD_WIDTH,
-      y: ((clientY - rect.top) / rect.height) * PAD_HEIGHT,
+      x: clamp(((clientX - rect.left) / rect.width) * PAD_WIDTH, PAD_WIDTH),
+      y: clamp(((clientY - rect.top) / rect.height) * PAD_HEIGHT, PAD_HEIGHT),
     };
   };
 
@@ -349,7 +352,10 @@ function SignaturePad({
         onPointerMove={move}
         onPointerUp={end}
         onPointerCancel={end}
-        onPointerLeave={end}
+        // Deliberately no onPointerLeave. The pad has pointer capture, so
+        // tracking survives leaving the box — and it has to: a signature with
+        // a long tail runs off the edge, and ending the stroke there would
+        // chop it mid-flourish. The clamp below keeps stray points inside.
       >
         {/* Baseline, like the ruled line on a bank form. */}
         <line
