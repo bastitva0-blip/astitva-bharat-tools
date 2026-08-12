@@ -16,7 +16,12 @@ export type ToolIconKind =
   | "heic-to-jpg"
   | "photo-grayscale"
   | "aadhaar-collage"
-  | "image-to-text";
+  | "image-to-text"
+  | "pdf-to-jpg"
+  | "pdf-rotate"
+  | "signature-maker"
+  | "image-crop"
+  | "image-rotate";
 
 export type ToolCategory = "forms" | "sharing" | "utility";
 
@@ -376,6 +381,139 @@ export const tools: Tool[] = [
     needsWasm: ["pdfjs"],
     popularityScore: 0.9,
     nextSteps: ["pdf-compress"],
+  },
+  {
+    slug: "pdf-to-jpg",
+    href: "/pdf-to-jpg",
+    name: "PDF to JPG Converter",
+    tagline: "Every page as its own image",
+    description:
+      "Turn each page of a PDF into a JPG or PNG at 72, 150 or 300 DPI. Download one page or all of them.",
+    status: "live",
+    category: "forms",
+    iconKind: "pdf-to-jpg",
+    iconColor: "warning",
+    type: "convert",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "pdf to jpg", "pdf to image", "pdf to png", "convert pdf to jpg", "pdf page to image",
+      "extract images from pdf", "pdf ko jpg banao", "pdf se photo", "pdf image convert",
+      "पीडीएफ से जेपीजी", "पीडीएफ को इमेज",
+      "pdf to picture", "pdf screenshot", "pdf page export",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: true,
+    needsWasm: ["pdfjs"],
+    popularityScore: 0.85,
+    nextSteps: ["image-compress", "photo-resize", "image-crop"],
+  },
+  {
+    slug: "pdf-rotate",
+    href: "/pdf-rotate",
+    name: "PDF Page Rotator",
+    tagline: "Fix sideways pages without re-scanning",
+    description:
+      "Turn one page or every page by 90°, 180° or 270° and save. Page content is copied untouched, so nothing is re-encoded.",
+    status: "live",
+    category: "forms",
+    iconKind: "pdf-rotate",
+    iconColor: "info",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "rotate pdf", "pdf rotate", "turn pdf page", "pdf sideways", "fix pdf orientation",
+      "pdf ghumao", "pdf seedha karo", "pdf page ghumana",
+      "पीडीएफ घुमाओ", "पीडीएफ सीधा",
+      "rotate pdf pages online", "pdf upside down",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: true,
+    needsWasm: ["pdfjs"],
+    nextSteps: ["pdf-compress", "pdf-merge-split", "pdf-to-jpg"],
+  },
+  {
+    slug: "signature-maker",
+    href: "/signature-maker",
+    name: "Signature Maker",
+    tagline: "Draw a signature, download the image",
+    description:
+      "Sign on screen with a finger, stylus or mouse and download a transparent PNG or white-background JPG, trimmed to the ink. No scanner needed.",
+    status: "live",
+    category: "forms",
+    iconKind: "signature-maker",
+    iconColor: "accent",
+    type: "generate",
+    buildStatus: "shipped",
+    domain: "sarkari",
+    paywall: "always-free",
+    keywords: [
+      "signature maker", "draw signature", "signature online", "digital signature image",
+      "signature png", "transparent signature", "signature banao", "hastakshar",
+      "sign kaise banaye", "signature image banao",
+      "हस्ताक्षर", "सिग्नेचर बनाओ",
+      "signature for form", "signature upload", "signature without scanner",
+    ],
+    inputAccept: [],
+    needsWorker: false,
+    popularityScore: 0.6,
+    nextSteps: ["image-compress", "photo-signature-joiner"],
+  },
+  {
+    slug: "image-crop",
+    href: "/image-crop",
+    name: "Image Cropper",
+    tagline: "Free crop, or locked to a ratio",
+    description:
+      "Crop a photo freehand or lock it to 1:1, 4:3, 3:4, 16:9 or the 3.5:4.5 passport proportion. PNG and WebP keep transparency.",
+    status: "live",
+    category: "utility",
+    iconKind: "image-crop",
+    iconColor: "success",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "crop image", "image crop", "photo crop", "crop photo online", "cut image",
+      "photo kaato", "photo crop karo", "image kaatna", "foto crop",
+      "फोटो क्रॉप", "इमेज काटो",
+      "square crop", "passport crop", "aspect ratio crop", "trim image",
+    ],
+    inputAccept: IMAGE_ACCEPT,
+    needsWorker: false,
+    decodedPixelCap: 16_000_000,
+    popularityScore: 0.75,
+    nextSteps: ["image-compress", "photo-resize", "jpg-to-pdf"],
+  },
+  {
+    slug: "image-rotate",
+    href: "/image-rotate",
+    name: "Image Rotate & Flip",
+    tagline: "Turn or mirror a photo, permanently",
+    description:
+      "Rotate by 90°, 180° or 270° and mirror left–right or top–bottom. The orientation is written into the pixels, so portals that ignore EXIF still show it right.",
+    status: "live",
+    category: "utility",
+    iconKind: "image-rotate",
+    iconColor: "neutral",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "rotate image", "flip image", "image rotate", "photo rotate", "mirror image",
+      "photo ghumao", "photo seedha karo", "photo palto", "image ghumana",
+      "फोटो घुमाओ", "इमेज पलटो",
+      "rotate photo online", "photo sideways fix", "exif orientation",
+    ],
+    inputAccept: IMAGE_ACCEPT,
+    needsWorker: false,
+    decodedPixelCap: 16_000_000,
+    nextSteps: ["image-crop", "image-compress", "jpg-to-pdf"],
   },
   {
     slug: "print-job-slip",

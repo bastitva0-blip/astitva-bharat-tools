@@ -1,0 +1,19 @@
+{
+  "slug": "cuet",
+  "name": "CUET UG",
+  "fullName": "Common University Entrance Test (UG)",
+  "category": "photo",
+  "dimensions": { "widthPx": 200, "heightPx": 230, "widthCm": 3.5, "heightCm": 4.5 },
+  "kbRange": { "min": 10, "max": 200 },
+  "format": "jpg",
+  "background": "white",
+  "notes": [
+    "NTA states the KB band and 'recent passport-size colour photograph'; 200x230 px is the pixel equivalent NTA portals use across JEE, NEET and CUET.",
+    "Face must occupy about 80% of the frame, including the ears, with no mask.",
+    "Signature is a separate upload at 10-50 KB - wider than the 4-30 KB band NTA uses for JEE and NEET.",
+    "Uploads are screened by an automatic validation system that rejects wrong size, format or clarity at the portal."
+  ],
+  "portalUrl": "https://cuet.nta.nic.in/",
+  "officialSource": "CUET (UG) 2026 Information Bulletin, NTA",
+  "lastVerifiedAt": "2026-08-12"
+}

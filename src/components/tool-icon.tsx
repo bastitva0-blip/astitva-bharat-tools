@@ -6,16 +6,21 @@ import {
   FileArchive,
   FileImage,
   FileText,
+  FlipHorizontal2,
   Gauge,
   IdCard,
+  Images,
   Layers,
   PenLine,
   Printer,
   QrCode,
   Repeat,
+  RotateCw,
   ScanLine,
   ScanText,
+  Scissors,
   Send,
+  Signature,
   Video,
   type LucideIcon,
 } from "lucide-react";
@@ -57,6 +62,11 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "photo-grayscale": Contrast,
   "aadhaar-collage": Layers,
   "image-to-text": ScanText,
+  "pdf-to-jpg": Images,
+  "pdf-rotate": RotateCw,
+  "signature-maker": Signature,
+  "image-crop": Scissors,
+  "image-rotate": FlipHorizontal2,
 };
 
 export function ToolIcon({
