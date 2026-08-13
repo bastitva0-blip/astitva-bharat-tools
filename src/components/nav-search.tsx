@@ -175,7 +175,20 @@ export function NavSearch() {
       <button
         type="button"
         onClick={openPalette}
-        className="inline-flex h-8 w-8 items-center justify-center rounded-md text-surface-fg-muted transition-colors hover:bg-accent-3 hover:text-accent-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
+        className="hidden h-9 items-center gap-2 rounded-md border border-surface-border-subtle bg-surface-1 px-3 text-body-sm text-surface-fg-muted transition-colors hover:bg-accent-3 hover:text-accent-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7 md:inline-flex md:min-w-[220px]"
+        aria-label={dict.nav.searchTrigger}
+      >
+        <Search size={14} aria-hidden />
+        <span className="flex-1 text-left">{dict.nav.searchTrigger}</span>
+        <kbd className="hidden items-center gap-0.5 rounded border border-surface-border-subtle bg-surface-2 px-1.5 py-0.5 text-body-xs font-medium text-surface-fg-subtle lg:inline-flex">
+          {mac ? "⌘" : "Ctrl"} K
+        </kbd>
+      </button>
+
+      <button
+        type="button"
+        onClick={openPalette}
+        className="inline-flex h-8 w-8 items-center justify-center rounded-md text-surface-fg-muted transition-colors hover:bg-accent-3 hover:text-accent-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7 md:hidden"
         aria-label={dict.nav.searchTrigger}
       >
         <Search size={18} aria-hidden />

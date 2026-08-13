@@ -100,7 +100,7 @@ export default async function RootLayout({
   const locale = await getCurrentLocale();
   const dict = getDictionary(locale);
   return (
-    <html lang={locale} suppressHydrationWarning className="h-full antialiased" data-shape="slightly-rounded">
+    <html lang={locale} suppressHydrationWarning className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <JsonLd data={[webSiteSchema(), organizationSchema()]} />
         <LocaleProvider locale={locale} dict={dict}>
