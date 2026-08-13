@@ -75,10 +75,12 @@ function findExamPreset(query: string): DeepLink | null {
 
 /**
  * Resolve a raw user query to a deep-link, or null if no parameterised
- * pre-fill applies. Size match takes precedence over exam match because the
- * KB number is a more specific signal of intent.
+ * pre-fill applies. Exam match takes precedence over size: a query like
+ * "I need a 50kb photo for UPSC" signals the full exam workflow, not just
+ * compression. Size-only queries ("compress to 50 kb") still route to the
+ * compressor.
  */
 export function resolveDeepLink(query: string): DeepLink | null {
   if (!query || query.length > 100) return null;
-  return findCompressPreset(query) ?? findExamPreset(query);
+  return findExamPreset(query) ?? findCompressPreset(query);
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { BharatHero } from "@/components/landing/bharat-hero";
 import { Footer } from "@/components/footer";
@@ -104,6 +104,37 @@ export default async function HomePage() {
         <div className="mt-16">
           <UspStrip dict={dict} />
         </div>
+
+        {/* Portal presets — quick jump to exam form guides */}
+        <section className="mt-12 rounded-xl border border-surface-border-subtle bg-surface-2 px-5 py-5">
+          <p className="text-body-xs font-semibold uppercase tracking-widest text-[var(--bt-saffron-ink)]">
+            Filling a government form?
+          </p>
+          <p className="mt-1 text-body-md font-semibold text-surface-fg">
+            Pick your exam — get the exact specs and tools in one page.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {[
+              { label: "UPSC CSE", href: "/form-guides/upsc", emoji: "🏛️" },
+              { label: "SSC CGL", href: "/form-guides/ssc-cgl", emoji: "📋" },
+              { label: "NEET UG", href: "/form-guides/neet", emoji: "🏥" },
+              { label: "JEE Main", href: "/form-guides/jee-main", emoji: "🔬" },
+              { label: "RRB ALP", href: "/form-guides/rrb-alp", emoji: "🚂" },
+              { label: "CUET UG", href: "/form-guides/cuet-ug", emoji: "🎓" },
+              { label: "IBPS PO", href: "/form-guides/ibps-po", emoji: "🏦" },
+            ].map(({ label, href, emoji }) => (
+              <Link
+                key={href}
+                href={href}
+                className="inline-flex items-center gap-1.5 rounded-full border border-surface-border-subtle bg-surface-1 px-3.5 py-1.5 text-body-sm font-medium text-surface-fg transition-colors hover:border-[var(--bt-saffron-ink)] hover:text-[var(--bt-saffron-ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bt-saffron-ink)]"
+              >
+                <span aria-hidden>{emoji}</span>
+                {label}
+                <ChevronRight className="size-3.5 text-surface-fg-muted" aria-hidden />
+              </Link>
+            ))}
+          </div>
+        </section>
 
         <section className="mt-20">
           <ToolsGrid />

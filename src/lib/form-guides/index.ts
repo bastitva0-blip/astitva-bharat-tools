@@ -93,6 +93,17 @@ export const formGuides: FormGuide[] = [
     authority: { name: "NTA", url: "https://cuet.nta.nic.in/" },
     order: 6,
   },
+  {
+    slug: "ibps-po",
+    examName: "IBPS PO",
+    fullName: "Institute of Banking Personnel Selection — Probationary Officer",
+    description:
+      "Step-by-step walkthrough of ibps.in — registration, photo and signature uploads at exact KB/pixel spec, left thumb impression, hand-written declaration, and category-wise fee payment.",
+    specSummary: "Photo 20–50 KB · Signature 10–20 KB · Thumb 20–50 KB",
+    lastUpdatedAt: "2026-08-13",
+    authority: { name: "IBPS", url: "https://ibps.in/" },
+    order: 7,
+  },
 ];
 
 export function getFormGuide(slug: string): FormGuide | undefined {
