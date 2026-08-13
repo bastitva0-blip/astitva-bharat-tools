@@ -27,11 +27,11 @@ export async function Footer() {
   return (
     <footer className="mt-20 border-t border-surface-border-subtle">
       {/* Discovery band — everything we do, visible at a glance */}
-      <div className="border-b border-[#D33163]/20 bg-[#fff0f4]">
+      <div className="border-b border-surface-border-subtle bg-surface-2 dark:bg-surface-1">
         <div className="mx-auto w-full max-w-6xl px-page-x py-10">
           <div className="mb-6 flex items-baseline justify-between gap-4">
             <div>
-              <p className="text-body-xs font-semibold uppercase tracking-widest text-[#D33163]">
+              <p className="text-body-xs font-semibold uppercase tracking-widest text-[var(--bt-saffron-ink)]">
                 Everything we do
               </p>
               <h2 className="mt-1 text-heading-sm font-bold text-surface-fg">
@@ -40,7 +40,7 @@ export async function Footer() {
             </div>
             <Link
               href="/tools"
-              className="shrink-0 text-body-sm font-medium text-[#D33163] hover:underline"
+              className="shrink-0 text-body-sm font-medium text-[var(--bt-saffron-ink)] hover:underline"
             >
               Browse all →
             </Link>
@@ -52,11 +52,11 @@ export async function Footer() {
               <Link
                 key={tool.slug}
                 href={tool.href}
-                className="group flex shrink-0 flex-col items-center gap-2 rounded-xl border border-[#D33163]/15 bg-white px-4 py-3 text-center transition-colors hover:border-[#D33163]/50 hover:bg-[#fff7f9] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D33163]"
+                className="group flex shrink-0 flex-col items-center gap-2 rounded-xl border border-surface-border-subtle bg-surface-1 px-4 py-3 text-center transition-colors hover:border-[var(--bt-saffron-ink)] hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bt-saffron-ink)]"
                 style={{ minWidth: "7rem" }}
               >
                 <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="md" />
-                <span className="line-clamp-2 text-body-xs font-medium leading-tight text-surface-fg group-hover:text-[#D33163]">
+                <span className="line-clamp-2 text-body-xs font-medium leading-tight text-surface-fg group-hover:text-[var(--bt-saffron-ink)]">
                   {tool.name}
                 </span>
               </Link>
