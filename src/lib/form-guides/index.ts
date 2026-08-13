@@ -104,6 +104,61 @@ export const formGuides: FormGuide[] = [
     authority: { name: "IBPS", url: "https://ibps.in/" },
     order: 7,
   },
+  {
+    slug: "ibps-clerk",
+    examName: "IBPS Clerk",
+    fullName: "Institute of Banking Personnel Selection — Clerk",
+    description:
+      "Step-by-step walkthrough of ibps.in — registration, photo and signature uploads at exact KB/pixel spec, left thumb impression, hand-written declaration, and category-wise fee payment.",
+    specSummary: "Photo 20–50 KB · Signature 10–20 KB · Thumb 20–50 KB",
+    lastUpdatedAt: "2026-08-13",
+    authority: { name: "IBPS", url: "https://ibps.in/" },
+    order: 8,
+  },
+  {
+    slug: "cat",
+    examName: "CAT",
+    fullName: "Common Admission Test (MBA Entrance)",
+    description:
+      "Six-step walkthrough of iimcat.ac.in — registration, personal and academic details, IIM preferences and test city selection, photo/signature uploads, and fee payment.",
+    specSummary: "Photo 10–50 KB · Signature 10–50 KB · ₹2400 / ₹1200",
+    lastUpdatedAt: "2026-08-13",
+    authority: { name: "IIM CAT", url: "https://iimcat.ac.in/" },
+    order: 9,
+  },
+  {
+    slug: "gate",
+    examName: "GATE",
+    fullName: "Graduate Aptitude Test in Engineering",
+    description:
+      "Five-step walkthrough of GOAPS (goaps.iisc.ac.in) — registration, personal details, paper and exam city selection, photo/signature uploads, and fee payment.",
+    specSummary: "Photo 5–200 KB · Signature 4–30 KB · ₹1800 / ₹900",
+    lastUpdatedAt: "2026-08-13",
+    authority: { name: "IISc GATE", url: "https://goaps.iisc.ac.in/" },
+    order: 10,
+  },
+  {
+    slug: "passport",
+    examName: "Passport",
+    fullName: "Indian Passport Application & Renewal (Passport Seva)",
+    description:
+      "Six-step walkthrough of passportindia.gov.in — registration, fresh/renewal/tatkal form, PSK appointment, fee payment, PSK visit with documents, and dispatch tracking.",
+    specSummary: "Photo 2×2 inch · White background · ₹1500–₹2000",
+    lastUpdatedAt: "2026-08-13",
+    authority: { name: "Passport Seva", url: "https://passportindia.gov.in/" },
+    order: 11,
+  },
+  {
+    slug: "driving-license",
+    examName: "Driving Licence",
+    fullName: "Driving Licence Application — Sarathi Portal",
+    description:
+      "Six-step walkthrough of sarathi.parivahan.gov.in — Aadhaar registration, learner licence form and LL test, permanent DL application, driving test, and DL dispatch.",
+    specSummary: "Photo JPG · Aadhaar + address proof · Fee varies by state",
+    lastUpdatedAt: "2026-08-13",
+    authority: { name: "Sarathi", url: "https://sarathi.parivahan.gov.in/" },
+    order: 12,
+  },
 ];
 
 export function getFormGuide(slug: string): FormGuide | undefined {

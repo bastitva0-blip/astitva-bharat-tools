@@ -21,7 +21,9 @@ export type ToolIconKind =
   | "pdf-rotate"
   | "signature-maker"
   | "image-crop"
-  | "image-rotate";
+  | "image-rotate"
+  | "bg-remove"
+  | "batch-compress";
 
 export type ToolCategory = "forms" | "sharing" | "utility";
 
@@ -726,6 +728,62 @@ export const tools: Tool[] = [
     inputAccept: ["image/jpeg", "image/png"],
     needsWorker: false,
     nextSteps: ["pdf-compress", "image-compress"],
+  },
+  {
+    slug: "bg-remove",
+    href: "/bg-remove",
+    name: "Background Remover",
+    tagline: "Remove or replace image background — AI, in-browser",
+    description:
+      "Remove the background from any photo instantly. Keep it transparent (PNG) or replace with white — perfect for exam photos, ID cards, and e-commerce. Runs entirely in your browser.",
+    status: "live",
+    category: "forms",
+    iconKind: "bg-remove",
+    iconColor: "success",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "background remover", "remove background", "bg remove", "background remove",
+      "photo background hatao", "background cut karo", "background change",
+      "transparent background", "white background", "bg remove online",
+      "बैकग्राउंड हटाओ", "बैकग्राउंड रिमूवर",
+      "exam photo bg", "passport photo white background", "id photo background",
+      "cut out image", "remove bg", "ai background remover",
+    ],
+    inputAccept: IMAGE_ACCEPT,
+    needsWorker: false,
+    decodedPixelCap: 16_000_000,
+    popularityScore: 0.9,
+    nextSteps: ["image-compress", "photo-resize", "jpg-to-pdf"],
+  },
+  {
+    slug: "batch-compress",
+    href: "/batch-compress",
+    name: "Batch Image Compressor",
+    tagline: "Compress multiple images to one KB target in one go",
+    description:
+      "Upload up to 20 images at once. Pick a preset (20 KB, 50 KB, 100 KB, 200 KB) and compress all to the same target. Download each file individually.",
+    status: "live",
+    category: "forms",
+    iconKind: "batch-compress",
+    iconColor: "info",
+    type: "compress-to-target",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "batch compress", "compress multiple images", "bulk compress", "compress all photos",
+      "multiple image compress", "batch photo resize", "bulk image compressor",
+      "sab photo compress karo", "multiple photo ek saath",
+      "बैच कम्प्रेस", "सभी फोटो कम्प्रेस",
+      "compress 10 photos", "compress all exam photos",
+    ],
+    inputAccept: IMAGE_ACCEPT,
+    needsWorker: false,
+    decodedPixelCap: 16_000_000,
+    popularityScore: 0.75,
   },
   {
     slug: "quick-send",

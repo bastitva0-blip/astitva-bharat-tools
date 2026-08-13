@@ -11,6 +11,7 @@ import {
   IdCard,
   Images,
   Layers,
+  Package,
   PenLine,
   Printer,
   QrCode,
@@ -21,6 +22,7 @@ import {
   Scissors,
   Send,
   Signature,
+  Sparkles,
   Video,
   type LucideIcon,
 } from "lucide-react";
@@ -67,6 +69,8 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "signature-maker": Signature,
   "image-crop": Scissors,
   "image-rotate": FlipHorizontal2,
+  "bg-remove": Sparkles,
+  "batch-compress": Package,
 };
 
 export function ToolIcon({

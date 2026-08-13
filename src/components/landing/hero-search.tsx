@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { SearchInput } from "@devalok/shilp-sutra/ui/search-input";
 import { ToolIcon } from "@/components/tool-icon";
 import { useT } from "@/i18n/provider";
@@ -10,12 +10,15 @@ import { fire } from "@/lib/analytics/events";
 import { resolveDeepLink } from "@/lib/search/deepLink";
 import { searchTools } from "@/lib/search";
 import { getToolText } from "@/lib/tool-text";
-import type { Tool } from "@/lib/tools";
+import { getRecentSlugs, recordRecentSlug } from "@/lib/recent-tools";
+import { tools, type Tool } from "@/lib/tools";
 
 function isInputTarget(el: EventTarget | null): boolean {
   if (!(el instanceof HTMLElement)) return false;
   return el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable;
 }
+
+const toolBySlug = new Map<string, Tool>(tools.map((t) => [t.slug, t]));
 
 export function HeroSearch({
   placeholder,
@@ -29,6 +32,7 @@ export function HeroSearch({
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Tool[]>([]);
   const [open, setOpen] = useState(false);
+  const [recentTools, setRecentTools] = useState<Tool[]>([]);
   const [, startTransition] = useTransition();
   const inputRef = useRef<HTMLInputElement>(null);
   const openedRef = useRef(false);
@@ -42,6 +46,13 @@ export function HeroSearch({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Load recent tools from localStorage once on mount.
+  useEffect(() => {
+    const slugs = getRecentSlugs();
+    const recent = slugs.map((s) => toolBySlug.get(s)).filter(Boolean) as Tool[];
+    setRecentTools(recent);
   }, []);
 
   const markOpened = () => {
@@ -58,12 +69,13 @@ export function HeroSearch({
     startTransition(() => {
       const outcome = searchTools(value);
       setResults(outcome.results.slice(0, 5));
-      setOpen(value.length > 0);
+      setOpen(value.length > 0 || recentTools.length > 0);
     });
   };
 
   const navigate = (href: string, slug: string, rank: number) => {
     fire("search_result_click", { query: query.trim(), result_slug: slug, rank });
+    recordRecentSlug(slug);
     setOpen(false);
     setQuery("");
     router.push(href);
@@ -73,6 +85,7 @@ export function HeroSearch({
     if (e.key === "Enter") {
       if (deepLink) {
         fire("search_result_click", { query: query.trim(), result_slug: deepLink.toolSlug, rank: 0 });
+        recordRecentSlug(deepLink.toolSlug);
         setOpen(false);
         setQuery("");
         router.push(deepLink.href);
@@ -86,6 +99,9 @@ export function HeroSearch({
     }
   };
 
+  const showRecent = !query && recentTools.length > 0;
+  const dropdownVisible = open && (deepLink || results.length > 0 || showRecent);
+
   return (
     <div className="relative w-full max-w-xl">
       <SearchInput
@@ -95,7 +111,7 @@ export function HeroSearch({
         onChange={(e) => onChange(e.target.value)}
         onClear={() => { setQuery(""); setOpen(false); }}
         onKeyDown={onKeyDown}
-        onFocus={() => query && setOpen(true)}
+        onFocus={() => setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 150)}
         placeholder={placeholder}
         aria-label={searchAria}
@@ -110,14 +126,15 @@ export function HeroSearch({
           </kbd>
         </div>
       )}
-      {open && (deepLink || results.length > 0) && (
+      {dropdownVisible && (
         <div className="absolute left-0 right-0 top-full z-50 mt-1 overflow-hidden rounded-lg border border-surface-border-subtle bg-surface-1 shadow-lg">
-          {/* Deep link — pinned shortcut when query matches an exam or KB size */}
+          {/* Deep link — pinned shortcut */}
           {deepLink && (
             <button
               type="button"
               onMouseDown={() => {
                 fire("search_result_click", { query: query.trim(), result_slug: deepLink.toolSlug, rank: 0 });
+                recordRecentSlug(deepLink.toolSlug);
                 setOpen(false);
                 setQuery("");
                 router.push(deepLink.href);
@@ -129,8 +146,36 @@ export function HeroSearch({
               <ArrowRight className="size-4 shrink-0 text-[var(--bt-saffron-ink)]" aria-hidden />
             </button>
           )}
+
+          {/* Recent tools — shown when no query */}
+          {showRecent && (
+            <div>
+              <div className="flex items-center gap-1.5 border-b border-surface-border-subtle px-4 py-2">
+                <Clock className="size-3 text-surface-fg-subtle" aria-hidden />
+                <span className="text-body-xs font-medium text-surface-fg-subtle">Recent</span>
+              </div>
+              {recentTools.map((tool, i) => {
+                const text = getToolText(tool, dict);
+                return (
+                  <button
+                    key={tool.slug}
+                    type="button"
+                    onMouseDown={() => navigate(tool.href, tool.slug, i)}
+                    className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-accent-3 focus:bg-accent-3 focus:outline-none"
+                  >
+                    <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="md" />
+                    <div className="min-w-0 flex-1">
+                      <div className="truncate text-body-sm font-medium text-surface-fg">{text.name}</div>
+                      <div className="truncate text-body-xs text-surface-fg-muted">{text.tagline}</div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           {/* Regular search results */}
-          {results.map((tool, i) => {
+          {query && results.map((tool, i) => {
             const text = getToolText(tool, dict);
             return (
               <button
