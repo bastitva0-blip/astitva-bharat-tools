@@ -3,7 +3,7 @@
 
 @layer base {
   body {
-    background-color: var(--color-surface-base);
+    background-color: var(--color-surface-2);
     color: var(--color-surface-fg);
     /* Mobile safety net: stop a single overflowing descendant from creating
        horizontal scroll across the whole page. `clip` (unlike `hidden`) does

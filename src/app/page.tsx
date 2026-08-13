@@ -5,7 +5,7 @@ import { BharatHero } from "@/components/landing/bharat-hero";
 import { Footer } from "@/components/footer";
 import { HowItWorks } from "@/components/how-it-works";
 import { JsonLd } from "@/components/json-ld";
-import { ToolsBrowser } from "@/components/tools-browser";
+import { ToolsGrid } from "@/components/landing/tools-grid";
 import { TrustStrip } from "@/components/trust-strip";
 import { UspStrip } from "@/components/usp-strip";
 import { devanagari } from "@/lib/fonts";
@@ -105,8 +105,8 @@ export default async function HomePage() {
           <UspStrip dict={dict} />
         </div>
 
-        <section id="tools" className="mt-20 scroll-mt-24">
-          <ToolsBrowser />
+        <section className="mt-20">
+          <ToolsGrid />
         </section>
 
         <HowItWorks dict={dict} />
