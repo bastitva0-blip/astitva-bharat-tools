@@ -1,19 +1,29 @@
-// BharatTools service worker — offline shell caching.
-// Strategy: cache-first for navigation, network-first for API/data.
-const CACHE = "bt-shell-v1";
+// BharatTools service worker — full offline support.
+//
+// Strategy:
+//   /_next/static/  → cache-first (immutable hashed assets)
+//   navigations     → network-first, cache fallback → /offline
+//   everything else → network-first, cache fallback
 
-const PRECACHE = ["/", "/tools", "/form-guides", "/offline"];
+const STATIC_CACHE = "bt-static-v1";
+const PAGES_CACHE  = "bt-pages-v1";
+
+// Pre-cache the offline fallback only; everything else is cached on first visit.
+const PRECACHE_URLS = ["/offline"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
-    caches.open(CACHE).then((c) => c.addAll(PRECACHE)).then(() => self.skipWaiting())
+    caches.open(PAGES_CACHE)
+      .then((c) => c.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener("activate", (e) => {
+  const keep = new Set([STATIC_CACHE, PAGES_CACHE]);
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => !keep.has(k)).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
@@ -23,32 +33,40 @@ self.addEventListener("fetch", (e) => {
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
-
-  // Only handle same-origin requests.
   if (url.origin !== self.location.origin) return;
+  // Skip Next.js RSC / internal runtime pings.
+  if (url.searchParams.has("_rsc")) return;
+  if (url.pathname.startsWith("/api/")) return;
 
-  // Skip Next.js internal routes and API routes.
-  if (url.pathname.startsWith("/_next/") || url.pathname.startsWith("/api/")) return;
-
-  e.respondWith(
-    caches.match(request).then((cached) => {
-      const network = fetch(request).then((res) => {
-        // Cache navigations to make them available offline.
-        if (request.mode === "navigate" && res.ok) {
-          caches.open(CACHE).then((c) => c.put(request, res.clone()));
-        }
+  // /_next/static/ — immutable hashed assets, cache-first forever.
+  if (url.pathname.startsWith("/_next/static/")) {
+    e.respondWith(
+      caches.open(STATIC_CACHE).then(async (cache) => {
+        const cached = await cache.match(request);
+        if (cached) return cached;
+        const res = await fetch(request);
+        if (res.ok) cache.put(request, res.clone());
         return res;
-      }).catch(() => {
-        // Network failed — return cached version or offline page.
+      })
+    );
+    return;
+  }
+
+  // Navigations and everything else — network-first, cache on success.
+  e.respondWith(
+    caches.open(PAGES_CACHE).then(async (cache) => {
+      try {
+        const res = await fetch(request);
+        if (res.ok) cache.put(request, res.clone());
+        return res;
+      } catch {
+        const cached = await cache.match(request);
+        if (cached) return cached;
         if (request.mode === "navigate") {
-          return caches.match("/offline") || Response.error();
+          return cache.match("/offline") ?? Response.error();
         }
         return Response.error();
-      });
-
-      // For navigations: try network first (get fresh), fall back to cache.
-      // For assets: serve cache instantly, refresh in background.
-      return request.mode === "navigate" ? network.catch(() => cached || Response.error()) : (cached || network);
+      }
     })
   );
 });
