@@ -84,6 +84,33 @@ const PLANS: Plan[] = [
     ],
     cta: { label: "Read the professional pitch", href: "/for-professionals" },
   },
+  {
+    id: "coaching",
+    name: "Coaching Institutes",
+    price: "₹25k–₹1L",
+    cadence: "/ year",
+    bestFor: "White-label BharatTools for your aspirant batches. Your brand, our infra.",
+    features: [
+      "Custom subdomain or embed on your site",
+      "Your logo and colours",
+      "All aspirant tools — exam photo, compress, forms",
+      "Managed, no IT headaches",
+    ],
+    cta: { label: "Explore coaching white-label", href: "/for-coaching" },
+  },
+  {
+    id: "b2b",
+    name: "Business / B2B",
+    price: "Custom",
+    bestFor: "NBFCs, fintechs, HFCs — embed DPDP-safe KYC tools in your workflow.",
+    features: [
+      "API or iframe embed",
+      "Aadhaar masking + PDF password on your platform",
+      "Signed attestation for audit trails",
+      "On-device processing — no data egress",
+    ],
+    cta: { label: "Talk to us about B2B", href: "/b2b" },
+  },
 ];
 
 const ALWAYS_FREE = [
@@ -107,7 +134,7 @@ export default function PricingPage() {
           breadcrumbs={[{ label: "Home", href: "/" }, { label: "Pricing" }]}
         />
 
-        <section className="mt-ds-08 grid gap-ds-05 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="mt-ds-08 grid gap-ds-05 sm:grid-cols-2 lg:grid-cols-3">
           {PLANS.map((plan) => (
             <Card
               key={plan.id}
