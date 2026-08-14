@@ -1,6 +1,21 @@
 @import "tailwindcss";
 @import "@devalok/shilp-sutra/css";
 
+/* Global aliases for bt-tokens used OUTSIDE .bt-landing (footer, tools-browser,
+   pwa-install-banner, tool pages). .bt-landing re-declares the same values so
+   nothing changes inside the warm homepage scope. */
+:root {
+  --bt-saffron: var(--orange-9);
+  --bt-saffron-ink: var(--orange-11);
+  --bt-marigold: var(--amber-9);
+  --bt-marigold-ink: var(--amber-11);
+  --bt-paper: var(--amber-2);
+  --bt-paper-strong: var(--amber-3);
+  --bt-line: var(--amber-6);
+  --bt-teal-ink: var(--teal-11);
+  --bt-seal: var(--green-11);
+}
+
 @layer base {
   body {
     background-color: var(--color-surface-2);
