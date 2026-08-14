@@ -117,7 +117,7 @@ export function HeroSearch({
   const dropdownVisible = open && (deepLink || results.length > 0 || showRecent);
 
   return (
-    <div className="relative w-full max-w-xl">
+    <div className="relative w-full">
       <SearchInput
         ref={inputRef}
         size="lg"
