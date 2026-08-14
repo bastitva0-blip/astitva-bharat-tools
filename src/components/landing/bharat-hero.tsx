@@ -38,7 +38,7 @@ export function BharatHero({ dict }: { dict: Dictionary }) {
         </div>
 
         {/* Quick task chips */}
-        <div className="bt-rise-3 mt-ds-05 flex flex-wrap justify-center gap-2">
+        <div className="bt-rise-3 mt-ds-05 w-full max-w-2xl flex flex-wrap justify-center gap-2">
           {hero.tasks.map((label, i) => {
             const { href, Icon } = QUICK_TASKS[i];
             return (
