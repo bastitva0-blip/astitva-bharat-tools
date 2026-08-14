@@ -291,7 +291,7 @@ export function ScanToPdfForm() {
                     Page {idx + 1}
                   </div>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Move up"
                     disabled={idx === 0}
@@ -300,7 +300,7 @@ export function ScanToPdfForm() {
                     <ChevronUp size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Move down"
                     disabled={idx === pages.length - 1}
@@ -309,7 +309,7 @@ export function ScanToPdfForm() {
                     <ChevronDown size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Delete page"
                     onClick={() => removePage(page.id)}

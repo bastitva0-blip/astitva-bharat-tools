@@ -211,7 +211,7 @@ function ResultCard({ result, onReset }: { result: Extracted; onReset: () => voi
             <Download className="size-4" aria-hidden />
             Download .txt
           </Button>
-          <Button onClick={onReset} variant="ghost">
+          <Button onClick={onReset} variant="soft">
             <RotateCcw className="size-4" aria-hidden />
             Read another
           </Button>

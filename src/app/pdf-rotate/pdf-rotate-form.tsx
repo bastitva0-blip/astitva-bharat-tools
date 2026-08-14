@@ -155,7 +155,7 @@ export function PdfRotateForm() {
                   {thumbs.length > 0 ? ` · ${thumbs.length} page${thumbs.length === 1 ? "" : "s"}` : ""}
                 </div>
               </div>
-              <Button variant="ghost" size="compact-sm" onClick={() => adoptFile(null)}>
+              <Button variant="soft" size="compact-sm" onClick={() => adoptFile(null)}>
                 Remove
               </Button>
             </div>
@@ -209,7 +209,7 @@ export function PdfRotateForm() {
                     </span>
                     <span className="flex gap-1">
                       <Button
-                        variant="ghost"
+                        variant="soft"
                         size="icon-sm"
                         aria-label={`Rotate page ${t.pageNumber} left`}
                         onClick={() => rotateOne(index, 270)}
@@ -217,7 +217,7 @@ export function PdfRotateForm() {
                         <RotateCcw size={16} />
                       </Button>
                       <Button
-                        variant="ghost"
+                        variant="soft"
                         size="icon-sm"
                         aria-label={`Rotate page ${t.pageNumber} right`}
                         onClick={() => rotateOne(index, 90)}

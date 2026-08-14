@@ -262,7 +262,7 @@ export function PrintJobSlipForm() {
                       </div>
                     </div>
                     <Button
-                      variant="ghost"
+                      variant="soft"
                       size="icon-sm"
                       aria-label="Move file up"
                       disabled={fileIdx === 0}
@@ -271,7 +271,7 @@ export function PrintJobSlipForm() {
                       <ArrowUp size={16} />
                     </Button>
                     <Button
-                      variant="ghost"
+                      variant="soft"
                       size="icon-sm"
                       aria-label="Move file down"
                       disabled={fileIdx === files.length - 1}
@@ -280,7 +280,7 @@ export function PrintJobSlipForm() {
                       <ArrowDown size={16} />
                     </Button>
                     <Button
-                      variant="ghost"
+                      variant="soft"
                       size="icon-sm"
                       aria-label="Remove file"
                       onClick={() => removeFile(f.id)}
@@ -301,7 +301,7 @@ export function PrintJobSlipForm() {
                           </span>
                           <div className="flex items-center gap-1">
                             <Button
-                              variant="ghost"
+                              variant="soft"
                               size="icon-sm"
                               aria-label="Move row up"
                               disabled={rowIdx === 0}
@@ -310,7 +310,7 @@ export function PrintJobSlipForm() {
                               <ArrowUp size={14} />
                             </Button>
                             <Button
-                              variant="ghost"
+                              variant="soft"
                               size="icon-sm"
                               aria-label="Move row down"
                               disabled={rowIdx === f.rows.length - 1}
@@ -319,7 +319,7 @@ export function PrintJobSlipForm() {
                               <ArrowDown size={14} />
                             </Button>
                             <Button
-                              variant="ghost"
+                              variant="soft"
                               size="icon-sm"
                               aria-label="Remove row"
                               disabled={f.rows.length <= 1}

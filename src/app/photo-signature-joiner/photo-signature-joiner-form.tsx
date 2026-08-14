@@ -162,7 +162,7 @@ export function PhotoSignatureJoinerForm() {
                   <div className="truncate font-medium">{photo?.name}</div>
                   <div className="text-surface-fg-muted">{photo ? formatKb(photo.size) : null}</div>
                 </div>
-                <Button variant="ghost" size="compact-sm" onClick={() => setPhoto(null)}>
+                <Button variant="soft" size="compact-sm" onClick={() => setPhoto(null)}>
                   {dict.common.remove}
                 </Button>
               </div>
@@ -191,7 +191,7 @@ export function PhotoSignatureJoinerForm() {
                     {signature ? formatKb(signature.size) : null}
                   </div>
                 </div>
-                <Button variant="ghost" size="compact-sm" onClick={() => setSignature(null)}>
+                <Button variant="soft" size="compact-sm" onClick={() => setSignature(null)}>
                   {dict.common.remove}
                 </Button>
               </div>

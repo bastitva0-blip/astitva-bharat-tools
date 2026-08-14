@@ -283,7 +283,7 @@ function ResultCard({ decoded, onReset }: { decoded: Decoded; onReset: () => voi
               </a>
             </Button>
           )}
-          <Button onClick={onReset} variant="ghost">
+          <Button onClick={onReset} variant="soft">
             <RotateCcw className="size-4" aria-hidden />
             Scan another
           </Button>

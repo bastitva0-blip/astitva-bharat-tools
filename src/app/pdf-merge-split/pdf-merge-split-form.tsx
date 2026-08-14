@@ -170,7 +170,7 @@ function MergePanel() {
                     </div>
                   </div>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Move up"
                     disabled={idx === 0}
@@ -179,7 +179,7 @@ function MergePanel() {
                     <ArrowUp size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Move down"
                     disabled={idx === items.length - 1}
@@ -188,7 +188,7 @@ function MergePanel() {
                     <ArrowDown size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Remove"
                     onClick={() => remove(it.id)}
@@ -356,7 +356,7 @@ function SplitPanel() {
                   {pageCount !== null ? ` · ${pageCount} page${pageCount === 1 ? "" : "s"}` : ""}
                 </div>
               </div>
-              <Button variant="ghost" size="compact-sm" onClick={() => setSourceFile(null)}>
+              <Button variant="soft" size="compact-sm" onClick={() => setSourceFile(null)}>
                 Remove
               </Button>
             </div>

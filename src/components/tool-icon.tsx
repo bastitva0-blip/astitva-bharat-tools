@@ -180,7 +180,7 @@ export function ToolIcon({
     <div
       className={`${COLOR_CLASSES[color]} ${SIZE_CLASSES[size]} inline-flex items-center justify-center`}
     >
-      <Icon size={ICON_PX[size]} strokeWidth={1.75} aria-hidden />
+      <Icon size={ICON_PX[size]} strokeWidth={1.5} aria-hidden />
     </div>
   );
 }

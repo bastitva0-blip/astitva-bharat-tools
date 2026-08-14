@@ -272,7 +272,7 @@ export function ImageResizeForm() {
               </p>
             </div>
             <Button
-              variant="ghost"
+              variant="soft"
               size="compact-sm"
               onClick={() => {
                 setFile(null);

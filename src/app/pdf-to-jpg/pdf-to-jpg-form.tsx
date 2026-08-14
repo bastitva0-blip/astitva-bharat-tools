@@ -168,7 +168,7 @@ export function PdfToJpgForm() {
                   <div className="truncate font-medium">{file.name}</div>
                   <div className="text-surface-fg-muted">{formatKb(file.size)}</div>
                 </div>
-                <Button variant="ghost" size="compact-sm" onClick={() => adoptFile(null)}>
+                <Button variant="soft" size="compact-sm" onClick={() => adoptFile(null)}>
                   Remove
                 </Button>
               </div>

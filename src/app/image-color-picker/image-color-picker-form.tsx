@@ -140,7 +140,7 @@ function ColorInfoPanel({ color }: { color: PickedColor }) {
             </code>
             <Button
               size="sm"
-              variant="ghost"
+              variant="soft"
               onClick={() => copyText(value, label)}
               className="shrink-0"
             >

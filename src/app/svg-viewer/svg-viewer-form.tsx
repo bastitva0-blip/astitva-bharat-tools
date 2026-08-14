@@ -131,17 +131,17 @@ export function SvgViewerForm() {
           onChange={handleFileChange}
           className="hidden"
         />
-        <Button size="sm" variant="ghost" onClick={loadExample}>
+        <Button size="sm" variant="soft" onClick={loadExample}>
           Load example
         </Button>
         <div className="ml-auto flex gap-2">
-          <Button size="sm" variant="ghost" onClick={copyCode} disabled={!hasSvg}>
+          <Button size="sm" variant="soft" onClick={copyCode} disabled={!hasSvg}>
             Copy code
           </Button>
           <Button size="sm" variant="outline" onClick={downloadSvg} disabled={!hasSvg}>
             Download SVG
           </Button>
-          <Button size="sm" variant="ghost" onClick={clearCode} disabled={!hasSvg}>
+          <Button size="sm" variant="soft" onClick={clearCode} disabled={!hasSvg}>
             Clear
           </Button>
         </div>

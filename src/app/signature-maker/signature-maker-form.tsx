@@ -139,7 +139,7 @@ export function SignatureMakerForm() {
                 Undo stroke
               </Button>
               <Button
-                variant="ghost"
+                variant="soft"
                 size="compact-sm"
                 disabled={strokes.length === 0}
                 onClick={() => {

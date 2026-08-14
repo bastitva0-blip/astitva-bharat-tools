@@ -265,14 +265,11 @@ function ToolCard({
       >
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
-            <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="lg" />
+            <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="md" />
             {!live && <Badge color="neutral">{soonLabel}</Badge>}
           </div>
           <CardTitle className="mt-4 font-semibold">{text.name}</CardTitle>
           <CardDescription>{text.tagline}</CardDescription>
-          <span className="mt-2 inline-flex items-center gap-1 text-body-sm font-medium text-accent-11">
-            Open Tool <ArrowRight className="size-3.5" aria-hidden />
-          </span>
         </CardHeader>
       </Card>
     </Link>
