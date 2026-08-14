@@ -1,6 +1,4 @@
-import Link from "next/link";
 import { Check } from "lucide-react";
-import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
 import { Footer } from "@/components/footer";
@@ -160,7 +158,7 @@ export default function PricingPage() {
                 </div>
                 <CardDescription className="mt-ds-02">{plan.bestFor}</CardDescription>
               </CardHeader>
-              <CardContent className="flex flex-1 flex-col justify-between gap-ds-05">
+              <CardContent>
                 <ul className="space-y-ds-02 text-body-sm">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-surface-fg-muted">
@@ -169,9 +167,6 @@ export default function PricingPage() {
                     </li>
                   ))}
                 </ul>
-                <Button asChild variant={plan.highlight ? "solid" : "soft"} className="w-full">
-                  <Link href={plan.cta.href}>{plan.cta.label}</Link>
-                </Button>
               </CardContent>
             </Card>
           ))}

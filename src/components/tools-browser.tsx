@@ -201,7 +201,7 @@ export function ToolsBrowser({
           /* Primary search — category grouping */
           <div className="space-y-12">
             {grouped.map(({ cat, items }) => (
-              <section key={cat.id}>
+              <section key={cat.id} id={`cat-${cat.id}`}>
                 <h2 className="mb-5 text-heading-sm font-semibold text-surface-fg">
                   {dict.categories[cat.id] ?? cat.label}
                 </h2>
