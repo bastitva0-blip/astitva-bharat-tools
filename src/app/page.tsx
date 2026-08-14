@@ -117,6 +117,60 @@ export default async function HomePage() {
 
         <HowItWorks dict={dict} />
 
+        {/* Who it's for */}
+        <section className="mt-20">
+          <h2 className="text-heading-md font-semibold text-surface-fg">Who uses BharatTools?</h2>
+          <p className="mt-2 max-w-2xl text-body-md text-surface-fg-muted">
+            Free for aspirants. Plans for professionals, operators, coaching institutes, and businesses.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Link href="/for-operators" className="block">
+              <Card variant="outline" interactive className="h-full">
+                <CardHeader>
+                  <CardTitle>Operators</CardTitle>
+                  <CardDescription>Cyber café, CSC, print shops</CardDescription>
+                </CardHeader>
+                <CardContent className="text-body-sm text-surface-fg-muted">
+                  Commercial licence, unlimited batch jobs, shop-speed tools like Print Sheet and Quick Send.
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/for-professionals" className="block">
+              <Card variant="outline" interactive className="h-full">
+                <CardHeader>
+                  <CardTitle>Professionals</CardTitle>
+                  <CardDescription>CAs, CS firms, travel agents</CardDescription>
+                </CardHeader>
+                <CardContent className="text-body-sm text-surface-fg-muted">
+                  Aadhaar masking, PDF password, merge &amp; split — DPDP-safe, browser-only, no client docs on any server.
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/for-coaching" className="block">
+              <Card variant="outline" interactive className="h-full">
+                <CardHeader>
+                  <CardTitle>Coaching Institutes</CardTitle>
+                  <CardDescription>UPSC / SSC / NEET prep centres</CardDescription>
+                </CardHeader>
+                <CardContent className="text-body-sm text-surface-fg-muted">
+                  White-label BharatTools under your brand. Your subdomain, your logo, all aspirant tools ready.
+                </CardContent>
+              </Card>
+            </Link>
+            <Link href="/b2b" className="block">
+              <Card variant="outline" interactive className="h-full">
+                <CardHeader>
+                  <CardTitle>Businesses</CardTitle>
+                  <CardDescription>NBFCs, fintechs, HFCs</CardDescription>
+                </CardHeader>
+                <CardContent className="text-body-sm text-surface-fg-muted">
+                  Embed DPDP-safe KYC tools in your workflow. On-device Aadhaar masking, signed attestation, no data egress.
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+        </section>
+
         <section className="mt-20">
           <div className="flex items-end justify-between gap-4">
             <div>

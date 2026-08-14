@@ -163,6 +163,16 @@ export async function Footer() {
                   {dict.footer.forProfessionals}
                 </Link>
               </li>
+              <li>
+                <Link href="/for-coaching" className={LINK_CLASS}>
+                  For Coaching Institutes
+                </Link>
+              </li>
+              <li>
+                <Link href="/b2b" className={LINK_CLASS}>
+                  For Businesses (B2B)
+                </Link>
+              </li>
             </ul>
           </div>
 
