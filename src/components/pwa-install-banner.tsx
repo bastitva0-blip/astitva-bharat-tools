@@ -39,13 +39,13 @@ export function PwaInstallBanner() {
   return (
     <div
       role="banner"
-      className="fixed bottom-4 left-4 right-4 z-50 flex items-start gap-3 rounded-xl border border-neutral-200 bg-white p-4 shadow-2xl dark:border-neutral-700 dark:bg-neutral-900 sm:left-auto sm:right-4 sm:max-w-xs"
+      className="fixed bottom-4 left-4 right-4 z-50 flex items-start gap-3 rounded-xl border border-[var(--color-surface-border-subtle)] bg-[var(--color-surface-1)] p-4 shadow-2xl sm:left-auto sm:right-4 sm:max-w-xs"
     >
       <div className="flex-1">
-        <p className="text-body-sm font-semibold text-neutral-900 dark:text-neutral-100">
+        <p className="text-body-sm font-semibold text-[var(--color-surface-fg)]">
           📲 Add to home screen
         </p>
-        <p className="mt-0.5 text-body-xs text-neutral-500 dark:text-neutral-400">
+        <p className="mt-0.5 text-body-xs text-[var(--color-surface-fg-muted)]">
           Works offline. No data needed.
         </p>
         <button
@@ -58,7 +58,7 @@ export function PwaInstallBanner() {
       <button
         onClick={dismiss}
         aria-label="Dismiss"
-        className="shrink-0 rounded p-0.5 text-neutral-400 hover:text-neutral-700 dark:text-neutral-500 dark:hover:text-neutral-200"
+        className="shrink-0 rounded p-0.5 text-[var(--color-surface-fg-muted)] hover:text-[var(--color-surface-fg)]"
       >
         <X className="size-4" aria-hidden />
       </button>
