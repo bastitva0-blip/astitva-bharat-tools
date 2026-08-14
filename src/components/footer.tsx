@@ -6,6 +6,7 @@ import { DevalokMark } from "@/components/devalok-mark";
 import { ToolIcon } from "@/components/tool-icon";
 import { getCurrentLocale, getDictionary } from "@/i18n/server";
 import { tools } from "@/lib/tools";
+import { FooterToolStrip } from "@/components/footer-tool-strip";
 
 const GITHUB_URL = "https://github.com/devalok-design/bharattools-frontend";
 
@@ -46,22 +47,8 @@ export async function Footer() {
             </Link>
           </div>
 
-          {/* Horizontal scrollable tool strip */}
-          <div className="flex gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {topTools.map((tool) => (
-              <Link
-                key={tool.slug}
-                href={tool.href}
-                className="group flex shrink-0 flex-col items-center gap-2 rounded-xl border border-surface-border-subtle bg-surface-1 px-4 py-3 text-center transition-colors hover:border-[var(--bt-saffron-ink)] hover:bg-surface-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--bt-saffron-ink)]"
-                style={{ minWidth: "7rem" }}
-              >
-                <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="md" />
-                <span className="line-clamp-2 text-body-xs font-medium leading-tight text-surface-fg group-hover:text-[var(--bt-saffron-ink)]">
-                  {tool.name}
-                </span>
-              </Link>
-            ))}
-          </div>
+          {/* Horizontal scrollable tool strip with prev/next buttons */}
+          <FooterToolStrip items={topTools} />
         </div>
       </div>
 
