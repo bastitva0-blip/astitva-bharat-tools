@@ -9,9 +9,14 @@ import {
   FileText,
   FlipHorizontal2,
   Gauge,
+  FilePen,
+  FoldVertical,
   Hash,
   IdCard,
   LayoutGrid,
+  LockOpen,
+  ScanSearch,
+  Shrink,
   Images,
   Layers,
   Lock,
@@ -83,6 +88,11 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "pdf-page-numbers": Hash,
   "pdf-watermark": Stamp,
   "pdf-redact": SquareSlash,
+  "pdf-sign": FilePen,
+  "pdf-unlock": LockOpen,
+  "pdf-crop": Shrink,
+  "pdf-flatten": FoldVertical,
+  "pdf-ocr": ScanSearch,
 };
 
 export function ToolIcon({
