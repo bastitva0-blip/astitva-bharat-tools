@@ -55,6 +55,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/pdf-page-numbers",
     "/pdf-watermark",
     "/pdf-redact",
+    "/pdf-sign",
+    "/pdf-unlock",
+    "/pdf-crop",
+    "/pdf-flatten",
+    "/pdf-ocr",
   ].map((p) => ({
     url: url(p),
     lastModified: now,
