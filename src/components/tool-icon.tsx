@@ -9,7 +9,9 @@ import {
   FileText,
   FlipHorizontal2,
   Gauge,
+  Hash,
   IdCard,
+  LayoutGrid,
   Images,
   Layers,
   Lock,
@@ -25,6 +27,8 @@ import {
   Send,
   Signature,
   Sparkles,
+  Stamp,
+  SquareSlash,
   Video,
   type LucideIcon,
 } from "lucide-react";
@@ -75,6 +79,10 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "batch-compress": Package,
   "aadhaar-mask": EyeOff,
   "pdf-password": Lock,
+  "pdf-page-manager": LayoutGrid,
+  "pdf-page-numbers": Hash,
+  "pdf-watermark": Stamp,
+  "pdf-redact": SquareSlash,
 };
 
 export function ToolIcon({

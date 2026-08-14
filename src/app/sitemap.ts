@@ -51,6 +51,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/batch-compress",
     "/aadhaar-mask",
     "/pdf-password",
+    "/pdf-page-manager",
+    "/pdf-page-numbers",
+    "/pdf-watermark",
+    "/pdf-redact",
   ].map((p) => ({
     url: url(p),
     lastModified: now,

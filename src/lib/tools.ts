@@ -25,7 +25,11 @@ export type ToolIconKind =
   | "bg-remove"
   | "batch-compress"
   | "aadhaar-mask"
-  | "pdf-password";
+  | "pdf-password"
+  | "pdf-page-manager"
+  | "pdf-page-numbers"
+  | "pdf-watermark"
+  | "pdf-redact";
 
 export type ToolCategory = "forms" | "sharing" | "utility";
 
@@ -864,6 +868,101 @@ export const tools: Tool[] = [
     needsWorker: false,
     popularityScore: 0.7,
     nextSteps: ["pdf-compress", "pdf-merge-split"],
+  },
+  {
+    slug: "pdf-page-manager",
+    href: "/pdf-page-manager",
+    name: "PDF Page Manager",
+    tagline: "Reorder or delete pages from any PDF",
+    description: "Drag pages into the right order or delete unwanted ones. Everything runs in your browser — the file never leaves your device.",
+    status: "live",
+    category: "utility",
+    iconKind: "pdf-page-manager",
+    iconColor: "info",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "reorder pdf pages", "delete pdf pages", "remove page from pdf",
+      "pdf page order", "rearrange pdf", "pdf organize pages",
+      "pdf page delete online", "pdf pages reorder free",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: true,
+    popularityScore: 0.65,
+    nextSteps: ["pdf-compress", "pdf-merge-split"],
+  },
+  {
+    slug: "pdf-page-numbers",
+    href: "/pdf-page-numbers",
+    name: "PDF Page Numbers",
+    tagline: "Stamp page numbers on any PDF",
+    description: "Add page numbers to your PDF — bottom center, top right, or any corner. Runs entirely in your browser.",
+    status: "live",
+    category: "utility",
+    iconKind: "pdf-page-numbers",
+    iconColor: "accent",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "add page numbers to pdf", "pdf page numbering", "number pdf pages",
+      "pdf page number stamp", "pdf folio", "pdf page number online free",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: false,
+    popularityScore: 0.6,
+    nextSteps: ["pdf-watermark", "pdf-compress"],
+  },
+  {
+    slug: "pdf-watermark",
+    href: "/pdf-watermark",
+    name: "PDF Watermark",
+    tagline: "Add a text watermark to every page",
+    description: "Stamp CONFIDENTIAL, DRAFT, your name, or any text across every page of your PDF. Opacity and position are configurable. Runs in your browser.",
+    status: "live",
+    category: "utility",
+    iconKind: "pdf-watermark",
+    iconColor: "warning",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "add watermark to pdf", "pdf watermark online", "pdf watermark free",
+      "stamp pdf", "confidential watermark pdf", "draft watermark pdf",
+      "pdf watermark text", "watermark pdf india",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: false,
+    popularityScore: 0.6,
+    nextSteps: ["pdf-password", "pdf-compress"],
+  },
+  {
+    slug: "pdf-redact",
+    href: "/pdf-redact",
+    name: "PDF Redact",
+    tagline: "Permanently black out sensitive text in PDFs",
+    description: "Draw black boxes over any area — Aadhaar number, signature, address — and burn them in permanently. No server, no uploads.",
+    status: "live",
+    category: "utility",
+    iconKind: "pdf-redact",
+    iconColor: "error",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "pdf redact", "black out pdf text", "redact pdf online",
+      "remove sensitive info pdf", "aadhaar redact pdf", "pdf censor",
+      "pdf redaction tool free", "hide text in pdf",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: true,
+    popularityScore: 0.7,
+    nextSteps: ["aadhaar-mask", "pdf-password"],
   },
 ];
 
