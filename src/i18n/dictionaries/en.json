@@ -47,7 +47,13 @@
       "title": "Every sarkari form, sorted on your phone.",
       "subtitle": "Photo to spec. PDF to size. Ready for the portal.",
       "browse": "Browse all tools",
-      "tasks": ["Resize photo", "Compress to 50 KB", "Photo + sign", "Images to PDF", "Image to text"],
+      "tasks": [
+        "Resize photo",
+        "Compress to 50 KB",
+        "Photo + sign",
+        "Images to PDF",
+        "Image to text"
+      ],
       "card": {
         "label": "Passport photo · Exam",
         "bg": "White background",
@@ -109,7 +115,11 @@
     "searchAria": "Search tools",
     "noResultsLead": "No tools match",
     "noResultsTrailing": ". Try",
-    "noResultsHints": ["photo", "compress", "PDF"],
+    "noResultsHints": [
+      "photo",
+      "compress",
+      "PDF"
+    ],
     "closestHeading": "Closest tools for",
     "fuzzyHeading": "Did you mean",
     "deepLinkPrefix": "Quick open:",
@@ -514,5 +524,10 @@
     "optOut": "Opt out",
     "gotIt": "Got it",
     "privacyLink": "Privacy policy"
+  },
+  "salarySlip": {
+    "title": "Salary Slip Generator",
+    "subtitle": "Generate professional payslips instantly. Fill in company and employee details, earnings and deductions — print or save as PDF.",
+    "breadcrumb": "Salary Slip Generator"
   }
 }
