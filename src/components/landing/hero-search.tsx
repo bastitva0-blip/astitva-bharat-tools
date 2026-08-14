@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Clock } from "lucide-react";
 import { SearchInput } from "@devalok/shilp-sutra/ui/search-input";
 import { ToolIcon } from "@/components/tool-icon";
@@ -28,6 +28,7 @@ export function HeroSearch({
   searchAria: string;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const dict = useT();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Tool[]>([]);
@@ -46,6 +47,19 @@ export function HeroSearch({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Pre-fill from ?q= (Google sitelinks search box, shared links).
+  useEffect(() => {
+    const q = searchParams.get("q");
+    if (!q) return;
+    const trimmed = q.slice(0, 100);
+    setQuery(trimmed);
+    const outcome = searchTools(trimmed);
+    setResults(outcome.results.slice(0, 5));
+    setOpen(true);
+    inputRef.current?.focus();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Load recent tools from localStorage once on mount.

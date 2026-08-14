@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { Crop, FileText, Gauge, PenLine, ScanText } from "lucide-react";
 import type { Dictionary } from "@/i18n/server";
 import { HeroSearch } from "./hero-search";
@@ -46,10 +47,12 @@ export function BharatHero({ dict }: { dict: Dictionary }) {
 
         {/* Search */}
         <div className="bt-rise-2 relative z-10 mt-ds-06 w-full max-w-xl">
-          <HeroSearch
-            placeholder={dict.tools.searchPlaceholder}
-            searchAria={dict.tools.searchAria}
-          />
+          <Suspense>
+            <HeroSearch
+              placeholder={dict.tools.searchPlaceholder}
+              searchAria={dict.tools.searchAria}
+            />
+          </Suspense>
         </div>
 
         {/* Quick task chips */}
