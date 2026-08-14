@@ -70,7 +70,7 @@ export function PdfPasswordForm() {
       fire("process_start", { tool_id: "pdf-password" });
 
       const arrayBuffer = await file.arrayBuffer();
-      const { PDFDocument } = await import("pdf-lib");
+      const { PDFDocument } = await import("@cantoo/pdf-lib");
       const pdfDoc = await PDFDocument.load(arrayBuffer);
 
       await pdfDoc.encrypt({
