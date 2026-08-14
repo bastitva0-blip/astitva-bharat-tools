@@ -3,6 +3,7 @@ import {
   Combine,
   Contrast,
   Crop,
+  EyeOff,
   FileArchive,
   FileImage,
   FileText,
@@ -11,6 +12,7 @@ import {
   IdCard,
   Images,
   Layers,
+  Lock,
   Package,
   PenLine,
   Printer,
@@ -71,6 +73,8 @@ const ICONS: Record<ToolIconKind, LucideIcon> = {
   "image-rotate": FlipHorizontal2,
   "bg-remove": Sparkles,
   "batch-compress": Package,
+  "aadhaar-mask": EyeOff,
+  "pdf-password": Lock,
 };
 
 export function ToolIcon({
