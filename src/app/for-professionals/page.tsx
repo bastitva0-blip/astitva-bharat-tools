@@ -33,10 +33,10 @@ const REASONS = [
 ];
 
 const TOOLS: { name: string; href?: string; line: string }[] = [
-  { name: "Aadhaar Masking", line: "Coming next — black out the Aadhaar number, keep the rest." },
+  { name: "Aadhaar Masking", href: "/aadhaar-mask", line: "Black out the Aadhaar number before sharing — DPDP-compliant." },
   { name: "PDF Compressor", href: "/pdf-compress", line: "Hit the portal upload limit, every time." },
   { name: "PDF Merge & Split", href: "/pdf-merge-split", line: "Combine drafts or split by page ranges." },
-  { name: "PDF Add Password", line: "Coming next — password-protect a draft before email." },
+  { name: "PDF Add Password", href: "/pdf-password", line: "Password-protect a draft before you email it to a client." },
   { name: "Document Photo Maker", href: "/document-photo", line: "Aadhaar, PAN, Passport, OCI, Voter ID — to spec." },
   { name: "Photo + Signature Joiner", href: "/photo-signature-joiner", line: "Portal-ready signature layouts in one click." },
   { name: "Image Compressor", href: "/image-compress", line: "Hit an exact KB target — within ±5 KB." },

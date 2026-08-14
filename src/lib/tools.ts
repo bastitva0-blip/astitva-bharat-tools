@@ -23,7 +23,9 @@ export type ToolIconKind =
   | "image-crop"
   | "image-rotate"
   | "bg-remove"
-  | "batch-compress";
+  | "batch-compress"
+  | "aadhaar-mask"
+  | "pdf-password";
 
 export type ToolCategory = "forms" | "sharing" | "utility";
 
@@ -808,6 +810,60 @@ export const tools: Tool[] = [
     ],
     inputAccept: ["*/*"],
     needsWorker: false,
+  },
+  {
+    slug: "aadhaar-mask",
+    href: "/aadhaar-mask",
+    name: "Aadhaar Masking",
+    tagline: "Redact the Aadhaar number before sharing",
+    description:
+      "Draw black bars over the 12-digit number on your Aadhaar card image. UIDAI-recommended masking of the first 8 digits — runs entirely in your browser, nothing uploaded.",
+    status: "live",
+    category: "forms",
+    iconKind: "aadhaar-mask",
+    iconColor: "warning",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "image",
+    paywall: "always-free",
+    keywords: [
+      "aadhaar masking", "aadhaar mask", "hide aadhaar number", "redact aadhaar",
+      "aadhaar number chhupao", "aadhaar number hatao", "mask aadhaar",
+      "आधार मास्किंग", "आधार नंबर छुपाओ",
+      "aadhaar blur", "aadhaar redact", "dpdp aadhaar", "kyc masking",
+      "black out aadhaar", "censor aadhaar number",
+    ],
+    inputAccept: ["image/jpeg", "image/png", "image/webp"],
+    needsWorker: false,
+    popularityScore: 0.8,
+    nextSteps: ["aadhaar-collage", "jpg-to-pdf", "image-compress"],
+  },
+  {
+    slug: "pdf-password",
+    href: "/pdf-password",
+    name: "PDF Password Protect",
+    tagline: "Encrypt a PDF before you email it",
+    description:
+      "Add a password to any PDF before sending it to a client or colleague. AES-128 encryption runs in your browser — the file never touches a server.",
+    status: "live",
+    category: "utility",
+    iconKind: "pdf-password",
+    iconColor: "error",
+    type: "enhance",
+    buildStatus: "shipped",
+    domain: "pdf",
+    paywall: "always-free",
+    keywords: [
+      "pdf password", "pdf encrypt", "password protect pdf", "lock pdf",
+      "pdf ko lock karo", "pdf password lagao", "secure pdf",
+      "पीडीएफ पासवर्ड", "पीडीएफ एन्क्रिप्ट",
+      "pdf protect", "encrypt pdf online", "add password to pdf",
+      "pdf secure karo", "client ke liye pdf lock",
+    ],
+    inputAccept: ["application/pdf"],
+    needsWorker: false,
+    popularityScore: 0.7,
+    nextSteps: ["pdf-compress", "pdf-merge-split"],
   },
 ];
 

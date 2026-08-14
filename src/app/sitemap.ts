@@ -15,6 +15,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: url("/pricing"), lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: url("/for-operators"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: url("/for-professionals"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: url("/for-coaching"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: url("/b2b"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
+    { url: url("/refer"), lastModified: now, changeFrequency: "monthly", priority: 0.5 },
     { url: url("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.4 },
     { url: url("/privacy"), lastModified: now, changeFrequency: "monthly", priority: 0.3 },
     { url: url("/terms"), lastModified: now, changeFrequency: "monthly", priority: 0.3 },
@@ -46,6 +49,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/image-rotate",
     "/bg-remove",
     "/batch-compress",
+    "/aadhaar-mask",
+    "/pdf-password",
   ].map((p) => ({
     url: url(p),
     lastModified: now,
