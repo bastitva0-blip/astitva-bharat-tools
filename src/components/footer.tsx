@@ -59,7 +59,7 @@ export async function Footer() {
             {/* Logo mark */}
             <div className="shrink-0">
               <div className="flex size-16 items-center justify-center rounded-full border border-white/20 bg-white/5">
-                <DevalokMark size={36} />
+                <DevalokMark size={36} color="#ffffff" />
               </div>
             </div>
 

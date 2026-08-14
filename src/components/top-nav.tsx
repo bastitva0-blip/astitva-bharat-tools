@@ -35,19 +35,21 @@ export async function TopNav() {
 
         <NavMenu />
 
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-3">
           <NavSearch />
-          <a
-            href={GITHUB_URL}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={dict.nav.githubAria}
-            className="inline-flex h-8 w-8 items-center justify-center rounded-md text-surface-fg-muted transition-colors hover:bg-accent-3 hover:text-accent-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
-          >
-            <FaGithub size={18} aria-hidden />
-          </a>
-          <LanguageToggle />
-          <ThemeToggle />
+          <div className="flex items-center gap-0.5 rounded-xl border border-surface-border-subtle bg-surface-2 p-1">
+            <a
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={dict.nav.githubAria}
+              className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-surface-fg-muted transition-colors hover:bg-surface-1 hover:text-surface-fg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-7"
+            >
+              <FaGithub size={16} aria-hidden />
+            </a>
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </header>

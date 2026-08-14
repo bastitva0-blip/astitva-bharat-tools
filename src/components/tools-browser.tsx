@@ -257,7 +257,7 @@ function ToolCard({
     fire("search_result_click", { query, result_slug: tool.slug, rank });
   };
   return (
-    <Link href={tool.href} className="block" onClick={onClick}>
+    <Link href={tool.href} className="block bt-card-lift bt-pressable" onClick={onClick}>
       <Card
         variant="outline"
         interactive={live}
