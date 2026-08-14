@@ -2,7 +2,6 @@
 
 import { useRef, useState, type ReactNode } from "react";
 import { Check } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { useT } from "@/i18n/provider";
 import { fire } from "@/lib/analytics";
@@ -55,14 +54,6 @@ export function DownloadBar({
     timeoutRef.current = setTimeout(() => setDownloaded(false), CONFIRMATION_MS);
   };
 
-  const shareOnWhatsApp = () => {
-    const text = encodeURIComponent(
-      `Prepared my exam document using BharatTools — free, browser-only, nothing uploaded: ${window.location.href}`
-    );
-    window.open(`https://wa.me/?text=${text}`, "_blank", "noopener,noreferrer");
-    fire("whatsapp_share", { tool_id: toolSlug });
-  };
-
   return (
     <div className="flex flex-wrap gap-3">
       <Button asChild variant="solid" size={size} fullWidth={fullWidth}>
@@ -76,16 +67,6 @@ export function DownloadBar({
             text
           )}
         </a>
-      </Button>
-      <Button
-        variant="ghost"
-        size={size}
-        onClick={shareOnWhatsApp}
-        aria-label="Share on WhatsApp"
-        title="Share on WhatsApp"
-      >
-        <FaWhatsapp className="size-4 text-[#25D366]" aria-hidden />
-        <span className="ml-1.5 text-surface-fg-muted">Share</span>
       </Button>
       {secondaryActions}
     </div>

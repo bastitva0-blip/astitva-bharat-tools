@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Check, Download, X } from "lucide-react";
+import Link from "next/link";
+import { useRef, useState, useEffect } from "react";
+import { Check, Download, Lock, Sparkles, X } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { toast } from "@devalok/shilp-sutra/ui/toast";
 import { fire } from "@/lib/analytics/events";
@@ -16,6 +17,26 @@ const PRESETS = [
 
 const MAX_FILES = 20;
 const MAX_BYTES = 25 * 1024 * 1024;
+const FREE_RUNS = 3;
+const TRIAL_KEY = "bt-batch-compress-trials";
+
+function getTrialsUsed(): number {
+  try {
+    return parseInt(localStorage.getItem(TRIAL_KEY) ?? "0", 10) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+function incrementTrials(): number {
+  try {
+    const next = getTrialsUsed() + 1;
+    localStorage.setItem(TRIAL_KEY, String(next));
+    return next;
+  } catch {
+    return FREE_RUNS;
+  }
+}
 
 interface FileEntry {
   id: string;
@@ -32,11 +53,50 @@ function baseName(name: string): string {
   return dot > 0 ? name.slice(0, dot) : name;
 }
 
+function UpgradeGate() {
+  return (
+    <div className="rounded-xl border border-[var(--bt-saffron-ink)]/30 bg-[var(--bt-saffron-ink)]/5 px-6 py-8 text-center">
+      <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-[var(--bt-saffron-ink)]/10">
+        <Lock className="size-5 text-[var(--bt-saffron-ink)]" aria-hidden />
+      </div>
+      <h3 className="text-body-md font-semibold text-surface-fg">
+        Free trial used up
+      </h3>
+      <p className="mt-2 text-body-sm text-surface-fg-muted">
+        Batch compression is a Pro feature. You&apos;ve used your {FREE_RUNS} free runs.
+        Upgrade to compress unlimited batches, unlock higher file counts, and
+        get priority processing.
+      </p>
+      <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+        <Button
+          asChild
+          variant="solid"
+          size="md"
+          onClick={() => fire("upsell_clicked", { tool_id: "batch-compress", tier: "499" })}
+        >
+          <Link href="/pricing">
+            <Sparkles className="mr-1.5 size-4" aria-hidden />
+            See Pro plans
+          </Link>
+        </Button>
+        <p className="text-body-xs text-surface-fg-subtle">
+          Plans from ₹499 / year
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function BatchCompressForm() {
   const [preset, setPreset] = useState(PRESETS[1]);
   const [entries, setEntries] = useState<FileEntry[]>([]);
   const [running, setRunning] = useState(false);
+  const [trialsUsed, setTrialsUsed] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setTrialsUsed(getTrialsUsed());
+  }, []);
 
   const updateEntry = (id: string, patch: Partial<FileEntry>) =>
     setEntries((prev) => prev.map((e) => (e.id === id ? { ...e, ...patch } : e)));
@@ -98,6 +158,12 @@ export function BatchCompressForm() {
 
     fire("process_complete", { tool_id: "batch-compress", duration_bucket: "1-5s", input_size_bucket: "1-10MB", output_size_bucket: "<100KB" });
     setRunning(false);
+
+    const next = incrementTrials();
+    setTrialsUsed(next);
+    if (next >= FREE_RUNS) {
+      fire("upsell_shown", { tool_id: "batch-compress", trigger: "batch-initiated" });
+    }
   };
 
   const clearAll = () => {
@@ -107,6 +173,8 @@ export function BatchCompressForm() {
 
   const pendingCount = entries.filter((e) => e.status === "pending").length;
   const doneCount = entries.filter((e) => e.status === "done").length;
+  const trialExhausted = trialsUsed >= FREE_RUNS;
+  const runsLeft = Math.max(0, FREE_RUNS - trialsUsed);
 
   return (
     <div className="space-y-6">
@@ -218,20 +286,36 @@ export function BatchCompressForm() {
           </div>
 
           {pendingCount > 0 && (
-            <Button
-              variant="solid"
-              size="lg"
-              onClick={runBatch}
-              disabled={running}
-              fullWidth
-            >
-              {running
-                ? "Compressing…"
-                : `Compress ${pendingCount} file${pendingCount !== 1 ? "s" : ""} to ${preset.label}`}
-            </Button>
+            trialExhausted ? (
+              <UpgradeGate />
+            ) : (
+              <div className="space-y-2">
+                {runsLeft <= FREE_RUNS && (
+                  <p className="text-center text-body-xs text-surface-fg-muted">
+                    {runsLeft === 1
+                      ? "1 free run remaining after this"
+                      : `${runsLeft} free run${runsLeft !== 1 ? "s" : ""} remaining`}
+                  </p>
+                )}
+                <Button
+                  variant="solid"
+                  size="lg"
+                  onClick={runBatch}
+                  disabled={running}
+                  fullWidth
+                >
+                  {running
+                    ? "Compressing…"
+                    : `Compress ${pendingCount} file${pendingCount !== 1 ? "s" : ""} to ${preset.label}`}
+                </Button>
+              </div>
+            )
           )}
         </div>
       )}
+
+      {/* Paywall shown when no files loaded but trials exhausted */}
+      {entries.length === 0 && trialExhausted && <UpgradeGate />}
     </div>
   );
 }

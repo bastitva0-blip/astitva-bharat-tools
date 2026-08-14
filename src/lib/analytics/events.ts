@@ -50,7 +50,6 @@ export interface EventMap {
   };
   process_error: { tool_id: ToolSlug; error_type: string };
   download_click: { tool_id: ToolSlug; output_type: string };
-  whatsapp_share: { tool_id: ToolSlug };
   preset_selected: { tool_id: ToolSlug; preset_id: string };
   cross_tool_click: { from_tool: ToolSlug; to_tool: ToolSlug };
   batch_initiated: { tool_id: ToolSlug; file_count: number };
