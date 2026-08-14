@@ -85,7 +85,6 @@ export default async function PdfPasswordPage() {
                 "Yes. Any standard PDF reader — Adobe Acrobat, Preview on Mac, or a phone PDF viewer — will prompt for the password you set.",
             },
           ],
-          note: "The PDF is encrypted in your browser. Your file never leaves your device.",
         })}
       />
       <PageHeader
