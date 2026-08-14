@@ -44,6 +44,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/signature-maker",
     "/image-crop",
     "/image-rotate",
+    "/bg-remove",
+    "/batch-compress",
   ].map((p) => ({
     url: url(p),
     lastModified: now,
