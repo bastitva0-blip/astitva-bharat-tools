@@ -257,6 +257,7 @@ function ExtractZipTab() {
       const zip = await JSZip.loadAsync(zipFile);
       const fileEntries: Array<{ name: string; blob: Blob }> = [];
       const promises: Promise<void>[] = [];
+      // @ts-ignore — JSZipObject.async generic type incompatible with string literal
       zip.forEach((relativePath: string, zipEntry: { dir: boolean; async: (type: string) => Promise<Blob> }) => {
         if (!zipEntry.dir) {
           promises.push(
