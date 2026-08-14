@@ -152,7 +152,7 @@ function TableEditor({ title, rows, onChange, amountHint }: TableEditorProps) {
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-        <Button variant="ghost" size="sm" onClick={addRow} className="gap-1 text-xs">
+        <Button variant="soft" size="sm" onClick={addRow} className="gap-1 text-xs">
           <Plus className="h-3 w-3" /> Add Row
         </Button>
       </div>

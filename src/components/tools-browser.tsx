@@ -201,7 +201,7 @@ export function ToolsBrowser({
           /* Primary search — category grouping */
           <div className="space-y-12">
             {grouped.map(({ cat, items }) => (
-              <section key={cat.id}>
+              <section key={cat.id} id={`cat-${cat.id}`}>
                 <h2 className="mb-5 text-heading-sm font-semibold text-surface-fg">
                   {dict.categories[cat.id] ?? cat.label}
                 </h2>
@@ -257,7 +257,7 @@ function ToolCard({
     fire("search_result_click", { query, result_slug: tool.slug, rank });
   };
   return (
-    <Link href={tool.href} className="block" onClick={onClick}>
+    <Link href={tool.href} className="block bt-card-lift bt-pressable" onClick={onClick}>
       <Card
         variant="outline"
         interactive={live}
@@ -265,14 +265,11 @@ function ToolCard({
       >
         <CardHeader>
           <div className="flex items-start justify-between gap-2">
-            <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="lg" />
+            <ToolIcon kind={tool.iconKind} color={tool.iconColor} size="md" />
             {!live && <Badge color="neutral">{soonLabel}</Badge>}
           </div>
           <CardTitle className="mt-4 font-semibold">{text.name}</CardTitle>
           <CardDescription>{text.tagline}</CardDescription>
-          <span className="mt-2 inline-flex items-center gap-1 text-body-sm font-medium text-accent-11">
-            Open Tool <ArrowRight className="size-3.5" aria-hidden />
-          </span>
         </CardHeader>
       </Card>
     </Link>

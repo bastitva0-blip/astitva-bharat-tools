@@ -390,7 +390,7 @@ export function ImageWatermarkForm() {
                 Download
               </Button>
               <Button
-                variant="ghost"
+                variant="soft"
                 className="w-full text-body-xs"
                 onClick={() => {
                   setFile(null);

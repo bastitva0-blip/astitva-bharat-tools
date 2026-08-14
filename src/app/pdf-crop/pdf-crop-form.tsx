@@ -196,7 +196,7 @@ export function PdfCropForm() {
             <div className="text-surface-fg-muted">{formatBytes(file.size)}</div>
           </div>
           <Button
-            variant="ghost"
+            variant="soft"
             size="compact-sm"
             onClick={() => {
               setFile(null);

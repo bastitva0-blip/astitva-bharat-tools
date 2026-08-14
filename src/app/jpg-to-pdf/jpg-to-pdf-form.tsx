@@ -177,7 +177,7 @@ export function JpgToPdfForm() {
                     </div>
                   </div>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Rotate 90°"
                     onClick={() => rotate(it.id)}
@@ -185,7 +185,7 @@ export function JpgToPdfForm() {
                     <RotateCw size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Move up"
                     disabled={idx === 0}
@@ -194,7 +194,7 @@ export function JpgToPdfForm() {
                     <ArrowUp size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Move down"
                     disabled={idx === items.length - 1}
@@ -203,7 +203,7 @@ export function JpgToPdfForm() {
                     <ArrowDown size={16} />
                   </Button>
                   <Button
-                    variant="ghost"
+                    variant="soft"
                     size="icon-sm"
                     aria-label="Remove"
                     onClick={() => remove(it.id)}

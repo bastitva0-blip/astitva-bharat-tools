@@ -110,7 +110,7 @@ export function PdfFlattenForm() {
             <Layers className="size-4" aria-hidden />
             Download again
           </Button>
-          <Button variant="ghost" size="md" onClick={reset}>
+          <Button variant="soft" size="md" onClick={reset}>
             Start over
           </Button>
         </div>

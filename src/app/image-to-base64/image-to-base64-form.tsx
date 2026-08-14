@@ -126,7 +126,7 @@ function EncodeTab() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-body-sm font-medium text-surface-fg">Full Data URI</span>
-              <Button size="sm" variant="ghost" onClick={copyDataUri}>
+              <Button size="sm" variant="soft" onClick={copyDataUri}>
                 Copy Data URI
               </Button>
             </div>
@@ -142,7 +142,7 @@ function EncodeTab() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-body-sm font-medium text-surface-fg">Base64 String Only</span>
-              <Button size="sm" variant="ghost" onClick={copyBase64Only}>
+              <Button size="sm" variant="soft" onClick={copyBase64Only}>
                 Copy Base64
               </Button>
             </div>

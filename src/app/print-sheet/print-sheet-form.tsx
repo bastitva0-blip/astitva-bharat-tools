@@ -207,7 +207,7 @@ export function PrintSheetForm() {
                 <div className="text-surface-fg-muted">
                   {file ? `${(file.size / 1024).toFixed(0)} KB` : null}
                 </div>
-                <Button variant="ghost" size="compact-sm" className="mt-2" onClick={() => setFile(null)}>
+                <Button variant="soft" size="compact-sm" className="mt-2" onClick={() => setFile(null)}>
                   Remove
                 </Button>
               </div>

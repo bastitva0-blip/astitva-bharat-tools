@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { Check, Heart } from "lucide-react";
-import { Badge } from "@devalok/shilp-sutra/ui/badge";
+import { Check } from "lucide-react";
 import { Button } from "@devalok/shilp-sutra/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@devalok/shilp-sutra/ui/card";
 import { PageHeader } from "@devalok/shilp-sutra/composed/page-header";
@@ -146,10 +145,7 @@ export default function PricingPage() {
                 <div className="flex items-center justify-between gap-2">
                   <CardTitle>{plan.name}</CardTitle>
                   {plan.id === "aspirants" && (
-                    <Badge color="success">
-                      <Heart className="mr-1 size-3" aria-hidden />
-                      Seva
-                    </Badge>
+                    <span className="text-body-xs font-medium text-success-11">● Seva</span>
                   )}
                 </div>
                 <div className="mt-ds-03 flex items-baseline gap-1">

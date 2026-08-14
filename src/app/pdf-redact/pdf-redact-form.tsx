@@ -334,7 +334,7 @@ export function PdfRedactForm() {
       {/* Page navigator */}
       <div className="flex items-center justify-between">
         <Button
-          variant="ghost"
+          variant="soft"
           size="sm"
           disabled={currentPage <= 1}
           onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
@@ -346,7 +346,7 @@ export function PdfRedactForm() {
           Page {currentPage} of {pageCount}
         </p>
         <Button
-          variant="ghost"
+          variant="soft"
           size="sm"
           disabled={currentPage >= pageCount}
           onClick={() => setCurrentPage((p) => Math.min(pageCount, p + 1))}
